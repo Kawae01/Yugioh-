@@ -214,10 +214,11 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button>
 </div>
 
+<!-- TABULEIRO CORRIGIDO: Zonas de Magias em cima, Zonas de Monstros em baixo -->
 <div class="board">
   <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
-  <div class="zones" id="oppMonsters"></div>
   <div class="zones" id="oppSpells"></div>
+  <div class="zones" id="oppMonsters"></div>
   <div class="dividerline"></div>
   <div class="zones" id="mySpells"></div>
   <div class="zones" id="myMonsters"></div>
@@ -240,7 +241,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="pile" id="extraView"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button style="pointer-events:none">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Correção aplicada: Monstros vão estritamente para zonas de monstros e Magias/Armadilhas para zonas de M/T.</div></div></div>
+<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Layout corrigido: Magias em cima e Monstros em baixo no seu campo.</div></div></div>
 
 <!-- MODAL: GERENCIADOR -->
 <div class="modal" id="deckModal">
@@ -384,7 +385,9 @@ function render(){
   $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
   $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
   
-  for(const key of ['oppMonsters','oppSpells','mySpells','myMonsters']){
+  // Ordem visual atualizada para corresponder ao layout correto do oponente e do jogador
+  const renderOrder = ['oppMonsters', 'oppSpells', 'mySpells', 'myMonsters'];
+  for(const key of renderOrder){
     $(key).innerHTML = field[key].map((c,i)=>{
       const isDef = fieldState[key] && fieldState[key][i] === 1;
       const cls = `zone ${key.includes('Spells')?'spell':''} ${selected?.where===key&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
@@ -428,7 +431,7 @@ $('hand').addEventListener('dblclick', e=>{
   if(i>=0) openZoom(hand[i]);
 });
 
-/* INTERAÇÕES DO CAMPO COM CORREÇÃO DE ZONA RIGOROSA */
+/* INTERAÇÕES DO CAMPO COM ZONAS RIGOROSAS */
 document.querySelector('.board').addEventListener('click', e=>{
   const z=e.target.closest('.zone'); if(!z) return;
   const key=z.dataset.zone, i=Number(z.dataset.index), c=field[key][i];
@@ -443,18 +446,15 @@ document.querySelector('.board').addEventListener('click', e=>{
     const typeStr = (card.type || '').toLowerCase();
     const frameStr = (card.frameType || '').toLowerCase();
     
-    // Identificação rigorosa se é Magia ou Armadilha
     const isSpellOrTrap = typeStr.includes('spell') || typeStr.includes('trap') || frameStr.includes('spell') || frameStr.includes('trap');
-    
-    // Validação estrita da zona onde o jogador clicou
     const clickedIsSpellZone = key.includes('Spells');
     
     if (isSpellOrTrap && !clickedIsSpellZone) {
-      alert('Magias e Armadilhas devem ser colocadas nas zonas de Magia/Armadilha.');
+      alert('Magias e Armadilhas devem ser colocadas nas zonas de Magia/Armadilha (em cima).');
       return;
     }
     if (!isSpellOrTrap && clickedIsSpellZone) {
-      alert('Monstros devem ser colocados nas zonas de Monstros.');
+      alert('Monstros devem ser colocados nas zonas de Monstros (em baixo).');
       return;
     }
 
