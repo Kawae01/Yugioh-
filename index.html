@@ -25,7 +25,6 @@ body{
   padding:env(safe-area-inset-top) 8px calc(14px + env(safe-area-inset-bottom)); overflow-x:hidden;
 }
 
-/* HEADER & TOOLBAR */
 header{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   padding:10px;background:linear-gradient(90deg, #0d1b2a, #1b263b);
@@ -70,35 +69,35 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .phasebar button{white-space:nowrap;padding:5px 8px;font-size:9px;border-radius:4px;background:#0b1320;color:var(--muted);border-color:#162438}
 .phasebar button.active{background:linear-gradient(180deg,#0077b6,#03045e);border-color:var(--master-cyan);color:#fff;box-shadow:0 0 10px var(--master-cyan-glow)}
 
-/* TABULEIRO PLAYMAT COMPLETO */
+/* TABULEIRO / PLAYMAT */
 .board{
   background: linear-gradient(rgba(4, 13, 22, 0.85), rgba(4, 13, 22, 0.85)), url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000') center/cover no-repeat;
-  border:2px solid var(--master-cyan);border-radius:12px;padding:10px 6px;
+  border:2px solid var(--master-cyan);border-radius:12px;padding:6px;
   box-shadow:0 0 25px rgba(0,242,254,0.2), inset 0 0 45px rgba(0,0,0,0.9);
   margin-bottom:8px;position:relative;
 }
-.side-label{font-size:8px;color:var(--master-cyan);letter-spacing:2px;text-align:center;margin:2px 0 6px;font-weight:700;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px var(--master-cyan-glow)}
-.field-row { display: grid; grid-template-columns: 1fr 5fr 1fr; gap: 4px; margin: 4px 0; }
-.emz-row { display: grid; grid-template-columns: 1fr 5fr 1fr; gap: 4px; margin: 2px 0; }
-.center-zones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.side-label{font-size:8px;color:var(--master-cyan);letter-spacing:2px;text-align:center;margin:2px 0 4px;font-weight:700;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px var(--master-cyan-glow)}
+
+.field-row { display: grid; grid-template-columns: 1fr repeat(5, 1fr) 1fr; gap: 3px; margin: 3px 0; align-items: center; }
+.emz-row { display: grid; grid-template-columns: 1fr repeat(5, 1fr) 1fr; gap: 3px; margin: 2px 0; align-items: center; }
 
 .zone{
-  aspect-ratio:0.69;border:1px solid rgba(0, 242, 254, 0.35);border-radius:6px;
+  aspect-ratio:0.69;border:1px solid rgba(0, 242, 254, 0.35);border-radius:5px;
   background:rgba(6, 21, 38, 0.6);display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;transition:all .15s;box-shadow:inset 0 0 15px rgba(0,0,0,0.6);
 }
 .zone.spell{background:rgba(12, 35, 48, 0.6);border-color:rgba(72, 202, 228, 0.35)}
 .zone.utility{background:rgba(20, 10, 30, 0.6);border-color:rgba(200, 50, 250, 0.35)} 
 .zone.emz{background:rgba(0, 40, 30, 0.6);border-color:rgba(0, 255, 170, 0.45)}
-.zone .hint{font-size:7px;color:rgba(255,255,255,0.4);text-align:center;font-weight:700;letter-spacing:1px}
+.zone .hint{font-size:6px;color:rgba(255,255,255,0.4);text-align:center;font-weight:700;letter-spacing:1px}
 .zone img{width:100%;height:100%;object-fit:cover;cursor:pointer;position:relative;z-index:1}
 .zone.selected{outline:2px solid var(--master-gold);outline-offset:1px;box-shadow:0 0 15px rgba(255,215,0,0.6)}
 .zone.rotated img{transform:rotate(90deg);object-fit:contain} 
 
 .zone-count {
   position:absolute; bottom:-2px; right:-2px; background:rgba(0,0,0,0.85); color:var(--master-gold);
-  font-size:9px; font-weight:900; font-family:'Orbitron',sans-serif; padding:2px 4px; 
-  border-radius:4px; border:1px solid var(--master-gold); z-index:2; text-shadow:0 0 5px #000;
+  font-size:8px; font-weight:900; font-family:'Orbitron',sans-serif; padding:1px 3px; 
+  border-radius:3px; border:1px solid var(--master-gold); z-index:2; text-shadow:0 0 5px #000;
 }
 .card-back {
   width:100%; height:100%; background:repeating-linear-gradient(45deg, #4a192c, #4a192c 8px, #2a0815 8px, #2a0815 16px);
@@ -132,7 +131,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .log{font-size:10px;color:#a4b6c6;max-height:85px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
 .log div{border-left:2px solid var(--master-cyan);padding-left:6px}
 
-/* MODAIS BASE */
+/* MODAIS */
 .modal{position:fixed;inset:0;background:rgba(3, 7, 13, 0.92);backdrop-filter:blur(6px);display:none;align-items:flex-end;z-index:100;}
 .modal.show{display:flex}
 .sheet{
@@ -143,14 +142,12 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .sheet h2{font-size:16px;margin:0;font-family:'Orbitron',sans-serif;color:#fff}
 
-/* Ações de Campo */
 .action-card-info {display:flex;gap:12px;margin-bottom:12px;background:#050a12;padding:10px;border-radius:8px;border:1px solid var(--master-border)}
 .action-card-info img {width:60px;border-radius:4px;cursor:pointer}
 .action-card-text {flex:1;font-size:10px;color:var(--text);overflow-y:auto;max-height:80px;text-align:justify;padding-right:4px}
 .action-card-title {font-family:'Orbitron',sans-serif;color:var(--master-gold);font-size:11px;margin-bottom:4px;display:block}
 .action-buttons {display:grid;grid-template-columns:1fr 1fr;gap:6px}
 
-/* Grelhas Modais */
 .visual-grid {display:grid;grid-template-columns:repeat(5,1fr);gap:4px;max-height:55vh;overflow-y:auto;padding:5px 0}
 .visual-grid .card {width:100%; min-width:auto;}
 .modal-card-item {display:flex; align-items:center; justify-content:space-between; background:#050a12; border:1px solid var(--master-border); border-radius:6px; padding:6px; margin-bottom:5px;}
@@ -162,15 +159,12 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .zoom-content {background:none; border:none; box-shadow:none; text-align:center; max-width:320px; padding:0}
 .zoom-content img {width:100%; border-radius:10px; box-shadow:0 0 30px rgba(0,242,254,0.5)}
 
-/* GERENCIADOR DE DECKS BASE */
 .deck-mgr-card{background:#0f1d2c;border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .deck-info{font-size:11px}
 .deck-info strong{font-size:13px;color:var(--master-gold);display:block;font-family:'Orbitron',sans-serif}
 .deck-actions{display:flex;gap:4px}
 
-/* =========================================
-   SISTEMA YGOPro DECK BUILDER (FULLSCREEN)
-========================================= */
+/* BUILDER FULLSCREEN */
 .builder-fs {
   position: fixed; inset: 0; background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000') center/cover no-repeat;
   background-color: #020610; z-index: 150; display: none; flex-direction: column;
@@ -182,8 +176,6 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .b-head h2 { margin:0; font-family:'Orbitron',sans-serif; font-size:16px; color:#fff; text-shadow:0 0 8px var(--master-cyan); }
 
 .b-layout { display: flex; flex-direction: column; height: calc(100vh - 55px); }
-
-/* Painel Superior: Preview e Controles */
 .b-top { display:flex; gap:10px; padding:10px; background:rgba(6, 10, 16, 0.9); border-bottom:1px solid var(--master-border); }
 .b-preview-img { width: 85px; min-width: 85px; aspect-ratio: 0.69; border-radius: 4px; border:2px solid var(--master-gold); object-fit: cover; box-shadow:0 0 10px rgba(255,215,0,0.3); }
 .b-preview-info { flex:1; display:flex; flex-direction:column; overflow:hidden; }
@@ -192,12 +184,10 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .b-preview-desc { font-size:9px; color:#cdd5e0; flex:1; overflow-y:auto; line-height:1.3; text-align:justify; padding-right:4px; }
 .b-preview-actions { display:flex; gap:6px; margin-top:6px; }
 
-/* Filtros de Pesquisa */
 .b-search-bar { display:flex; gap:6px; padding:10px; background:rgba(13, 27, 42, 0.8); border-bottom:1px solid var(--master-border); }
 .b-search-bar input { flex:1; background:#050a12; border:1px solid var(--master-border); color:#fff; padding:8px 10px; font-size:12px; border-radius:4px; }
 .b-search-bar select { background:#050a12; border:1px solid var(--master-border); color:var(--master-cyan); padding:8px; font-size:11px; border-radius:4px; font-weight:700; }
 
-/* Áreas de Grelha (YGOPro Style) */
 .b-scroll-area { flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px; }
 .b-section-title { font-family:'Orbitron',sans-serif; font-size:11px; color:#fff; background:linear-gradient(90deg, #1d3557, transparent); padding:4px 8px; border-left:3px solid var(--master-cyan); }
 .ygo-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:3px; }
@@ -239,35 +229,62 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button>
 </div>
 
-<!-- PLAYMAT OFICIAL COMPLETO -->
+<!-- PLAYMAT / TABULEIRO COMPLETO E CORRIGIDO -->
 <div class="board">
   <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
   
+  <!-- Spells/Traps Oponente -->
   <div class="field-row">
     <div class="zone utility" id="oppDeckZone"><span class="hint">DECK</span></div>
-    <div class="center-zones" id="oppSpells"></div>
+    <div class="zone spell" data-zone="oppSpells" data-index="0"></div>
+    <div class="zone spell" data-zone="oppSpells" data-index="1"></div>
+    <div class="zone spell" data-zone="oppSpells" data-index="2"></div>
+    <div class="zone spell" data-zone="oppSpells" data-index="3"></div>
+    <div class="zone spell" data-zone="oppSpells" data-index="4"></div>
     <div class="zone utility" id="oppExtraZone"><span class="hint">EXTRA</span></div>
   </div>
+
+  <!-- Monstros Oponente + Field Spell -->
   <div class="field-row">
     <div class="zone utility" id="oppGraveZone"><span class="hint">GRAVE</span></div>
-    <div class="center-zones" id="oppMonsters"></div>
-    <div class="zone spell" data-zone="oppFieldSpell" data-index="0" id="oppFieldSpellZone"><span class="hint">FIELD</span></div>
+    <div class="zone" data-zone="oppMonsters" data-index="0"></div>
+    <div class="zone" data-zone="oppMonsters" data-index="1"></div>
+    <div class="zone" data-zone="oppMonsters" data-index="2"></div>
+    <div class="zone" data-zone="oppMonsters" data-index="3"></div>
+    <div class="zone" data-zone="oppMonsters" data-index="4"></div>
+    <div class="zone spell" data-zone="oppFieldSpell" data-index="0"><span class="hint">FIELD</span></div>
   </div>
   
+  <!-- Zonas de Monstros Extra (EMZ) -->
   <div class="emz-row">
     <div></div>
-    <div class="center-zones" id="extraMonsters"></div>
+    <div></div>
+    <div class="zone emz" data-zone="extraMonsters" data-index="1"><span class="hint">EMZ</span></div>
+    <div></div>
+    <div class="zone emz" data-zone="extraMonsters" data-index="3"><span class="hint">EMZ</span></div>
+    <div></div>
     <div></div>
   </div>
   
+  <!-- Monstros Jogador + Field Spell -->
   <div class="field-row">
-    <div class="zone spell" data-zone="myFieldSpell" data-index="0" id="myFieldSpellZone"><span class="hint">FIELD</span></div>
-    <div class="center-zones" id="myMonsters"></div>
+    <div class="zone spell" data-zone="myFieldSpell" data-index="0"><span class="hint">FIELD</span></div>
+    <div class="zone" data-zone="myMonsters" data-index="0"></div>
+    <div class="zone" data-zone="myMonsters" data-index="1"></div>
+    <div class="zone" data-zone="myMonsters" data-index="2"></div>
+    <div class="zone" data-zone="myMonsters" data-index="3"></div>
+    <div class="zone" data-zone="myMonsters" data-index="4"></div>
     <div class="zone utility" id="myGraveZone" onclick="openGraveView()"></div>
   </div>
+
+  <!-- Spells/Traps Jogador -->
   <div class="field-row">
     <div class="zone utility" id="myExtraZone" onclick="openExtraView()"></div>
-    <div class="center-zones" id="mySpells"></div>
+    <div class="zone spell" data-zone="mySpells" data-index="0"></div>
+    <div class="zone spell" data-zone="mySpells" data-index="1"></div>
+    <div class="zone spell" data-zone="mySpells" data-index="2"></div>
+    <div class="zone spell" data-zone="mySpells" data-index="3"></div>
+    <div class="zone spell" data-zone="mySpells" data-index="4"></div>
     <div class="zone utility" id="myDeckZone" onclick="openDeckView()"></div>
   </div>
   
@@ -286,7 +303,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button id="handToGraveBtn" class="danger">Descartar da Mão</button>
 </div>
 
-<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Múltiplos Starter Decks automáticos ativados!</div></div></div>
+<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Sistema atualizado com sucesso!</div></div></div>
 
 <!-- MODAL: GERENCIADOR DE DECKS -->
 <div class="modal" id="deckModal">
@@ -301,9 +318,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- =========================================
-     SISTEMA BUILDER FULLSCREEN (YGOPro)
-========================================= -->
+<!-- BUILDER FULLSCREEN -->
 <div class="builder-fs" id="builderModal">
   <div class="b-head">
     <h2 id="builderTitle">Deck Constructor</h2>
@@ -311,7 +326,6 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
   
   <div class="b-layout">
-    
     <div class="b-top">
       <img id="bPreviewImg" src="https://images.ygoprodeck.com/images/cards/back_high.jpg" class="b-preview-img" alt="Preview">
       <div class="b-preview-info">
@@ -348,11 +362,10 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
           <div class="ygo-grid" id="gridExtra"></div>
         </div>
     </div>
-
   </div>
 </div>
 
-<!-- AÇÕES DO CAMPO E MODAIS VISUAIS -->
+<!-- AÇÕES DO CAMPO E MODAIS -->
 <div class="modal" id="actionModal">
   <div class="sheet" style="max-height: 70vh;">
     <div class="sheethead"><h2>Menu da Carta no Campo</h2><button id="closeActionModal">Fechar</button></div>
@@ -387,7 +400,6 @@ let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0
 let activeFieldCard = null;
 let playIntent = 'faceup'; 
 
-/* VARIÁVEIS DO BUILDER */
 let builderSearchResults = [];
 let builderSelectedCard = null; 
 let builderSelectedZone = null; 
@@ -420,8 +432,8 @@ function imgHigh(c){return c?.card_images?.[0]?.image_url||c?.card_images?.[0]?.
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function getTCGLimit(c){const banTcg = c?.banlist_info?.ban_tcg; return banTcg==='Banned'?0:banTcg==='Limited'?1:banTcg==='Semi-Limited'?2:3;}
 
-$('intentFaceUpBtn').onclick = () => { playIntent = 'faceup'; $('intentFaceUpBtn').classList.add('primary'); $('intentFaceUpBtn').style.boxShadow = '0 0 10px var(--master-cyan-glow)'; $('intentSetBtn').classList.remove('primary'); $('intentSetBtn').style.background = '#1a1010'; $('intentSetBtn').style.boxShadow = 'none'; $('intentSetBtn').style.color = 'var(--muted)'; log('Cartas serão jogadas <strong>Face-Up</strong>.', 'info'); };
-$('intentSetBtn').onclick = () => { playIntent = 'set'; $('intentSetBtn').classList.add('primary'); $('intentSetBtn').style.background = 'linear-gradient(180deg, #d90429 0%, #720026 100%)'; $('intentSetBtn').style.boxShadow = '0 0 10px rgba(217, 4, 41, 0.4)'; $('intentSetBtn').style.color = '#fff'; $('intentFaceUpBtn').classList.remove('primary'); $('intentFaceUpBtn').style.background = '#1a1a24'; $('intentFaceUpBtn').style.boxShadow = 'none'; log('Modo Set! Cartas serão <strong>BAIXADAS</strong>.', 'warn'); };
+$('intentFaceUpBtn').onclick = () => { playIntent = 'faceup'; $('intentFaceUpBtn').classList.add('primary'); $('intentFaceUpBtn').style.boxShadow = '0 0 10px var(--master-cyan-glow)'; $('intentSetBtn').classList.remove('primary'); $('intentSetBtn').style.background = '#1a1010'; $('intentSetBtn').style.boxShadow = 'none'; $('intentSetBtn').style.color = 'var(--muted)'; log('Cartas jogadas <strong>Face-Up</strong>.', 'info'); };
+$('intentSetBtn').onclick = () => { playIntent = 'set'; $('intentSetBtn').classList.add('primary'); $('intentSetBtn').style.background = 'linear-gradient(180deg, #d90429 0%, #720026 100%)'; $('intentSetBtn').style.boxShadow = '0 0 10px rgba(217, 4, 41, 0.4)'; $('intentSetBtn').style.color = '#fff'; $('intentFaceUpBtn').classList.remove('primary'); $('intentFaceUpBtn').style.background = '#1a1a24'; $('intentFaceUpBtn').style.boxShadow = 'none'; log('Modo Set ativo!', 'warn'); };
 
 function render(){
   const active = getActiveDeck();
@@ -431,18 +443,31 @@ function render(){
   $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
   $('hand').innerHTML = hand.length?hand.map((c,i)=>`<div class="card ${selected?.where==='hand'&&selected.index===i?'selected':''}" data-id="${c.id}"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
   
-  const renderOrder = ['oppMonsters', 'oppSpells', 'extraMonsters', 'myMonsters', 'mySpells', 'myFieldSpell', 'oppFieldSpell'];
-  for(const key of renderOrder){
-    $(key).innerHTML = field[key].map((c,i)=>{
-      if(key === 'extraMonsters' && (i === 0 || i === 2 || i === 4)) return `<div></div>`;
-      const isDef = fieldState[key] && fieldState[key][i] === 1; const isSet = fieldSetState[key] && fieldSetState[key][i];
-      const cls = `zone ${key.includes('Spells')||key.includes('Field')?'spell':key==='extraMonsters'?'emz':''} ${selected?.where===key&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
-      let hintText = key.includes('Field') ? 'FIELD' : (key.includes('Spells') ? 'M/T' : key==='extraMonsters' ? 'EMZ' : 'MON');
-      let content = `<span class="hint">${hintText}</span>`;
-      if(c){ content = isSet ? `<div class="card-back"></div>` : `<img src="${img(c)}" alt="${esc(c.name)}">`; }
-      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${content}</div>`;
-    }).join('');
-  }
+  const zonesToRender = [
+    {sel: '[data-zone="oppSpells"]', data: field.oppSpells, state: fieldState.oppSpells, setState: fieldSetState.oppSpells, hint: 'M/T', isSpell: true},
+    {sel: '[data-zone="oppMonsters"]', data: field.oppMonsters, state: fieldState.oppMonsters, setState: fieldSetState.oppMonsters, hint: 'MON', isSpell: false},
+    {sel: '[data-zone="extraMonsters"]', data: field.extraMonsters, state: fieldState.extraMonsters, setState: fieldSetState.extraMonsters, hint: 'EMZ', isSpell: false},
+    {sel: '[data-zone="myMonsters"]', data: field.myMonsters, state: fieldState.myMonsters, setState: fieldSetState.myMonsters, hint: 'MON', isSpell: false},
+    {sel: '[data-zone="mySpells"]', data: field.mySpells, state: fieldState.mySpells, setState: fieldSetState.mySpells, hint: 'M/T', isSpell: true},
+    {sel: '[data-zone="myFieldSpell"]', data: field.myFieldSpell, state: fieldState.myFieldSpell, setState: fieldSetState.myFieldSpell, hint: 'FIELD', isSpell: true},
+    {sel: '[data-zone="oppFieldSpell"]', data: field.oppFieldSpell, state: fieldState.oppFieldSpell, setState: fieldSetState.oppFieldSpell, hint: 'FIELD', isSpell: true}
+  ];
+
+  zonesToRender.forEach(group => {
+    const nodes = document.querySelectorAll(group.sel);
+    nodes.forEach((node, i) => {
+      const c = group.data[i];
+      const isDef = group.state && group.state[i] === 1;
+      const isSet = group.setState && group.setState[i];
+      node.className = `zone ${group.isSpell?'spell':''} ${group.hint==='EMZ'?'emz':''} ${selected?.where===group.sel.replace(/[^a-z]/g,'')&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
+      
+      let content = `<span class="hint">${group.hint}</span>`;
+      if(c){
+        content = isSet ? `<div class="card-back"></div>` : `<img src="${img(c)}" alt="${esc(c.name)}">`;
+      }
+      node.innerHTML = content;
+    });
+  });
   
   $('myDeckZone').innerHTML = mainActive.length ? `<img src="${CARD_BACK}" style="border-radius:4px"><div class="zone-count">${mainActive.length}</div>` : `<span class="hint">DECK</span>`;
   $('myExtraZone').innerHTML = extraActive.length ? `<img src="${CARD_BACK}" style="border-radius:4px; filter:hue-rotate(240deg)"><div class="zone-count">${extraActive.length}</div>` : `<span class="hint">EXTRA</span>`;
@@ -464,26 +489,16 @@ function initDuelFromActive(){
 function draw(){if(!mainActive.length)return log('Baralho vazio!', 'danger'); hand.push(mainActive.shift()); log('Comprou 1 carta.', 'success'); render();}
 window.openZoom = function(cardObj) { if(!cardObj) return; $('zoomImg').src = imgHigh(cardObj); $('zoomModal').classList.add('show'); }
 
-/* EVENTOS CAMPO / MÃO */
+/* EVENTOS MÃO E CLICKS DO TABULEIRO */
 $('hand').addEventListener('click', e=>{ const el=e.target.closest('.card'); if(!el) return; const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i>=0){ selected={where:'hand',index:i,card:hand[i]}; render(); }});
 $('hand').addEventListener('dblclick', e=>{ const el=e.target.closest('.card'); if(!el) return; const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i>=0) openZoom(hand[i]); });
+
 document.querySelector('.board').addEventListener('click', e=>{
   const z=e.target.closest('.zone'); if(!z) return;
   const key=z.dataset.zone, i=Number(z.dataset.index); if(!key) return; 
   const c = field[key][i];
   
   if(c){ 
-    const isAttacker = selected && selected.where.toLowerCase().includes('monster');
-    const isTarget = key.toLowerCase().includes('monster');
-    if(isAttacker && isTarget && selected.card !== c) {
-      const myCard = selected.card; const oppCard = c; const myAtk = Number(myCard.atk || 0);
-      const oppIsDef = fieldState[key][i] === 1 || fieldSetState[key][i]; const oppStat = oppIsDef ? Number(oppCard.def || 0) : Number(oppCard.atk || 0);
-      log(`⚔️ Batalha: <strong>${myCard.name}</strong> (${myAtk}) vs <strong>${oppCard.name}</strong> (${oppStat})!`, 'warn');
-      if(myAtk > oppStat) { field[key][i] = null; fieldSetState[key][i] = false; fieldState[key][i] = 0; grave.push(oppCard); if(!oppIsDef) { const diff = myAtk - oppStat; opp = Math.max(0, opp - diff); log(`🔥 Oponente perdeu ${diff} LP.`, 'success'); } else { log(`🛡️ Destruído em Defesa (sem dano).`, 'success'); } } 
-      else if(myAtk < oppStat) { const diff = oppStat - myAtk; lp = Math.max(0, lp - diff); if(!oppIsDef) { field[selected.where][selected.index] = null; fieldSetState[selected.where][selected.index] = false; grave.push(myCard); log(`💥 Seu monstro destruído! Perdeu ${diff} LP.`, 'danger'); } else { log(`💥 Falha contra defesa! Perdeu ${diff} LP.`, 'danger'); } } 
-      else { if(!oppIsDef) { field[selected.where][selected.index] = null; field[key][i] = null; fieldSetState[selected.where][selected.index] = false; fieldSetState[key][i] = false; grave.push(myCard); grave.push(oppCard); log(`🤝 Ambos destruídos!`, 'warn'); } else { log(`🤝 Empate na Defesa!`, 'info'); } }
-      selected = null; render(); return;
-    }
     activeFieldCard = {card: c, key: key, index: i}; const isSet = fieldSetState[key][i];
     $('actionCardImg').src = img(c); $('actionCardName').innerHTML = c.name + (isSet ? ' <span style="color:#f87171">(SET)</span>' : ''); $('actionCardDesc').textContent = c.desc;
     if(isSet) { $('btnMudarPosicao').textContent = "🔄 Revelar (Flip)"; $('btnAtivarEfeito').style.display = 'none'; } else { $('btnMudarPosicao').textContent = "🔄 Alterar Posição"; $('btnAtivarEfeito').style.display = 'block'; }
@@ -498,20 +513,17 @@ document.querySelector('.board').addEventListener('click', e=>{
     if(playIntent === 'set'){ fieldSetState[key][i] = true; if(key.includes('Monsters')) fieldState[key][i] = 1; log(`<strong>${card.name}</strong> BAIXADA.`, 'info'); } 
     else { fieldSetState[key][i] = false; if(key.includes('Monsters')) fieldState[key][i] = 0; log(`<strong>${card.name}</strong> invocada/ativada.`, 'success'); }
     selected = null; render();
-  } else if(selected && selected.where.toLowerCase().includes('monster') && key.toLowerCase().includes('monster')) {
-    field[key][i] = selected.card; fieldSetState[key][i] = fieldSetState[selected.where][selected.index]; fieldState[key][i] = fieldState[selected.where][selected.index];
-    field[selected.where][selected.index] = null; fieldSetState[selected.where][selected.index] = false; fieldState[selected.where][selected.index] = 0;
-    selected = null; log('Reposicionado.', 'info'); render();
   }
 });
+
 $('closeActionModal').onclick = () => $('actionModal').classList.remove('show');
 $('btnAtivarEfeito').onclick = () => { log(`⚡ Efeito ativado: <strong>${activeFieldCard.card.name}</strong>.`, 'warn'); $('actionModal').classList.remove('show'); };
-$('btnMudarPosicao').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; if(fieldSetState[k][i]) { fieldSetState[k][i] = false; if(k.toLowerCase().includes('monster')) fieldState[k][i] = 0; log(`Revelado!`, 'warn'); } else { if(k.toLowerCase().includes('monster')) { fieldState[k][i] ^= 1; log(`Posição alterada.`); } } render(); $('actionModal').classList.remove('show'); };
+$('btnMudarPosicao').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; if(fieldSetState[k][i]) { fieldSetState[k][i] = false; if(k.toLowerCase().includes('monster')) fieldState[k][i] = 0; } else { if(k.toLowerCase().includes('monster')) fieldSetState[k][i] ^= 1; } render(); $('actionModal').classList.remove('show'); };
 $('btnToHand').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; hand.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
 $('btnToGrave').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; grave.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
 $('btnToBanish').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; banished.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
 
-/* MENUS BÁSICOS JOGO */
+/* MENUS AUXILIARES */
 window.openDeckView = function() { if(!mainActive.length) return; $('viewDeckGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="drawSpecificFromDeck(${i})"><img src="${img(c)}"></div>`).join(''); $('viewDeckModal').classList.add('show'); };
 window.drawSpecificFromDeck = function(index) { hand.push(mainActive.splice(index, 1)[0]); shuffle(mainActive); $('viewDeckModal').classList.remove('show'); render(); };
 window.openGraveView = function() { const allGrave = [...grave, ...banished]; if(!allGrave.length) return; $('graveListContainer').innerHTML = allGrave.map((c, idx) => `<div class="modal-card-item"><img src="${img(c)}" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})"><span>${esc(c.name)}</span><div class="modal-card-actions"><button class="primary" onclick="fromGraveToHand(${idx})">Pra Mão</button><button class="primary" onclick="fromGraveToField(${idx})">Pro Campo</button></div></div>`).join(''); $('graveModal').classList.add('show'); };
@@ -528,18 +540,13 @@ $('tokenBtn').onclick = () => { hand.push({ id: 99999999, name: "Token", type: "
 $('drawBtn').onclick=draw;
 $('newGame').onclick=()=>{ if(confirm('Reiniciar o duelo?')) initDuelFromActive(); };
 
-// CONTROLO DE FASES
+/* CONTROLO DE FASES */
 $('phases').onclick = e => { 
   const btn = e.target.closest('button');
   if(!btn) return;
   const i = [...$('phases').children].indexOf(btn); 
   if(i < 0 || i === phase) return;
-  
-  if(i < phase) { 
-    turn++; 
-    if(i === 0 && mainActive.length) draw(); 
-  } 
-  
+  if(i < phase) { turn++; if(i === 0 && mainActive.length) draw(); } 
   phase = i; 
   const nomesFases = ['Draw Phase', 'Standby Phase', 'Main Phase 1', 'Battle Phase', 'Main Phase 2', 'End Phase'];
   log(`Fase alterada para: <strong>${nomesFases[i]}</strong> (Turno ${turn})`, 'info');
@@ -549,9 +556,7 @@ $('phases').onclick = e => {
 document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
 document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
 
-/* =========================================
-   SISTEMA YGOPro DECK BUILDER 
-========================================= */
+/* BUILDER DE DECKS */
 $('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
 $('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
 
@@ -577,75 +582,43 @@ $('createDeckBtn').onclick=()=>{
 };
 
 $('deckBtn').onclick=()=>{ if(activeDeckId) openBuilderFull(activeDeckId); };
-
 window.openBuilderFull = function(id){
   editingDeckId = id; const d = decks.find(item=>item.id===id); if(!d) return;
   $('builderTitle').textContent = 'Editor YGOPro: ' + d.name;
-  
   builderSearchResults = [];
   setBuilderPreview(null);
   renderYGOBuilder(); 
-  
   $('deckModal').classList.remove('show'); 
   $('builderModal').style.display = 'flex';
 }
-
-$('closeBuilder').onclick=()=>{ 
-    saveStorage();
-    $('builderModal').style.display = 'none'; 
-    if(editingDeckId === activeDeckId) initDuelFromActive(); 
-    render(); 
-};
+$('closeBuilder').onclick=()=>{ saveStorage(); $('builderModal').style.display = 'none'; if(editingDeckId === activeDeckId) initDuelFromActive(); render(); };
 
 function setBuilderPreview(card, zone=null, idx=-1) {
-    builderSelectedCard = card;
-    builderSelectedZone = zone;
-    builderSelectedIndex = idx;
-    
+    builderSelectedCard = card; builderSelectedZone = zone; builderSelectedIndex = idx;
     if(!card) {
-        $('bPreviewImg').src = CARD_BACK;
-        $('bPreviewName').textContent = "Selecione uma carta";
-        $('bPreviewStats').textContent = "N/A";
-        $('bPreviewDesc').textContent = "Pesquise ou toque numa carta na grelha para ver os detalhes.";
-        $('bAddBtn').style.display = 'none';
-        $('bRemBtn').style.display = 'none';
-        return;
+        $('bPreviewImg').src = CARD_BACK; $('bPreviewName').textContent = "Selecione uma carta";
+        $('bPreviewStats').textContent = "N/A"; $('bPreviewDesc').textContent = "Pesquise ou toque numa carta na grelha para ver os detalhes.";
+        $('bAddBtn').style.display = 'none'; $('bRemBtn').style.display = 'none'; return;
     }
-    
-    $('bPreviewImg').src = imgHigh(card);
-    $('bPreviewName').textContent = card.name;
+    $('bPreviewImg').src = imgHigh(card); $('bPreviewName').textContent = card.name;
     let stats = `[${card.type || 'N/A'}] ${card.attribute ? card.attribute : ''}`;
     if(card.atk !== undefined) stats += ` | ATK ${card.atk}`;
     if(card.def !== undefined && !card.type.includes('Link')) stats += ` / DEF ${card.def}`;
     if(card.level) stats += ` | Nv ${card.level}`;
-    
-    $('bPreviewStats').textContent = stats;
-    $('bPreviewDesc').textContent = card.desc || '';
-    
-    if(zone === 'search') {
-        $('bAddBtn').style.display = 'block';
-        $('bRemBtn').style.display = 'none';
-    } else if (zone === 'main' || zone === 'extra') {
-        $('bAddBtn').style.display = 'none';
-        $('bRemBtn').style.display = 'block';
-    }
+    $('bPreviewStats').textContent = stats; $('bPreviewDesc').textContent = card.desc || '';
+    if(zone === 'search') { $('bAddBtn').style.display = 'block'; $('bRemBtn').style.display = 'none'; } 
+    else if (zone === 'main' || zone === 'extra') { $('bAddBtn').style.display = 'none'; $('bRemBtn').style.display = 'block'; }
 }
 
 $('bAddBtn').onclick = () => {
     if(!builderSelectedCard) return;
-    const d = decks.find(item=>item.id===editingDeckId);
-    const c = builderSelectedCard;
-    const limit = getTCGLimit(c);
-    
-    if(limit === 0){ alert('Carta PROIBIDA (Banlist TCG).'); return; }
+    const d = decks.find(item=>item.id===editingDeckId); const c = builderSelectedCard; const limit = getTCGLimit(c);
+    if(limit === 0){ alert('Carta PROIBIDA.'); return; }
     if([...(d.main||[]), ...(d.extra||[])].filter(x=>x.id===c.id).length >= limit){ alert(`Limite atingido! Máx: ${limit}.`); return; }
-
     if(/Fusion|Synchro|XYZ|Xyz|Link/i.test(c.type||'')){
-      if(d.extra.length >= 15){ alert('Deck Extra cheio (Max 15).'); return; } 
-      d.extra.push(c);
+      if(d.extra.length >= 15){ alert('Extra cheio.'); return; } d.extra.push(c);
     } else {
-      if(d.main.length >= 60){ alert('Main Deck cheio (Max 60).'); return; } 
-      d.main.push(c);
+      if(d.main.length >= 60){ alert('Main cheio.'); return; } d.main.push(c);
     }
     saveStorage(); renderYGOBuilder();
 };
@@ -655,94 +628,53 @@ $('bRemBtn').onclick = () => {
     const d = decks.find(item=>item.id===editingDeckId);
     if(builderSelectedZone === 'main') d.main.splice(builderSelectedIndex, 1);
     if(builderSelectedZone === 'extra') d.extra.splice(builderSelectedIndex, 1);
-    
-    saveStorage(); 
-    setBuilderPreview(null);
-    renderYGOBuilder();
+    saveStorage(); setBuilderPreview(null); renderYGOBuilder();
 };
 
 function renderYGOBuilder(){
   const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
-  
-  $('countMain').textContent = (d.main||[]).length;
-  $('countExtra').textContent = (d.extra||[]).length;
-  
-  $('gridResults').innerHTML = builderSearchResults.map((c, i) => 
-     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "search", ${i})' class="${builderSelectedZone==='search'&&builderSelectedIndex===i?'sel':''}">`
-  ).join('');
-  
-  $('gridMain').innerHTML = (d.main||[]).map((c, i) => 
-     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "main", ${i})' class="${builderSelectedZone==='main'&&builderSelectedIndex===i?'sel':''}">`
-  ).join('');
-  
-  $('gridExtra').innerHTML = (d.extra||[]).map((c, i) => 
-     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "extra", ${i})' class="${builderSelectedZone==='extra'&&builderSelectedIndex===i?'sel':''}">`
-  ).join('');
+  $('countMain').textContent = (d.main||[]).length; $('countExtra').textContent = (d.extra||[]).length;
+  $('gridResults').innerHTML = builderSearchResults.map((c, i) => `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "search", ${i})' class="${builderSelectedZone==='search'&&builderSelectedIndex===i?'sel':''}">`).join('');
+  $('gridMain').innerHTML = (d.main||[]).map((c, i) => `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "main", ${i})' class="${builderSelectedZone==='main'&&builderSelectedIndex===i?'sel':''}">`).join('');
+  $('gridExtra').innerHTML = (d.extra||[]).map((c, i) => `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "extra", ${i})' class="${builderSelectedZone==='extra'&&builderSelectedIndex===i?'sel':''}">`).join('');
 }
 
 $('searchBtn').onclick = async () => {
  const q=$('query').value.trim(); const typeF=$('f-type').value;
- if(!q){ alert('Digite algo em inglês.'); return;}
- $('searchBtn').disabled=true; $('searchBtn'].textContent='...';
+ if(!q){ alert('Digite em inglês.'); return;}
+ $('searchBtn').disabled=true; $('searchBtn').textContent='...';
  try{
   const response = await fetch(`${API}?fname=${encodeURIComponent(q)}`);
   if(!response.ok) throw new Error('Sem resultados.');
   const json = await response.json();
-  
   let filtered = json.data;
   if(typeF) filtered = filtered.filter(c => (c.type||'').includes(typeF));
-  
   builderSearchResults = filtered.slice(0, 40); 
   $('resCount').textContent = `(${builderSearchResults.length} exibidos)`;
-  
-  setBuilderPreview(null);
-  renderYGOBuilder();
+  setBuilderPreview(null); renderYGOBuilder();
  } catch(error){ alert(error.message); builderSearchResults=[]; renderYGOBuilder(); } 
  finally { $('searchBtn').disabled=false; $('searchBtn').textContent='Buscar'; }
 }
 $('query').addEventListener('keydown', e=>{if(e.key==='Enter') $('searchBtn').click()});
 
-/* SISTEMA DE MÚLTIPLOS STARTER DECKS AUTOMÁTICOS */
 async function loadAllStarterDecks() {
-  log('A carregar decks pré-montados (Cyberse Link & Blue-Eyes)...', 'warn');
-  
-  const cyberseMain = '46986414,89631139,83098602,05318639,40522010';
-  const cyberseExtra = '1861629,73262676,23995346';
-  
+  log('A carregar deck pré-montado...', 'warn');
+  const mIds = '46986414,89631139,83098602,05318639,40522010'; const eIds = '1861629,73262676,23995346';
   try {
-    const [res1, res2] = await Promise.all([
-      fetch(`${API}?id=${cyberseMain}`),
-      fetch(`${API}?id=${cyberseExtra}`)
-    ]);
-    const dataM = (await res1.json()).data;
-    const dataE = (await res2.json()).data;
-    
+    const [res1, res2] = await Promise.all([fetch(`${API}?id=${mIds}`), fetch(`${API}?id=${eIds}`)]);
+    const dataM = (await res1.json()).data; const dataE = (await res2.json()).data;
     let mainDeck = [];
-    while(mainDeck.length < 40) {
-      dataM.forEach(c => { if(mainDeck.length < 40) mainDeck.push(JSON.parse(JSON.stringify(c))); });
-    }
-    
-    // Adiciona Deck Cyberse Link
+    while(mainDeck.length < 40) { dataM.forEach(c => { if(mainDeck.length < 40) mainDeck.push(JSON.parse(JSON.stringify(c))); }); }
     if(!decks.some(d => d.name === 'Cyberse Link')) {
       decks.push({ id: 'deck_cyberse_'+Date.now(), name: 'Cyberse Link', main: mainDeck, extra: dataE, side: [] });
     }
-    
-    saveStorage();
-    renderDeckMgr();
-    log('Decks pré-montados adicionados com sucesso!', 'success');
-  } catch(e) {
-    log('Erro ao baixar starter decks.', 'danger');
-  }
+    saveStorage(); renderDeckMgr(); log('Deck Cyberse Link adicionado!', 'success');
+  } catch(e) { log('Erro ao carregar starter deck.', 'danger'); }
 }
 
-// INICIALIZAÇÃO
 loadStorage(); 
-if(decks.length === 0) { 
-    loadAllStarterDecks(); 
-} else {
-    if(!activeDeckId) activeDeckId = decks[0].id; 
-    initDuelFromActive(); 
-}
+if(decks.length === 0) { loadAllStarterDecks(); } 
+else { if(!activeDeckId) activeDeckId = decks[0].id; initDuelFromActive(); }
 </script>
 </body>
 </html>
