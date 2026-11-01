@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#060a10">
-<title>YGO Master Simulator</title>
+<title>YGO Master Simulator - Pro Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --master-blue:#0d1b2a; --master-dark:#060a10; --master-panel:rgba(13, 27, 42, 0.94);
+  --master-blue:#0d1b2a; --master-dark:#060a10; --master-panel:rgba(13, 27, 42, 0.95);
   --master-border:#1d3557; --master-cyan:#00f2fe; --master-gold:#ffd700;
   --master-cyan-glow:rgba(0, 242, 254, 0.35); --text:#e0fbfc; --muted:#8d99ae;
 }
@@ -22,12 +22,12 @@ body{
 
 header{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:10px 8px;background:linear-gradient(90deg, #0d1b2a, #1b263b);
+  padding:10px 10px;background:linear-gradient(90deg, #0d1b2a, #1b263b);
   border-bottom:2px solid var(--master-cyan);border-radius:10px;margin-bottom:8px;
   box-shadow:0 0 15px var(--master-cyan-glow);
 }
 .brand{display:flex;align-items:center;gap:10px}
-.brand img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 0 8px var(--master-cyan))}
+.brand img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 0 8px var(--master-cyan))}
 h1{font-family:'Orbitron',sans-serif;font-size:15px;margin:0;letter-spacing:1px;font-weight:900;color:#fff}
 h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
 .sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
@@ -35,9 +35,9 @@ h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
 button, input {font-family:'Rajdhani',sans-serif}
 button{
   border:1px solid var(--master-border);background:linear-gradient(180deg, #1d3557 0%, #0d1b2a 100%);
-  color:var(--text);border-radius:6px;padding:9px 12px;font-weight:700;font-size:12px;
+  color:var(--text);border-radius:6px;padding:8px 10px;font-weight:700;font-size:11px;
   cursor:pointer;transition:all .15s ease;box-shadow:0 2px 5px rgba(0,0,0,0.4);
-  text-transform:uppercase;letter-spacing:.5px;
+  text-transform:uppercase;letter-spacing:.5px;display:inline-flex;align-items:center;justify-content:center;gap:4px;
 }
 button:active{transform:scale(0.96)}
 button.primary{
@@ -48,9 +48,9 @@ button.primary{
 button.danger{background:linear-gradient(180deg, #d90429 0%, #720026 100%);border-color:#ef233c}
 button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:none!important}
 
-.toolbar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:8px}
-.toolbar button{padding:6px 2px;font-size:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
-.toolbar button span:first-child{font-size:14px}
+.toolbar{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:8px}
+.toolbar button{padding:6px 2px;font-size:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+.toolbar img{width:16px;height:16px;object-fit:contain}
 
 .stats{
   display:grid;grid-template-columns:1.2fr 0.8fr 1.2fr;gap:6px;
@@ -59,13 +59,13 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 }
 .stat{display:flex;flex-direction:column;align-items:center;justify-content:center}
 .stat small{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
-.stat strong{font-size:16px;font-family:'Orbitron',sans-serif;color:var(--master-gold);text-shadow:0 0 8px rgba(255,215,0,0.4)}
-.lp{display:flex;align-items:center;gap:4px;width:100%;justify-content:center}
-.lp button{padding:2px 6px;font-size:9px;background:#060a10;border-color:var(--master-border)}
+.stat strong{font-size:15px;font-family:'Orbitron',sans-serif;color:var(--master-gold);text-shadow:0 0 8px rgba(255,215,0,0.4)}
+.lp{display:flex;align-items:center;gap:3px;width:100%;justify-content:center}
+.lp button{padding:2px 5px;font-size:9px;background:#060a10;border-color:var(--master-border)}
 
 .phasebar{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
 .phasebar::-webkit-scrollbar{display:none}
-.phasebar button{white-space:nowrap;padding:6px 10px;font-size:10px;border-radius:4px;background:#0b1320;color:var(--muted);border-color:#162438}
+.phasebar button{white-space:nowrap;padding:5px 8px;font-size:9px;border-radius:4px;background:#0b1320;color:var(--muted);border-color:#162438}
 .phasebar button.active{background:linear-gradient(180deg,#0077b6,#03045e);border-color:var(--master-cyan);color:#fff;box-shadow:0 0 10px var(--master-cyan-glow)}
 
 .board{
@@ -85,7 +85,28 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .zone .hint{font-size:8px;color:var(--muted);text-align:center;font-weight:700}
 .zone img{width:100%;height:100%;object-fit:cover;cursor:pointer}
 .zone.selected{outline:2px solid var(--master-gold);outline-offset:1px;box-shadow:0 0 12px rgba(255,215,0,0.5)}
-.zone.rotated img{transform:rotate(90deg);object-fit:contain} 
+.zone.rotated{transform:rotate(90deg);} 
+
+/* Fundo para cartas Baixadas (Set) */
+.card-back {
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(45deg, #4a192c, #4a192c 8px, #2a0815 8px, #2a0815 16px);
+  border: 3px solid #8e44ad;
+  border-radius: 4px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.card-back::after {
+  content: 'YGO';
+  font-family: 'Orbitron', sans-serif;
+  color: #d4af37;
+  font-size: 14px;
+  font-weight: 900;
+  text-shadow: 0 0 5px #000;
+  transform: rotate(-45deg);
+}
+
 .dividerline{border-top:1px solid rgba(0, 242, 254, 0.3);margin:8px 2px;box-shadow:0 0 8px var(--master-cyan-glow)}
 
 .hand-wrap{
@@ -106,20 +127,20 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .card.selected{outline:3px solid #fff;transform:translateY(-6px);box-shadow:0 0 15px var(--master-gold)}
 .card .ct{font-size:7px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#03070c;text-align:center;color:#fff}
 
-.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
-.controls button{padding:10px 2px;font-size:9px}
+.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-bottom:8px}
+.controls button{padding:10px 2px;font-size:10px}
 
 .lower{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
 .pile{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between; cursor:pointer;}
 .pile:hover{border-color:var(--master-cyan)}
 .pile-top{display:flex;justify-content:space-between;align-items:center}
 .pile strong{font-size:10px;color:var(--muted);letter-spacing:.5px;font-family:'Orbitron',sans-serif}
-.pile .count{font-size:18px;font-family:'Orbitron',sans-serif;color:var(--master-gold)}
+.pile .count{font-size:16px;font-family:'Orbitron',sans-serif;color:var(--master-gold)}
 .pile button{margin-top:6px;width:100%;font-size:9px;padding:6px 2px}
 
 .panel{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px}
 .panel h2{font-size:12px;margin:0 0 6px;color:var(--master-cyan);font-family:'Orbitron',sans-serif;letter-spacing:.5px}
-.log{font-size:10px;color:#a4b6c6;max-height:80px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
+.log{font-size:10px;color:#a4b6c6;max-height:85px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
 .log div{border-left:2px solid var(--master-cyan);padding-left:6px}
 
 /* Modais */
@@ -187,21 +208,21 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 <header>
   <div class="brand">
     <img src="https://images.ygoprodeck.com/images/cards_small/46986414.jpg" alt="Icon">
-    <div><h1><span>MASTER</span> SIMULATOR</h1><div class="sub">TCG FORMAT • DUEL SYSTEM</div></div>
+    <div><h1><span>MASTER</span> PRO</h1><div class="sub">TCG DUEL SIMULATOR</div></div>
   </div>
   <div style="display:flex;gap:6px">
-    <button id="openDeckMgr" class="primary" style="padding:8px 12px;">Decks</button>
-    <button id="newGame" style="padding:8px 10px;">Resetar</button>
+    <button id="openDeckMgr" class="primary">Decks</button>
+    <button id="newGame" class="danger">Resetar</button>
   </div>
 </header>
 
 <div class="toolbar">
-  <button id="deckBtn" disabled><span>📦</span><span>Editar</span></button>
-  <button id="drawBtn"><span>📥</span><span>Comprar</span></button>
-  <button id="searchDeckToolBtn"><span>🔍</span><span>Procurar</span></button>
-  <button id="tokenBtn"><span>🪙</span><span>Token</span></button>
-  <button id="rngBtn"><span>🎲</span><span>Dado</span></button>
-  <button id="graveViewBtn"><span>🪦</span><span>Cemitério</span></button>
+  <button id="deckBtn" disabled><img src="https://img.icons8.com/ios-filled/50/00f2fe/card-in-use.png" alt="Edit"><span>Editar</span></button>
+  <button id="drawBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/downloads.png" alt="Draw"><span>Comprar</span></button>
+  <button id="searchDeckToolBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/search--v1.png" alt="Search"><span>Procurar</span></button>
+  <button id="tokenBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/token.png" alt="Token"><span>Token</span></button>
+  <button id="rngBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/dice.png" alt="Dice"><span>Dado</span></button>
+  <button id="graveViewBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/grave.png" alt="Grave"><span>Cemitério</span></button>
 </div>
 
 <div class="stats">
@@ -214,7 +235,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button>
 </div>
 
-<!-- TABULEIRO AJUSTADO: Zonas de Monstros em cima, Zonas de Magias em baixo[span_2](start_span)[span_2](end_span) -->
+<!-- TABULEIRO AJUSTADO: Zonas de Monstros em cima, Zonas de Magias em baixo -->
 <div class="board">
   <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
   <div class="zones" id="oppMonsters"></div>
@@ -230,10 +251,12 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="hand" id="hand"><span class="sub" style="margin:auto;display:block;padding:20px 0;">Crie um baralho no topo para começar.</span></div>
 </div>
 
+<!-- CONTROLES DE MÃO: BOTÕES DE INTENÇÃO PARA FACE-UP OU SET -->
 <div class="controls">
-  <button id="summonBtn" class="primary">Colocar no Campo</button>
+  <button id="intentFaceUpBtn" class="primary" style="box-shadow:0 0 10px var(--master-cyan-glow)">⚔️ MODO: FACE-UP</button>
+  <button id="intentSetBtn" style="background:#1a1010; border-color:#3a1010; color:var(--muted)">🛡️ MODO: BAIXAR (SET)</button>
   <button id="handToDeckBtn" style="background:linear-gradient(180deg, #4361ee, #3a0ca3); border-color:#4895ef;">Devolver ao Deck</button>
-  <button id="handToGraveBtn" class="danger">Descartar</button>
+  <button id="handToGraveBtn" class="danger">Descartar da Mão</button>
 </div>
 
 <div class="lower">
@@ -241,7 +264,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="pile" id="extraView"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button style="pointer-events:none">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Layout invertido: Monstros em cima e Magias em baixo no seu campo[span_3](start_span)[span_3](end_span).</div></div></div>
+<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Novo modo "Baixar (Set)" ativo! Alterne a intenção antes de jogar a carta.</div></div></div>
 
 <!-- MODAL: GERENCIADOR -->
 <div class="modal" id="deckModal">
@@ -269,7 +292,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 <!-- MODAL: AÇÕES DO CAMPO -->
 <div class="modal" id="actionModal">
   <div class="sheet" style="max-height: 70vh;">
-    <div class="sheethead"><h2>Menu da Carta</h2><button id="closeActionModal">Fechar</button></div>
+    <div class="sheethead"><h2>Menu da Carta no Campo</h2><button id="closeActionModal">Fechar</button></div>
     <div class="action-card-info">
       <img id="actionCardImg" src="" alt="Card" onclick="openZoom(activeFieldCard.card)">
       <div>
@@ -279,7 +302,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
     </div>
     <div class="action-buttons">
       <button class="primary" id="btnAtivarEfeito" style="grid-column: 1 / -1; background:linear-gradient(180deg, #d4af37, #997a00); color:#000;">⚡ Declarar Efeito</button>
-      <button id="btnMudarPosicao">🔄 Alterar Posição</button>
+      <button id="btnMudarPosicao">🔄 Alterar Posição / Revelar</button>
       <button id="btnToHand">Mover para a Mão</button>
       <button id="btnToGrave" class="danger">Destruir (Cemitério)</button>
       <button id="btnToBanish" style="background:#1a1010; border-color:#3a1010">Banir</button>
@@ -337,9 +360,14 @@ const API='https://db.ygoprodeck.com/api/v7/cardinfo.php';
 const $=id=>document.getElementById(id);
 
 let decks = [], activeDeckId = null, editingDeckId = null;
-let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),oppMonsters:Array(5).fill(null),oppSpells:Array(5).fill(null)}, fieldState={myMonsters:Array(5).fill(0), oppMonsters:Array(5).fill(0)};
+let hand=[], 
+    field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),oppMonsters:Array(5).fill(null),oppSpells:Array(5).fill(null)}, 
+    fieldState={myMonsters:Array(5).fill(0), oppMonsters:Array(5).fill(0)}, 
+    fieldSetState={myMonsters:Array(5).fill(false), mySpells:Array(5).fill(false), oppMonsters:Array(5).fill(false), oppSpells:Array(5).fill(false)};
+    
 let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
 let activeFieldCard = null;
+let playIntent = 'faceup'; // 'faceup' ou 'set'
 
 function sanitizeDecks(dList) {
   if(!Array.isArray(dList)) return [];
@@ -365,11 +393,44 @@ function loadStorage(){
 }
 function saveStorage(){try{localStorage.setItem('ygomaster_decks', JSON.stringify(decks)); if(activeDeckId) localStorage.setItem('ygomaster_active_id', activeDeckId);}catch(e){}}
 function getActiveDeck(){ return decks.find(d=>d.id===activeDeckId) || null; }
-function log(msg){const line=document.createElement('div');line.innerHTML='• '+msg;$('log').prepend(line);}
+
+function log(msg, type='info'){
+  const line=document.createElement('div');
+  if(type==='success') line.style.borderLeftColor = '#4ade80';
+  else if(type==='danger') line.style.borderLeftColor = '#f87171';
+  else if(type==='warn') line.style.borderLeftColor = '#ffd700';
+  line.innerHTML='• '+msg; 
+  $('log').prepend(line);
+}
+
 function img(c){return c?.card_images?.[0]?.image_url_small||c?.card_images?.[0]?.image_url||'';}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function cardHTML(c,cls=''){return `<div class="card ${cls}" data-id="${c.id}"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`}
 function getTCGLimit(c){const banTcg = c?.banlist_info?.ban_tcg; return banTcg==='Banned'?0:banTcg==='Limited'?1:banTcg==='Semi-Limited'?2:3;}
+
+/* BOTÕES DE INTENÇÃO DE JOGADA */
+$('intentFaceUpBtn').onclick = () => {
+   playIntent = 'faceup';
+   $('intentFaceUpBtn').classList.add('primary');
+   $('intentFaceUpBtn').style.boxShadow = '0 0 10px var(--master-cyan-glow)';
+   $('intentSetBtn').classList.remove('primary');
+   $('intentSetBtn').style.background = '#1a1010';
+   $('intentSetBtn').style.boxShadow = 'none';
+   $('intentSetBtn').style.color = 'var(--muted)';
+   log('As próximas cartas serão jogadas <strong>viradas para CIMA (Face-Up)</strong>.', 'info');
+};
+
+$('intentSetBtn').onclick = () => {
+   playIntent = 'set';
+   $('intentSetBtn').classList.add('primary');
+   $('intentSetBtn').style.background = 'linear-gradient(180deg, #d90429 0%, #720026 100%)'; 
+   $('intentSetBtn').style.boxShadow = '0 0 10px rgba(217, 4, 41, 0.4)';
+   $('intentSetBtn').style.color = '#fff';
+   $('intentFaceUpBtn').classList.remove('primary');
+   $('intentFaceUpBtn').style.background = '#1a1a24';
+   $('intentFaceUpBtn').style.boxShadow = 'none';
+   log('Modo de Set ativo! As próximas cartas serão colocadas <strong>BAIXADAS (Face-Down)</strong>.', 'warn');
+};
 
 function render(){
   const active = getActiveDeck();
@@ -385,13 +446,22 @@ function render(){
   $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
   $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
   
-  // Ordem visual ajustada: Monstros em cima, Magias em baixo[span_4](start_span)[span_4](end_span)
   const renderOrder = ['oppMonsters', 'oppSpells', 'myMonsters', 'mySpells'];
   for(const key of renderOrder){
     $(key).innerHTML = field[key].map((c,i)=>{
       const isDef = fieldState[key] && fieldState[key][i] === 1;
+      const isSet = fieldSetState[key] && fieldSetState[key][i];
       const cls = `zone ${key.includes('Spells')?'spell':''} ${selected?.where===key&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
-      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${c?`<img src="${img(c)}" alt="${esc(c.name)}">`:'<span class="hint">'+(key.includes('Spells')?'M/T':'MON')+'</span>'}</div>`;
+      
+      let content = '<span class="hint">'+(key.includes('Spells')?'M/T':'MON')+'</span>';
+      if(c){
+         if(isSet) {
+           content = `<div class="card-back"></div>`;
+         } else {
+           content = `<img src="${img(c)}" alt="${esc(c.name)}">`;
+         }
+      }
+      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${content}</div>`;
     }).join('');
   }
   $('phases').querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===phase));
@@ -404,10 +474,12 @@ function initDuelFromActive(){
   hand = []; grave = []; banished = []; selected = null; turn = 1; phase = 0; lp = opp = 8000;
   field = {myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),oppMonsters:Array(5).fill(null),oppSpells:Array(5).fill(null)};
   fieldState = {myMonsters:Array(5).fill(0), oppMonsters:Array(5).fill(0)};
+  fieldSetState = {myMonsters:Array(5).fill(false), mySpells:Array(5).fill(false), oppMonsters:Array(5).fill(false), oppSpells:Array(5).fill(false)};
+  
   for(let i=0; i<5 && mainActive.length>0; i++) hand.push(mainActive.shift());
-  log('Duelo iniciado!'); render();
+  log('Duelo iniciado com sucesso!', 'success'); render();
 }
-function draw(){if(!mainActive.length)return log('Baralho vazio.'); hand.push(mainActive.shift()); log('Comprou 1 carta.'); render();}
+function draw(){if(!mainActive.length)return log('Baralho vazio!', 'danger'); hand.push(mainActive.shift()); log('Comprou 1 carta.', 'success'); render();}
 
 /* ZOOM DE CARTAS */
 window.openZoom = function(cardObj) {
@@ -431,14 +503,79 @@ $('hand').addEventListener('dblclick', e=>{
   if(i>=0) openZoom(hand[i]);
 });
 
-/* INTERAÇÕES DO CAMPO COM ZONAS RIGOROSAS */
+/* INTERAÇÕES DO CAMPO E CÁLCULO DE BATALHA AUTOMÁTICO */
 document.querySelector('.board').addEventListener('click', e=>{
   const z=e.target.closest('.zone'); if(!z) return;
   const key=z.dataset.zone, i=Number(z.dataset.index), c=field[key][i];
   
   if(c){ 
+    // Se clicou num monstro oponente e tem um seu selecionado = BATALHA!
+    if(selected && selected.where === 'myMonsters' && key === 'oppMonsters') {
+      const myCard = selected.card;
+      const oppCard = c;
+      const myAtk = Number(myCard.atk || 0);
+      
+      const oppIsDef = fieldState.oppMonsters[i] === 1 || fieldSetState.oppMonsters[i];
+      const oppStat = oppIsDef ? Number(oppCard.def || 0) : Number(oppCard.atk || 0);
+      const statName = oppIsDef ? 'DEF' : 'ATK';
+      
+      log(`⚔️ Batalha: <strong>${myCard.name}</strong> (ATK: ${myAtk}) atacou <strong>${oppCard.name}</strong> (${statName}: ${oppStat})!`, 'warn');
+      
+      if(myAtk > oppStat) {
+        field.oppMonsters[i] = null;
+        fieldSetState.oppMonsters[i] = false;
+        fieldState.oppMonsters[i] = 0;
+        grave.push(oppCard);
+        if(!oppIsDef) {
+           const diff = myAtk - oppStat;
+           opp = Math.max(0, opp - diff);
+           log(`🔥 Monstro oponente destruído! Oponente perdeu ${diff} LP.`, 'success');
+        } else {
+           log(`🛡️ Monstro oponente destruído em Defesa (sem dano).`, 'success');
+        }
+      } else if(myAtk < oppStat) {
+        const diff = oppStat - myAtk;
+        lp = Math.max(0, lp - diff);
+        if(!oppIsDef) {
+           field.myMonsters[selected.index] = null;
+           fieldSetState.myMonsters[selected.index] = false;
+           grave.push(myCard);
+           log(`💥 Seu monstro foi destruído! Você perdeu ${diff} LP.`, 'danger');
+        } else {
+           log(`💥 O seu ataque falhou contra a defesa! Você perdeu ${diff} LP.`, 'danger');
+        }
+      } else {
+        if(!oppIsDef) {
+           field.myMonsters[selected.index] = null;
+           field.oppMonsters[i] = null;
+           fieldSetState.myMonsters[selected.index] = false;
+           fieldSetState.oppMonsters[i] = false;
+           grave.push(myCard); grave.push(oppCard);
+           log(`🤝 Empate! Ambos os monstros foram destruídos.`, 'warn');
+        } else {
+           log(`🤝 Empate na Defesa! Nenhum monstro é destruído.`, 'info');
+        }
+      }
+      selected = null;
+      render();
+      return;
+    }
+
     activeFieldCard = {card: c, key: key, index: i};
-    $('actionCardImg').src = img(c); $('actionCardName').textContent = c.name; $('actionCardDesc').textContent = c.desc;
+    const isSet = fieldSetState[key][i];
+    
+    $('actionCardImg').src = img(c); 
+    $('actionCardName').innerHTML = c.name + (isSet ? ' <span style="color:#f87171">(BAIXADA / SET)</span>' : ''); 
+    $('actionCardDesc').textContent = c.desc;
+    
+    if(isSet) {
+        $('btnMudarPosicao').textContent = "🔄 Revelar Carta (Flip)";
+        $('btnAtivarEfeito').style.display = 'none'; 
+    } else {
+        $('btnMudarPosicao').textContent = "🔄 Alterar Posição";
+        $('btnAtivarEfeito').style.display = 'block';
+    }
+    
     $('actionModal').classList.add('show');
   }
   else if(selected?.where==='hand'){
@@ -454,32 +591,91 @@ document.querySelector('.board').addEventListener('click', e=>{
       return;
     }
     if (!isSpellOrTrap && clickedIsSpellZone) {
-      alert('Monstros devem ser colocados nas zonas de Monstros (em cima)[span_5](start_span)[span_5](end_span).');
+      alert('Monstros devem ser colocados nas zonas de Monstros (em cima).');
       return;
     }
 
     hand.splice(selected.index, 1); 
     field[key][i] = card; 
+    
+    if(playIntent === 'set'){
+       fieldSetState[key][i] = true;
+       if(!clickedIsSpellZone) { fieldState[key][i] = 1; } // Monstros baixados entram em Defesa
+       log(`<strong>${card.name}</strong> foi colocada no campo BAIXADA (Set).`, 'info'); 
+    } else {
+       fieldSetState[key][i] = false;
+       if(!clickedIsSpellZone) { fieldState[key][i] = 0; } // Monstros normais entram em Ataque
+       log(`<strong>${card.name}</strong> invocado Face-Up.`, 'success'); 
+    }
+    
     selected = null; 
-    log(`${card.name} jogado no campo.`); 
+    render();
+  } else if(selected && selected.where === 'myMonsters' && key === 'myMonsters') {
+    field[key][i] = selected.card;
+    fieldSetState[key][i] = fieldSetState[selected.where][selected.index];
+    fieldState[key][i] = fieldState[selected.where][selected.index];
+    
+    field[selected.where][selected.index] = null;
+    fieldSetState[selected.where][selected.index] = false;
+    fieldState[selected.where][selected.index] = 0;
+    selected = null;
+    log('Monstro reposicionado no campo.', 'info');
     render();
   }
 });
 
 $('closeActionModal').onclick = () => $('actionModal').classList.remove('show');
-$('btnAtivarEfeito').onclick = () => { log(`<strong style="color:var(--master-gold)">⚡ EFEITO ATIVADO:</strong> ${activeFieldCard.card.name}.`); $('actionModal').classList.remove('show'); };
-$('btnMudarPosicao').onclick = () => { if(fieldState[activeFieldCard.key]) { fieldState[activeFieldCard.key][activeFieldCard.index] ^= 1; log(`Posição alterada.`); render(); } $('actionModal').classList.remove('show'); };
-$('btnToHand').onclick = () => { hand.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`Voltou à mão.`); render(); $('actionModal').classList.remove('show'); };
-$('btnToGrave').onclick = () => { grave.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`${activeFieldCard.card.name} foi destruído.`); render(); $('actionModal').classList.remove('show'); };
-$('btnToBanish').onclick = () => { banished.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`${activeFieldCard.card.name} foi banido.`); render(); $('actionModal').classList.remove('show'); };
+
+$('btnAtivarEfeito').onclick = () => { 
+    log(`⚡ Efeito ativado: <strong>${activeFieldCard.card.name}</strong>.`, 'warn'); 
+    $('actionModal').classList.remove('show'); 
+};
+
+$('btnMudarPosicao').onclick = () => { 
+    const k = activeFieldCard.key, i = activeFieldCard.index;
+    if(fieldSetState[k][i]) { 
+       fieldSetState[k][i] = false;
+       if(k.includes('Monsters')) fieldState[k][i] = 0; // Flip summon costuma ir para Ataque
+       log(`<strong>${activeFieldCard.card.name}</strong> foi REVELADO (Face-Up)!`, 'warn');
+    } else {
+       if(k.includes('Monsters')) {
+           fieldState[k][i] ^= 1; 
+           log(`Posição de batalha de ${activeFieldCard.card.name} alterada.`);
+       }
+    }
+    render();
+    $('actionModal').classList.remove('show'); 
+};
+
+$('btnToHand').onclick = () => { 
+    const k = activeFieldCard.key, i = activeFieldCard.index;
+    hand.push(activeFieldCard.card); 
+    field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false;
+    log(`Retornou ${activeFieldCard.card.name} para a mão.`); 
+    render(); $('actionModal').classList.remove('show'); 
+};
+$('btnToGrave').onclick = () => { 
+    const k = activeFieldCard.key, i = activeFieldCard.index;
+    grave.push(activeFieldCard.card); 
+    field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false;
+    log(`${activeFieldCard.card.name} destruído e enviado ao Cemitério.`, 'danger'); 
+    render(); $('actionModal').classList.remove('show'); 
+};
+$('btnToBanish').onclick = () => { 
+    const k = activeFieldCard.key, i = activeFieldCard.index;
+    banished.push(activeFieldCard.card); 
+    field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false;
+    log(`${activeFieldCard.card.name} foi banido.`, 'danger'); 
+    render(); $('actionModal').classList.remove('show'); 
+};
 
 /* FERRAMENTAS ESPECIAIS */
-$('rngBtn').onclick = () => { log(`🎲 Dado: <strong>${Math.floor(Math.random() * 6) + 1}</strong> | 🪙 Moeda: <strong>${Math.random() > 0.5 ? 'CARAS' : 'COROAS'}</strong>`); };
+$('rngBtn').onclick = () => { log(`🎲 Dado: <strong>${Math.floor(Math.random() * 6) + 1}</strong> | 🪙 Moeda: <strong>${Math.random() > 0.5 ? 'CARAS' : 'COROAS'}</strong>`, 'warn'); };
 
 $('tokenBtn').onclick = () => {
-  const tokenCard = { id: 99999999, name: "Token", type: "Normal Monster", desc: "Special Summoned as a Token.", card_images: [{ image_url: "https://images.ygoprodeck.com/images/cards/0.jpg", image_url_small: "https://images.ygoprodeck.com/images/cards_small/0.jpg" }] };
+  const tokenCard = { id: 99999999, name: "Token", type: "Normal Monster", desc: "Special Summoned as a Token.", atk: 0, def: 0, card_images: [{ image_url: "https://images.ygoprodeck.com/images/cards/0.jpg", image_url_small: "https://images.ygoprodeck.com/images/cards_small/0.jpg" }] };
   hand.push(tokenCard);
-  log('🪙 Um Token foi adicionado à sua mão.');
+  log('🪙 Token adicionado à mão.', 'success');
   render();
 };
 
@@ -491,7 +687,7 @@ $('searchDeckToolBtn').onclick = () => {
 $('closeSearchDeckModal').onclick = () => $('searchDeckModal').classList.remove('show');
 window.pickFromDeck = function(index) {
   const card = mainActive.splice(index, 1)[0]; hand.push(card); shuffle(mainActive);
-  log(`Procurou e adicionou ${card.name} à mão. Baralho baralhado.`); $('searchDeckModal').classList.remove('show'); render();
+  log(`Adicionou ${card.name} à mão via busca. Baralho baralhado.`, 'success'); $('searchDeckModal').classList.remove('show'); render();
 };
 
 /* DECK MAIN - VER E PUXAR PARA A MÃO */
@@ -506,12 +702,12 @@ window.drawSpecificFromDeck = function(index) {
   const card = mainActive.splice(index, 1)[0];
   hand.push(card);
   shuffle(mainActive);
-  log(`Pegou ${card.name} do Deck Main para a mão. Baralho baralhado.`);
+  log(`Pegou ${card.name} diretamente do Deck. Baralho baralhado.`, 'success');
   $('viewDeckModal').classList.remove('show');
   render();
 };
 
-/* CEMITÉRIO E BANIDAS - RECICLAR PARA MÃO OU CAMPO */
+/* CEMITÉRIO E BANIDAS */
 $('graveViewBtn').onclick = () => {
   const allGrave = [...grave, ...banished];
   if(!allGrave.length) return alert("Cemitério e Banidas vazios.");
@@ -537,7 +733,7 @@ window.fromGraveToHand = function(idx) {
   else { banished.splice(idx - grave.length, 1); }
   
   hand.push(card);
-  log(`${card.name} voltou do Cemitério/Banidas para a Mão.`);
+  log(`${card.name} reciclado para a Mão.`, 'success');
   $('graveModal').classList.remove('show');
   render();
 };
@@ -555,12 +751,12 @@ window.fromGraveToField = function(idx) {
   else { banished.splice(idx - grave.length, 1); }
 
   field[key][slotIdx] = card;
-  log(`${card.name} foi revivido do Cemitério/Banidas para o Campo.`);
+  log(`${card.name} revivido para o Campo.`, 'success');
   $('graveModal').classList.remove('show');
   render();
 };
 
-/* DECK EXTRA - USAR MONSTROS EXTRA */
+/* DECK EXTRA */
 $('extraView').onclick = () => {
   if(!extraActive.length) return alert("Deck Extra vazio.");
   
@@ -585,7 +781,7 @@ window.summonFromExtra = function(idx) {
 
   extraActive.splice(idx, 1);
   field['myMonsters'][slotIdx] = card;
-  log(`${card.name} foi invocado do Deck Extra para o Campo.`);
+  log(`${card.name} invocado do Deck Extra.`, 'success');
   $('extraModal').classList.remove('show');
   render();
 };
@@ -593,20 +789,18 @@ window.summonFromExtra = function(idx) {
 window.extraToHand = function(idx) {
   const card = extraActive.splice(idx, 1)[0];
   hand.push(card);
-  log(`${card.name} foi movido do Extra para a Mão.`);
+  log(`${card.name} movido do Extra para a Mão.`, 'success');
   $('extraModal').classList.remove('show');
   render();
 };
 
 /* BOTÕES BÁSICOS E DEVOLVER À MÃO */
-$('summonBtn').onclick=()=>{ if(!selected || selected.where!=='hand') alert('Selecione uma carta na mão e clique numa zona válida do campo.'); };
-
 $('handToDeckBtn').onclick=()=>{
   if(selected && selected.where==='hand'){
     mainActive.push(selected.card);
     hand.splice(selected.index,1);
     shuffle(mainActive);
-    log(`${selected.card.name} foi devolvida da mão para o Deck. Baralho baralhado.`);
+    log(`${selected.card.name} devolvida ao Deck. Baralho baralhado.`, 'info');
     selected=null;
     render();
   } else {
@@ -618,7 +812,7 @@ $('handToGraveBtn').onclick=()=>{
   if(selected && selected.where==='hand'){ 
     grave.push(selected.card); 
     hand.splice(selected.index,1); 
-    log(`${selected.card.name} foi descartado para o Cemitério.`); 
+    log(`${selected.card.name} descartada para o Cemitério.`, 'danger'); 
     selected=null; 
     render();
   } else {
@@ -632,10 +826,14 @@ $('newGame').onclick=()=>{
   if(!getActiveDeck()){ alert('Selecione um deck primeiro.'); $('deckModal').classList.add('show'); return; }
   if(!confirm('Reiniciar o duelo?')) return; initDuelFromActive();
 };
+
 $('phases').onclick=e=>{
   const i=[...$('phases').children].indexOf(e.target); if(i<0)return;
   if(i===0 && phase===5){ turn++; if(mainActive.length) draw(); }
-  phase=i; if(i===5) log('Fim do turno '+turn+'.'); render();
+  phase=i; 
+  const phaseNames = ['Draw Phase', 'Standby Phase', 'Main Phase 1', 'Battle Phase', 'Main Phase 2', 'End Phase'];
+  log(`Fase alterada para: <strong>${phaseNames[i]}</strong> (Turno ${turn})`, 'info');
+  render();
 };
 
 document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
