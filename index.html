@@ -314,17 +314,38 @@ let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),
 let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
 let activeFieldCard = null;
 
-// Corrige baralhos antigos gravados de forma incompleta
+// Garante a leitura e higienização correta de dados para evitar crashes
 function sanitizeDecks(dList) {
-  return dList.map(d => ({ ...d, main: d.main || [], extra: d.extra || [], side: d.side || [] }));
+  if(!Array.isArray(dList)) return [];
+  return dList.map(d => ({ 
+    id: d.id || 'deck_'+Math.random(),
+    name: d.name || 'Deck',
+    main: Array.isArray(d.main) ? d.main : [], 
+    extra: Array.isArray(d.extra) ? d.extra : [], 
+    side: Array.isArray(d.side) ? d.side : [] 
+  }));
 }
 
 function loadStorage(){
   try{
-    decks = sanitizeDecks(JSON.parse(localStorage.getItem('ygomaster_decks')||'[]')); 
-    activeDeckId=localStorage.getItem('ygomaster_active_id');
-  }catch(e){ decks=[]; }
+    let saved = localStorage.getItem('ygomaster_decks');
+    if(!saved) { decks = []; return; }
+    let parsed = JSON.parse(saved);
+    decks = sanitizeDecks(parsed);
+    
+    activeDeckId = localStorage.getItem('ygomaster_active_id');
+    if(activeDeckId && !decks.find(d => d.id === activeDeckId)) {
+       activeDeckId = decks.length ? decks[0].id : null;
+    }
+  }catch(e){ 
+    console.error("Erro. Limpeza forçada.", e);
+    decks = []; 
+    activeDeckId = null;
+    localStorage.removeItem('ygomaster_decks');
+    localStorage.removeItem('ygomaster_active_id');
+  }
 }
+
 function saveStorage(){try{localStorage.setItem('ygomaster_decks', JSON.stringify(decks)); if(activeDeckId) localStorage.setItem('ygomaster_active_id', activeDeckId);}catch(e){}}
 function getActiveDeck(){ return decks.find(d=>d.id===activeDeckId) || null; }
 function log(msg){const line=document.createElement('div');line.innerHTML='• '+msg;$('log').prepend(line);}
