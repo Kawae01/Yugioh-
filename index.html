@@ -142,9 +142,15 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .action-card-title {font-family:'Orbitron',sans-serif;color:var(--master-gold);font-size:11px;margin-bottom:4px;display:block}
 .action-buttons {display:grid;grid-template-columns:1fr 1fr;gap:6px}
 
-/* Grelhas Visuais */
+/* Grelhas Visuais e Opções de Carta em Lista Modal */
 .visual-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:55vh;overflow-y:auto;padding:5px 0}
 .visual-grid .card {width:100%; min-width:auto;}
+
+.modal-card-item {display:flex; align-items:center; justify-content:space-between; background:#050a12; border:1px solid var(--master-border); border-radius:6px; padding:6px; margin-bottom:5px;}
+.modal-card-item img {width:40px; height:55px; object-fit:cover; border-radius:3px; cursor:pointer;}
+.modal-card-item span {font-size:10px; color:#fff; flex:1; padding:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.modal-card-actions {display:flex; gap:4px;}
+.modal-card-actions button {padding:4px 8px; font-size:9px;}
 
 /* Zoom */
 .zoom-modal {z-index:200; align-items:center; justify-content:center}
@@ -229,11 +235,11 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 </div>
 
 <div class="lower">
-  <div class="pile" id="viewDeckMainPile"><div class="pile-top"><strong>DECK MAIN</strong><span class="count" id="deckPile">0</span></div><button style="pointer-events:none">Ver Cartas</button></div>
+  <div class="pile" id="viewDeckMainPile"><div class="pile-top"><strong>DECK MAIN</strong><span class="count" id="deckPile">0</span></div><button style="pointer-events:none">Ver / Puxar</button></div>
   <div class="pile" id="extraView"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button style="pointer-events:none">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Simulador pronto. Toque na pilha do Deck Main para puxar cartas para a mão.</div></div></div>
+<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Novas funções ativadas: Cemitério interativo, reciclar cartas pra mão/deck e Extra Deck funcional.</div></div></div>
 
 <!-- MODAL: GERENCIADOR -->
 <div class="modal" id="deckModal">
@@ -279,6 +285,24 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
+<!-- MODAL: AÇÕES DA MÃO (DEVOLVER AO DECK / DESCARTAR) -->
+<div class="modal" id="handActionModal">
+  <div class="sheet" style="max-height: 50vh;">
+    <div class="sheethead"><h2>Opções da Carta na Mão</h2><button id="closeHandModal">Fechar</button></div>
+    <div class="action-card-info">
+      <img id="handCardImg" src="" alt="Card" onclick="openZoom(activeHandCard.card)">
+      <div>
+        <span class="action-card-title" id="handCardName">Nome</span>
+        <div class="action-card-text" id="handCardDesc">Descrição</div>
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button class="primary" id="btnHandToDeck">🔄 Devolver ao Deck</button>
+      <button id="btnHandToGrave" class="danger">🪦 Enviar ao Cemitério</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL VISUAL: PROCURAR NO BARALHO -->
 <div class="modal" id="searchDeckModal">
   <div class="sheet">
@@ -291,25 +315,27 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 <!-- MODAL VISUAL: VER DECK COMPLETO (ADICIONAR À MÃO) -->
 <div class="modal" id="viewDeckModal">
   <div class="sheet">
-    <div class="sheethead"><h2>Deck Principal (Toque para adicionar à mão)</h2><button id="closeViewDeckModal">Fechar</button></div>
-    <p>Toque em qualquer carta para puxá-la diretamente para a sua mão.</p>
+    <div class="sheethead"><h2>Deck Principal</h2><button id="closeViewDeckModal">Fechar</button></div>
+    <p>Toque em qualquer carta para puxá-la diretamente para a mão.</p>
     <div class="visual-grid" id="viewDeckGrid"></div>
   </div>
 </div>
 
-<!-- MODAL VISUAL: CEMITÉRIO / BANIDAS -->
+<!-- MODAL VISUAL: CEMITÉRIO / BANIDAS (COM BOTÕES PRA MÃO E CAMPO) -->
 <div class="modal" id="graveModal">
   <div class="sheet">
-    <div class="sheethead"><h2 id="graveTitle">Cemitério</h2><button id="closeGraveModal">Fechar</button></div>
-    <div class="visual-grid" id="graveGrid"></div>
+    <div class="sheethead"><h2 id="graveTitle">Cemitério & Banidas</h2><button id="closeGraveModal">Fechar</button></div>
+    <p>Toque nos botões para recuperar cartas do Cemitério.</p>
+    <div id="graveListContainer" style="max-height:55vh; overflow-y:auto;"></div>
   </div>
 </div>
 
-<!-- MODAL VISUAL: DECK EXTRA -->
+<!-- MODAL VISUAL: DECK EXTRA (COM BOTÃO PRA INVOCAR PRO CAMPO) -->
 <div class="modal" id="extraModal">
   <div class="sheet">
-    <div class="sheethead"><h2>Deck Extra Ativo</h2><button id="closeExtraModal">Fechar</button></div>
-    <div class="visual-grid" id="extraGrid"></div>
+    <div class="sheethead"><h2>Deck Extra</h2><button id="closeExtraModal">Fechar</button></div>
+    <p>Toque nas opções para invocar ou mover monstros do Extra Deck.</p>
+    <div id="extraListContainer" style="max-height:55vh; overflow-y:auto;"></div>
   </div>
 </div>
 
@@ -329,7 +355,7 @@ const $=id=>document.getElementById(id);
 let decks = [], activeDeckId = null, editingDeckId = null;
 let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),oppMonsters:Array(5).fill(null),oppSpells:Array(5).fill(null)}, fieldState={myMonsters:Array(5).fill(0), oppMonsters:Array(5).fill(0)};
 let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
-let activeFieldCard = null;
+let activeFieldCard = null, activeHandCard = null;
 
 function sanitizeDecks(dList) {
   if(!Array.isArray(dList)) return [];
@@ -405,18 +431,50 @@ window.openZoom = function(cardObj) {
   $('zoomModal').classList.add('show');
 }
 
-/* INTERAÇÕES DE JOGO */
+/* INTERAÇÕES DE MÃO (CLIQUE = SELECIONAR / DUPLO CLIQUE OU BOTÃO = MENU DE MÃO) */
 $('hand').addEventListener('click', e=>{
   const el=e.target.closest('.card'); if(!el) return;
   const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i<0) return;
-  selected={where:'hand',index:i,card:hand[i]}; render();
+  selected={where:'hand',index:i,card:hand[i]}; 
+  render();
 });
+
 $('hand').addEventListener('dblclick', e=>{
   const el=e.target.closest('.card'); if(!el) return;
   const i=hand.findIndex(c=>String(c.id)===el.dataset.id);
-  if(i>=0) openZoom(hand[i]);
+  if(i>=0) {
+    activeHandCard = {card: hand[i], index: i};
+    $('handCardImg').src = img(hand[i]);
+    $('handCardName').textContent = hand[i].name;
+    $('handCardDesc').textContent = hand[i].desc;
+    $('handActionModal').classList.add('show');
+  }
 });
 
+$('closeHandModal').onclick = () => $('handActionModal').classList.remove('show');
+
+$('btnHandToDeck').onclick = () => {
+  if(!activeHandCard) return;
+  mainActive.push(activeHandCard.card);
+  hand.splice(activeHandCard.index, 1);
+  shuffle(mainActive);
+  log(`${activeHandCard.card.name} foi devolvida da mão para o Deck. Baralho baralhado.`);
+  $('handActionModal').classList.remove('show');
+  selected = null;
+  render();
+};
+
+$('btnHandToGrave').onclick = () => {
+  if(!activeHandCard) return;
+  grave.push(activeHandCard.card);
+  hand.splice(activeHandCard.index, 1);
+  log(`${activeHandCard.card.name} foi descartada da mão para o Cemitério.`);
+  $('handActionModal').classList.remove('show');
+  selected = null;
+  render();
+};
+
+/* INTERAÇÕES DO CAMPO */
 document.querySelector('.board').addEventListener('click', e=>{
   const z=e.target.closest('.zone'); if(!z) return;
   const key=z.dataset.zone, i=Number(z.dataset.index), c=field[key][i];
@@ -431,7 +489,6 @@ document.querySelector('.board').addEventListener('click', e=>{
   }
 });
 
-/* AÇÕES DO CAMPO */
 $('closeActionModal').onclick = () => $('actionModal').classList.remove('show');
 $('btnAtivarEfeito').onclick = () => { log(`<strong style="color:var(--master-gold)">⚡ EFEITO ATIVADO:</strong> ${activeFieldCard.card.name}.`); $('actionModal').classList.remove('show'); };
 $('btnMudarPosicao').onclick = () => { if(fieldState[activeFieldCard.key]) { fieldState[activeFieldCard.key][activeFieldCard.index] ^= 1; log(`Posição alterada.`); render(); } $('actionModal').classList.remove('show'); };
@@ -460,7 +517,7 @@ window.pickFromDeck = function(index) {
   log(`Procurou e adicionou ${card.name} à mão. Baralho baralhado.`); $('searchDeckModal').classList.remove('show'); render();
 };
 
-/* ABRIR DECK MAIN PARA PUXAR CARTAS DIRETAMENTE */
+/* DECK MAIN - VER E PUXAR PARA A MÃO */
 $('viewDeckMainPile').onclick = () => {
   if(!mainActive.length) return alert("Deck principal vazio.");
   $('viewDeckGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="drawSpecificFromDeck(${i})"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
@@ -477,21 +534,92 @@ window.drawSpecificFromDeck = function(index) {
   render();
 };
 
-/* JANELAS VISUAIS DE CEMITÉRIO E EXTRAS */
+/* CEMITÉRIO E BANIDAS - RECICLAR PARA MÃO OU CAMPO */
 $('graveViewBtn').onclick = () => {
   const allGrave = [...grave, ...banished];
   if(!allGrave.length) return alert("Cemitério e Banidas vazios.");
-  $('graveGrid').innerHTML = allGrave.map(c => `<div class="card" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
+  
+  $('graveListContainer').innerHTML = allGrave.map((c, idx) => `
+    <div class="modal-card-item">
+      <img src="${img(c)}" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})">
+      <span>${esc(c.name)}</span>
+      <div class="modal-card-actions">
+        <button class="primary" onclick="fromGraveToHand(${idx})">Pra Mão</button>
+        <button class="primary" style="background:linear-gradient(180deg,#2a9d8f,#1b4332)" onclick="fromGraveToField(${idx})">Pro Campo</button>
+      </div>
+    </div>
+  `).join('');
   $('graveModal').classList.add('show');
 };
 $('closeGraveModal').onclick = () => $('graveModal').classList.remove('show');
 
+window.fromGraveToHand = function(idx) {
+  const allGrave = [...grave, ...banished];
+  let card = allGrave[idx];
+  // Remove do grave ou banished real
+  if(idx < grave.length) { grave.splice(idx, 1); } 
+  else { banished.splice(idx - grave.length, 1); }
+  
+  hand.push(card);
+  log(`${card.name} voltou do Cemitério/Banidas para a Mão.`);
+  $('graveModal').classList.remove('show');
+  render();
+};
+
+window.fromGraveToField = function(idx) {
+  const isSpell = /Spell|Trap|Magia|Armadilha/i.test([...grave, ...banished][idx]?.type||'');
+  const key = isSpell ? 'mySpells' : 'myMonsters';
+  const slotIdx = field[key].findIndex(x => !x);
+  if(slotIdx < 0) return alert('Sem zona livre no campo.');
+
+  if(idx < grave.length) { var card = grave.splice(idx, 1)[0]; } 
+  else { var card = banished.splice(idx - grave.length, 1)[0]; }
+
+  field[key][slotIdx] = card;
+  log(`${card.name} foi revivido do Cemitério/Banidas para o Campo.`);
+  $('graveModal').classList.remove('show');
+  render();
+};
+
+/* DECK EXTRA - USAR MONSTROS EXTRA */
 $('extraView').onclick = () => {
   if(!extraActive.length) return alert("Deck Extra vazio.");
-  $('extraGrid').innerHTML = extraActive.map(c => `<div class="card" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
+  
+  $('extraListContainer').innerHTML = extraActive.map((c, idx) => `
+    <div class="modal-card-item">
+      <img src="${img(c)}" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})">
+      <span>${esc(c.name)}</span>
+      <div class="modal-card-actions">
+        <button class="primary" onclick="summonFromExtra(${idx})">Invocar</button>
+        <button onclick="extraToHand(${idx})">Pra Mão</button>
+      </div>
+    </div>
+  `).join('');
   $('extraModal').classList.add('show');
 };
 $('closeExtraModal').onclick = () => $('extraModal').classList.remove('show');
+
+window.summonFromExtra = function(idx) {
+  const card = extraActive[idx];
+  const isSpell = /Spell|Trap/i.test(card.type||'');
+  const key = isSpell ? 'mySpells' : 'myMonsters';
+  const slotIdx = field[key].findIndex(x => !x);
+  if(slotIdx < 0) return alert('Sem zona livre no campo.');
+
+  extraActive.splice(idx, 1);
+  field[key][slotIdx] = card;
+  log(`${card.name} foi invocado do Deck Extra para o Campo.`);
+  $('extraModal').classList.remove('show');
+  render();
+};
+
+window.extraToHand = function(idx) {
+  const card = extraActive.splice(idx, 1)[0];
+  hand.push(card);
+  log(`${card.name} foi movido do Extra para a Mão.`);
+  $('extraModal').classList.remove('show');
+  render();
+};
 
 /* BOTÕES BÁSICOS */
 $('summonBtn').onclick=()=>{ if(!selected || selected.where!=='hand') alert('Selecione na mão e clique numa zona vazia.'); };
