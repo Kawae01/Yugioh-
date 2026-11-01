@@ -33,7 +33,7 @@ h1{font-family:'Orbitron',sans-serif;font-size:15px;margin:0;letter-spacing:1px;
 h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
 .sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 
-/* Botões Globais */
+/* Botões */
 button, input {font-family:'Rajdhani',sans-serif}
 button{
   border:1px solid var(--master-border);background:linear-gradient(180deg, #1d3557 0%, #0d1b2a 100%);
@@ -50,7 +50,7 @@ button.primary{
 button.danger{background:linear-gradient(180deg, #d90429 0%, #720026 100%);border-color:#ef233c}
 button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:none!important}
 
-/* Toolbar de Ações Rápidas (Assistentes) */
+/* Toolbar de Jogo */
 .toolbar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:8px}
 .toolbar button{padding:6px 2px;font-size:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
 .toolbar button span:first-child{font-size:14px}
@@ -94,7 +94,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .zone.rotated img{transform:rotate(90deg);object-fit:contain} 
 .dividerline{border-top:1px solid rgba(0, 242, 254, 0.3);margin:8px 2px;box-shadow:0 0 8px var(--master-cyan-glow)}
 
-/* Mão */
+/* Mão e Cartas */
 .hand-wrap{
   background:var(--master-panel);border:1px solid var(--master-border);
   border-radius:8px;padding:10px;margin-bottom:8px;box-shadow:0 4px 15px rgba(0,0,0,0.6);
@@ -111,12 +111,13 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 }
 .card img{display:block;width:100%;aspect-ratio:0.69;object-fit:cover}
 .card.selected{outline:3px solid #fff;transform:translateY(-6px);box-shadow:0 0 15px var(--master-gold)}
+.card .ct{font-size:7px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#03070c;text-align:center;color:#fff}
 
-/* Controles de Ação de Mão */
+/* Controles Base */
 .controls{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
 .controls button{padding:10px 2px;font-size:10px}
 
-/* Decks e Pilhas */
+/* Decks / Pilhas */
 .lower{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
 .pile{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between}
 .pile-top{display:flex;justify-content:space-between;align-items:center}
@@ -130,7 +131,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .log{font-size:10px;color:#a4b6c6;max-height:80px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
 .log div{border-left:2px solid var(--master-cyan);padding-left:6px}
 
-/* Modais */
+/* Modais Gerais */
 .modal{position:fixed;inset:0;background:rgba(3, 7, 13, 0.92);backdrop-filter:blur(6px);display:none;align-items:flex-end;z-index:100;}
 .modal.show{display:flex}
 .sheet{
@@ -143,25 +144,42 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .sheet h2{font-size:16px;margin:0;font-family:'Orbitron',sans-serif;color:#fff}
 .sheet p{font-size:11px;color:var(--muted);margin:0 0 12px;line-height:1.3}
 
-/* Modal Ações do Campo */
+/* UI do Menu de Ações (Efeitos) */
 .action-card-info {display:flex;gap:12px;margin-bottom:12px;background:#050a12;padding:10px;border-radius:8px;border:1px solid var(--master-border)}
 .action-card-info img {width:60px;border-radius:4px}
 .action-card-text {flex:1;font-size:10px;color:var(--text);overflow-y:auto;max-height:80px;text-align:justify;padding-right:4px}
 .action-card-title {font-family:'Orbitron',sans-serif;color:var(--master-gold);font-size:11px;margin-bottom:4px;display:block}
 .action-buttons {display:grid;grid-template-columns:1fr 1fr;gap:6px}
 
-/* Modal Busca de Baralho (Ferramenta de Efeito) */
+/* UI do Procurar no Baralho */
 .deck-search-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-height:50vh;overflow-y:auto;padding:10px 0}
 .deck-search-grid .card {width:100%; min-width:auto;}
 
-/* Outros Componentes Reutilizados */
+/* UI do Gerenciador de Decks e Busca */
 .deck-mgr-card{background:#0f1d2c;border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .deck-info{font-size:11px}
 .deck-info strong{font-size:13px;color:var(--master-gold);display:block;font-family:'Orbitron',sans-serif}
 .deck-actions{display:flex;gap:4px}
 .deck-actions button{padding:6px 10px;font-size:10px}
+.deck-section-title{font-size:11px;color:var(--master-cyan);margin:12px 0 6px;border-bottom:1px solid var(--master-border);padding-bottom:3px;font-weight:700;font-family:'Orbitron',sans-serif;text-transform:uppercase}
+.deck-list-item{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 8px;background:rgba(0,0,0,0.3);border-radius:6px;margin-bottom:4px}
+
 .searchrow{display:flex;gap:6px;margin-bottom:6px}
 .searchrow input{flex:1;background:#050a12;border:1px solid var(--master-border);border-radius:6px;color:white;padding:10px 12px;font-size:13px}
+.searchrow input:focus{outline:1px solid var(--master-cyan)}
+.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:220px;overflow-y:auto;padding-right:2px;margin-bottom:15px;border-bottom:1px dashed var(--master-border);padding-bottom:10px}
+.result{background:#101c2b;border:1px solid var(--master-border);border-radius:8px;padding:6px;display:flex;flex-direction:column;justify-content:space-between}
+.result img{width:100%;aspect-ratio:0.69;object-fit:cover;border-radius:4px;margin-bottom:4px}
+.result b{font-size:9px;display:block;line-height:1.2;margin-bottom:4px;min-height:22px;overflow:hidden;color:#fff}
+.ban-badge{font-size:8px;padding:2px 4px;border-radius:4px;text-align:center;margin-bottom:6px;font-weight:700}
+.badge-3{background:#0a2f1d;color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.badge-2{background:#3a2f0a;color:#facc15;border:1px solid rgba(250,204,21,0.3)}
+.badge-1{background:#3a1d0a;color:#fb923c;border:1px solid rgba(251,146,60,0.3)}
+.badge-0{background:#3a0a0f;color:#f87171;border:1px solid rgba(248,113,113,0.3)}
+.result button{width:100%;padding:6px 2px;font-size:9px}
+
+.status-error{color:#f87171!important;font-weight:600}
+.status-ok{color:#4ade80!important;font-weight:600}
 </style>
 </head>
 <body>
@@ -196,13 +214,13 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 </div>
 
 <div class="board">
-  <div class="side-label">✦ OPONENT FIELD ✦</div>
+  <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
   <div class="zones" id="oppMonsters"></div>
   <div class="zones" id="oppSpells"></div>
   <div class="dividerline"></div>
   <div class="zones" id="mySpells"></div>
   <div class="zones" id="myMonsters"></div>
-  <div class="side-label">✦ YOUR FIELD ✦</div>
+  <div class="side-label">✦ SEU CAMPO ✦</div>
 </div>
 
 <div class="hand-wrap">
@@ -220,9 +238,9 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="pile"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button id="extraView">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Duel Log</h2><div class="log" id="log"><div>• O simulador de efeitos manuais está pronto.</div></div></div>
+<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• O simulador de efeitos manuais está pronto.</div></div></div>
 
-<!-- MODAL: GERENCIADOR -->
+<!-- MODAL: GERENCIADOR DE DECKS -->
 <div class="modal" id="deckModal">
   <div class="sheet">
     <div class="sheethead"><h2>Deck Manager</h2><button id="closeDeckMgr">Fechar</button></div>
@@ -231,14 +249,28 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- MODAL: EDITOR -->
+<!-- MODAL: EDITOR DE DECK COMPLETO -->
 <div class="modal" id="builderModal">
   <div class="sheet">
-    <!-- Removido HTML longo do editor para poupar espaço, é igual ao anterior! -->
     <div class="sheethead"><h2 id="builderTitle">Deck Editor</h2><button id="closeBuilder" class="primary">Concluído</button></div>
-    <div class="searchrow"><input id="query" placeholder="Ex: Dark Magician..." autocomplete="off"><button class="primary" id="searchBtn">Buscar</button></div>
-    <p id="searchStatus" style="font-size:10px;"></p><div id="results" class="results" style="display:flex; flex-direction:column; gap:4px; max-height:150px; overflow-y:auto; margin-bottom:10px;"></div>
-    <div id="listMain" style="max-height:100px;overflow-y:auto;border:1px solid #1d3557;padding:5px;margin-bottom:10px"></div>
+    
+    <div class="deck-section-title">1. Adicionar Cartas (Em Inglês)</div>
+    <div class="searchrow"><input id="query" placeholder="Ex: Dark Magician, Ash Blossom..." autocomplete="off"><button class="primary" id="searchBtn">Buscar</button></div>
+    <p id="searchStatus" aria-live="polite" style="font-size:10px; margin-bottom:5px;"></p>
+    
+    <div class="results" id="results">
+      <p style="font-size:10px; color:var(--muted); text-align:center; padding:10px; grid-column: 1 / -1;">Pesquise o nome da carta em INGLÊS.</p>
+    </div>
+    
+    <p style="font-size:11px; color:var(--muted); text-align:center; margin-bottom: 5px;">
+      Main: <span id="countMain">0</span>/60 | Extra: <span id="countExtra">0</span>/15
+    </p>
+    
+    <div class="deck-section-title">2. Main Deck</div>
+    <div id="listMain" style="max-height:120px;overflow-y:auto;padding-right:2px"></div>
+    
+    <div class="deck-section-title">3. Extra Deck</div>
+    <div id="listExtra" style="max-height:100px;overflow-y:auto;padding-right:2px"></div>
   </div>
 </div>
 
@@ -263,7 +295,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- MODAL: PROCURAR NO BARALHO (NOVA FERRAMENTA) -->
+<!-- MODAL: PROCURAR NO BARALHO -->
 <div class="modal" id="searchDeckModal">
   <div class="sheet">
     <div class="sheethead"><h2>Procurar no Baralho</h2><button id="closeSearchDeckModal">Fechar</button></div>
@@ -289,6 +321,7 @@ function log(msg){const line=document.createElement('div');line.innerHTML='• '
 function img(c){return c?.card_images?.[0]?.image_url_small||'';}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function cardHTML(c,cls=''){return `<div class="card ${cls}" data-id="${c.id}"><img src="${img(c)}"><div class="ct">${esc(c.name)}</div></div>`}
+function getTCGLimit(c){const banTcg = c?.banlist_info?.ban_tcg; return banTcg==='Banned'?0:banTcg==='Limited'?1:banTcg==='Semi-Limited'?2:3;}
 
 function render(){
   const active = getActiveDeck();
@@ -297,6 +330,9 @@ function render(){
     $('deckPile').textContent = mainActive.length > 0 ? mainActive.length : active.main.length;
     $('extraPile').textContent = extraActive.length > 0 ? extraActive.length : active.extra.length;
     $('deckBtn').disabled = false;
+  } else {
+    $('activeDeckTitle').textContent = 'NENHUM DECK SELECIONADO';
+    $('deckPile').textContent = '0'; $('extraPile').textContent = '0'; $('deckBtn').disabled = true;
   }
   $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
   $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
@@ -323,7 +359,9 @@ function initDuelFromActive(){
 }
 function draw(){if(!mainActive.length)return log('Baralho vazio.'); hand.push(mainActive.shift()); log('Comprou 1 carta.'); render();}
 
-/* INTERAÇÕES DA MÃO E DO CAMPO */
+/* =======================================
+   INTERAÇÕES DE JOGO (MÃO E CAMPO)
+======================================= */
 $('hand').addEventListener('click', e=>{
   const el=e.target.closest('.card'); if(!el) return;
   const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i<0) return;
@@ -344,83 +382,135 @@ document.querySelector('.board').addEventListener('click', e=>{
   }
 });
 
-/* MENU DE AÇÕES RÁPIDAS (MODAL DA CARTA NO CAMPO) */
+/* AÇÕES DO CAMPO */
 $('closeActionModal').onclick = () => $('actionModal').classList.remove('show');
+$('btnAtivarEfeito').onclick = () => { log(`<strong style="color:var(--master-gold)">⚡ EFEITO ATIVADO:</strong> ${activeFieldCard.card.name}.`); $('actionModal').classList.remove('show'); };
+$('btnMudarPosicao').onclick = () => { if(fieldState[activeFieldCard.key]) { fieldState[activeFieldCard.key][activeFieldCard.index] ^= 1; log(`Posição alterada.`); render(); } $('actionModal').classList.remove('show'); };
+$('btnToHand').onclick = () => { hand.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`Voltou à mão.`); render(); $('actionModal').classList.remove('show'); };
+$('btnToGrave').onclick = () => { grave.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`Destruído.`); render(); $('actionModal').classList.remove('show'); };
+$('btnToBanish').onclick = () => { banished.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0; log(`Banido.`); render(); $('actionModal').classList.remove('show'); };
 
-$('btnAtivarEfeito').onclick = () => {
-  log(`<strong style="color:var(--master-gold)">⚡ EFEITO ATIVADO:</strong> ${activeFieldCard.card.name}.`);
-  $('actionModal').classList.remove('show');
-};
-$('btnMudarPosicao').onclick = () => {
-  if(fieldState[activeFieldCard.key]) { fieldState[activeFieldCard.key][activeFieldCard.index] ^= 1; log(`Posição de ${activeFieldCard.card.name} alterada.`); render(); }
-  $('actionModal').classList.remove('show');
-};
-$('btnToHand').onclick = () => {
-  hand.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0;
-  log(`${activeFieldCard.card.name} voltou à mão.`); render(); $('actionModal').classList.remove('show');
-};
-$('btnToGrave').onclick = () => {
-  grave.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0;
-  log(`${activeFieldCard.card.name} foi destruído.`); render(); $('actionModal').classList.remove('show');
-};
-$('btnToBanish').onclick = () => {
-  banished.push(activeFieldCard.card); field[activeFieldCard.key][activeFieldCard.index] = null; fieldState[activeFieldCard.key][activeFieldCard.index] = 0;
-  log(`${activeFieldCard.card.name} foi banido.`); render(); $('actionModal').classList.remove('show');
-};
-
-/* FERRAMENTAS ESPECIAIS (DADO E PROCURAR) */
-$('rngBtn').onclick = () => {
-  const result = Math.floor(Math.random() * 6) + 1;
-  const coin = Math.random() > 0.5 ? 'CARAS' : 'COROAS';
-  log(`🎲 Dado: <strong>${result}</strong> | 🪙 Moeda: <strong>${coin}</strong>`);
-};
+/* FERRAMENTAS ESPECIAIS */
+$('rngBtn').onclick = () => { log(`🎲 Dado: <strong>${Math.floor(Math.random() * 6) + 1}</strong> | 🪙 Moeda: <strong>${Math.random() > 0.5 ? 'CARAS' : 'COROAS'}</strong>`); };
 
 $('searchDeckToolBtn').onclick = () => {
-  if(!mainActive.length) return alert("Baralho está vazio.");
+  if(!mainActive.length) return alert("Baralho vazio.");
   $('deckSearchGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="pickFromDeck(${i})"><img src="${img(c)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
   $('searchDeckModal').classList.add('show');
 };
 $('closeSearchDeckModal').onclick = () => $('searchDeckModal').classList.remove('show');
-
 window.pickFromDeck = function(index) {
-  const card = mainActive.splice(index, 1)[0];
-  hand.push(card);
-  shuffle(mainActive); // Baralha automático após procurar
-  log(`Procurou e adicionou ${card.name} à mão. O baralho foi baralhado.`);
-  $('searchDeckModal').classList.remove('show');
-  render();
+  const card = mainActive.splice(index, 1)[0]; hand.push(card); shuffle(mainActive);
+  log(`Procurou e adicionou ${card.name} à mão. Baralho baralhado.`); $('searchDeckModal').classList.remove('show'); render();
 };
 
 /* BOTÕES BÁSICOS */
 $('summonBtn').onclick=()=>{ if(!selected || selected.where!=='hand') alert('Selecione na mão e clique numa zona vazia.'); };
 $('handToGraveBtn').onclick=()=>{ if(selected && selected.where==='hand'){ grave.push(selected.card); hand.splice(selected.index,1); log('Descartado.'); selected=null; render();} };
 $('drawBtn').onclick=draw;
+$('shuffleBtn').onclick=()=>{if(!mainActive.length)return; shuffle(mainActive); log('Deck embaralhado.'); render();};
 
-// INÍCIO
-loadStorage(); if(!activeDeckId && decks.length) activeDeckId=decks[0].id; if(activeDeckId) initDuelFromActive(); else render();
+$('newGame').onclick=()=>{
+  if(!getActiveDeck()){ alert('Selecione um deck primeiro.'); $('deckModal').classList.add('show'); return; }
+  if(!confirm('Reiniciar o duelo?')) return; initDuelFromActive();
+};
+$('phases').onclick=e=>{
+  const i=[...$('phases').children].indexOf(e.target); if(i<0)return;
+  if(i===0 && phase===5){ turn++; if(mainActive.length) draw(); }
+  phase=i; if(i===5) log('Fim do turno '+turn+'.'); render();
+};
 
-// CÓDIGO BÁSICO DE BUSCA NA API RESUMIDO (Editor de Deck)
-$('openDeckMgr').onclick=()=>{ $('deckModal').classList.add('show'); };
-$('closeDeckMgr').onclick=()=>{ $('deckModal').classList.remove('show'); };
-$('deckBtn').onclick=()=>{ if(activeDeckId) { editingDeckId=activeDeckId; $('builderModal').classList.add('show'); }};
-$('closeBuilder').onclick=()=>{ $('builderModal').classList.remove('show'); initDuelFromActive();};
+document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
+document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
+
+/* =======================================
+   GERENCIADOR E EDITOR DE DECKS
+======================================= */
+$('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
+$('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
+function renderDeckMgr(){
+  const container = $('deckListContainer');
+  if(!decks.length){ container.innerHTML='<p class="sub" style="text-align:center;">Nenhum deck criado.</p>'; return; }
+  container.innerHTML = decks.map(d=>{
+    const isActive = d.id === activeDeckId;
+    return `<div class="deck-mgr-card" style="${isActive?'border-color:var(--master-cyan);background:#13273d':''}">
+      <div class="deck-info"><strong>${esc(d.name)} ${isActive?'<span style="color:var(--master-cyan);font-size:10px;">(Ativo)</span>':''}</strong>
+      <span class="sub">Main: ${d.main.length} | Extra: ${d.extra.length}</span></div>
+      <div class="deck-actions"><button class="${isActive?'':'primary'}" onclick="selectDeck('${d.id}')">${isActive?'Jogar':'Usar'}</button>
+      <button onclick="openBuilder('${d.id}')">Editar</button><button class="danger" onclick="deleteDeck('${d.id}')">X</button></div></div>`;
+  }).join('');
+}
+window.selectDeck = function(id){ activeDeckId = id; saveStorage(); renderDeckMgr(); $('deckModal').classList.remove('show'); initDuelFromActive(); }
+window.deleteDeck = function(id){ if(!confirm('Excluir este deck?')) return; decks = decks.filter(d=>d.id!==id); if(activeDeckId===id) activeDeckId = decks.length ? decks[0].id : null; saveStorage(); renderDeckMgr(); render(); }
+$('createDeckBtn').onclick=()=>{
+  const nameInput = $('newDeckName'); const name = nameInput.value.trim(); if(!name) return;
+  decks.push({ id: 'deck_'+Date.now(), name, main: [], extra: [], side: [] });
+  if(!activeDeckId) activeDeckId = decks[decks.length-1].id; saveStorage(); nameInput.value=''; renderDeckMgr(); render();
+};
+
+/* EDITOR (PESQUISA + LIMITES) */
+$('deckBtn').onclick=()=>{ if(activeDeckId) openBuilder(activeDeckId); };
+$('closeBuilder').onclick=()=>{ $('builderModal').classList.remove('show'); render(); initDuelFromActive(); };
+function openBuilder(id){
+  editingDeckId = id; const d = decks.find(item=>item.id===id); if(!d) return;
+  $('builderTitle').textContent = 'Editor: ' + d.name; $('query').value = ''; $('results').innerHTML = ''; setSearchStatus('');
+  renderBuilderLists(); $('deckModal').classList.remove('show'); $('builderModal').classList.add('show');
+}
+function renderBuilderLists(){
+  const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
+  $('countMain').textContent = d.main.length; $('countExtra').textContent = d.extra.length;
+  const renderItems = (arr, type)=> arr.length ? arr.map((c,idx)=>`<div class="deck-list-item"><span>${esc(c.name)}</span><button class="danger" style="padding:2px 8px;font-size:9px" onclick="removeCardFromDeck('${type}', ${idx})">X</button></div>`).join('') : '<span class="sub" style="padding:4px 8px;display:block">Vazio</span>';
+  $('listMain').innerHTML = renderItems(d.main, 'main'); $('listExtra').innerHTML = renderItems(d.extra, 'extra');
+}
+window.removeCardFromDeck = function(type, idx){
+  const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
+  if(type==='main') d.main.splice(idx,1); else if(type==='extra') d.extra.splice(idx,1);
+  saveStorage(); renderBuilderLists();
+}
+function setSearchStatus(message,type=''){const el=$('searchStatus');el.textContent=message;el.className=type==='error'?'status-error':type==='ok'?'status-ok':''}
 
 $('searchBtn').onclick = async () => {
-  const q=$('query').value.trim(); if(!q) return;
+ const q=$('query').value.trim(); if(!q){setSearchStatus('Digite em inglês.','error');return;}
+ $('searchBtn').disabled=true; $('results').innerHTML=''; setSearchStatus('Buscando...');
+ try{
+  const response = await fetch(`${API}?fname=${encodeURIComponent(q)}`);
+  if(!response.ok) throw new Error('Carta não encontrada. Use o nome em INGLÊS.');
+  const json = await response.json();
+  $('results').innerHTML = json.data.map(c=>{
+    const limit = getTCGLimit(c); let badgeClass = 'badge-'+limit;
+    let badgeText = limit===0?'PROIBIDA':limit===1?'LIM.(1)':limit===2?'SEMI(2)':'LIVRE(3)';
+    return `<div class="result"><img loading="lazy" src="${img(c)}"><b>${esc(c.name)}</b><div class="ban-badge ${badgeClass}">${badgeText}</div><button class="primary" data-add="${c.id}">Adicionar</button></div>`;
+  }).join('');
+  setSearchStatus(json.data.length+' encontrada(s).','ok');
+ } catch(error){ setSearchStatus(error.message, 'error'); } finally { $('searchBtn').disabled=false; }
+}
+$('query').addEventListener('keydown', e=>{if(e.key==='Enter') $('searchBtn').click()});
+
+$('results').onclick=async e=>{
+  const button=e.target.closest('[data-add]'); if(!button) return;
+  button.disabled=true; button.textContent='...';
   try{
-    const res = await fetch(`${API}?fname=${encodeURIComponent(q)}`);
-    const json = await res.json();
-    $('results').innerHTML = json.data.map(c=>`<div style="background:#1d3557;padding:5px;border-radius:4px;display:flex;justify-content:space-between;align-items:center;font-size:10px;"><span style="color:#fff">${esc(c.name)}</span><button class="primary" onclick="addCardToMain(${c.id})" style="padding:4px 8px;font-size:9px;">Add</button></div>`).join('');
-  } catch(e) { $('searchStatus').textContent = 'Erro. Escreva em inglês.'; }
+    const response = await fetch(`${API}?id=${encodeURIComponent(button.dataset.add)}`);
+    const c=(await response.json()).data?.[0]; if(!c) throw new Error('Erro.');
+    const d = decks.find(item=>item.id===editingDeckId); const limit = getTCGLimit(c);
+    if(limit === 0){ alert('Carta PROIBIDA (Banlist TCG).'); button.disabled=false; button.textContent='Adicionar'; return; }
+    if([...d.main, ...d.extra, ...d.side].filter(x=>x.id===c.id).length >= limit){ alert(`Limite atingido! Máx: ${limit}.`); button.disabled=false; button.textContent='Adicionar'; return; }
+
+    if(/Fusion|Synchro|XYZ|Xyz|Link/i.test(c.type||'')){
+      if(d.extra.length >= 15){ alert('Deck Extra cheio.'); button.disabled=false; button.textContent='Add'; return; } d.extra.push(c);
+    } else {
+      if(d.main.length >= 60){ alert('Main cheio.'); button.disabled=false; button.textContent='Add'; return; } d.main.push(c);
+    }
+    saveStorage(); renderBuilderLists();
+    button.textContent='✓ ADD!'; setTimeout(()=>{ button.disabled=false; button.textContent='Adicionar'; }, 800);
+  }catch(error){ button.disabled=false; button.textContent='Adicionar'; setSearchStatus(error.message,'error'); }
 };
-window.addCardToMain = async (id) => {
-  const d = decks.find(item=>item.id===editingDeckId);
-  const res = await fetch(`${API}?id=${id}`); const c = (await res.json()).data[0];
-  d.main.push(c); saveStorage(); log(c.name+' inserido no baralho.');
-};
-$('createDeckBtn').onclick=()=>{
-  const n = $('newDeckName').value; if(n){ decks.push({id:'d'+Date.now(), name:n, main:[], extra:[], side:[]}); activeDeckId=decks[decks.length-1].id; saveStorage(); $('deckModal').classList.remove('show'); }
-};
+
+function viewPile(title,arr){ alert(title+':\n\n'+(arr.length?arr.map(c=>c.name).join('\n'):'Vazio')); }
+$('graveViewBtn').onclick=()=>viewPile('Cemitério / Banidas', [...grave, {name:'--- BANIDAS ---'}, ...banished]);
+$('extraView').onclick=()=>viewPile('Deck Extra Ativo', extraActive);
+
+loadStorage(); if(!activeDeckId && decks.length) activeDeckId=decks[0].id; if(activeDeckId) initDuelFromActive(); else render();
 </script>
 </body>
 </html>
