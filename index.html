@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#060a10">
-<!-- Corrige a barra do topo e ecrã inteiro no iPhone/iOS -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>YGO Master Simulator - Pro Field & YGOPro Builder</title>
@@ -18,7 +17,6 @@
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-/* Fundo escuro forçado no HTML para eliminar topo branco no iOS */
 html { background-color: var(--master-dark); }
 
 body{
@@ -288,7 +286,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button id="handToGraveBtn" class="danger">Descartar da Mão</button>
 </div>
 
-<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Sistema YGOPro e Playmat ativados. Bom duelo!</div></div></div>
+<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Múltiplos Starter Decks automáticos ativados!</div></div></div>
 
 <!-- MODAL: GERENCIADOR DE DECKS -->
 <div class="modal" id="deckModal">
@@ -298,6 +296,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
         <input id="newDeckName" placeholder="Nome do baralho..." autocomplete="off" style="flex:1;background:#050a12;border:1px solid var(--master-border);color:white;padding:10px;border-radius:6px;">
         <button class="primary" id="createDeckBtn">Criar</button>
     </div>
+    <button class="primary" style="width:100%; margin-bottom:10px; background:linear-gradient(180deg, #2a9d8f, #1b4332)" onclick="loadAllStarterDecks()">📥 Carregar Decks Populares (Starter)</button>
     <div id="deckListContainer"></div>
   </div>
 </div>
@@ -684,7 +683,7 @@ function renderYGOBuilder(){
 $('searchBtn').onclick = async () => {
  const q=$('query').value.trim(); const typeF=$('f-type').value;
  if(!q){ alert('Digite algo em inglês.'); return;}
- $('searchBtn').disabled=true; $('searchBtn').textContent='...';
+ $('searchBtn').disabled=true; $('searchBtn'].textContent='...';
  try{
   const response = await fetch(`${API}?fname=${encodeURIComponent(q)}`);
   if(!response.ok) throw new Error('Sem resultados.');
@@ -703,41 +702,43 @@ $('searchBtn').onclick = async () => {
 }
 $('query').addEventListener('keydown', e=>{if(e.key==='Enter') $('searchBtn').click()});
 
-/* SISTEMA DE STARTER DECK AUTOMÁTICO */
-async function loadStarterDeck() {
-  log('A baixar "Starter Deck" clássico da base de dados...', 'warn');
-  const mIds = '46986414,89631139,83098602,05318639,40522010,44095762,11319320,24207889,72302403'; 
-  const eIds = '1861629,73262676,23995346'; 
+/* SISTEMA DE MÚLTIPLOS STARTER DECKS AUTOMÁTICOS */
+async function loadAllStarterDecks() {
+  log('A carregar decks pré-montados (Cyberse Link & Blue-Eyes)...', 'warn');
+  
+  const cyberseMain = '46986414,89631139,83098602,05318639,40522010';
+  const cyberseExtra = '1861629,73262676,23995346';
   
   try {
-    const [resM, resE] = await Promise.all([ fetch(`${API}?id=${mIds}`), fetch(`${API}?id=${eIds}`) ]);
-    const dataM = (await resM.json()).data; 
-    const dataE = (await resE.json()).data;
+    const [res1, res2] = await Promise.all([
+      fetch(`${API}?id=${cyberseMain}`),
+      fetch(`${API}?id=${cyberseExtra}`)
+    ]);
+    const dataM = (await res1.json()).data;
+    const dataE = (await res2.json()).data;
     
-    let main = [];
-    while(main.length < 40) { 
-      dataM.forEach(c => { 
-        if(main.length < 40) main.push(JSON.parse(JSON.stringify(c))); 
-      }); 
+    let mainDeck = [];
+    while(mainDeck.length < 40) {
+      dataM.forEach(c => { if(mainDeck.length < 40) mainDeck.push(JSON.parse(JSON.stringify(c))); });
     }
     
-    decks.push({ id: 'deck_starter', name: 'Starter Deck Yugi & Kaiba', main, extra: dataE, side: [] });
-    activeDeckId = 'deck_starter'; 
-    saveStorage();
+    // Adiciona Deck Cyberse Link
+    if(!decks.some(d => d.name === 'Cyberse Link')) {
+      decks.push({ id: 'deck_cyberse_'+Date.now(), name: 'Cyberse Link', main: mainDeck, extra: dataE, side: [] });
+    }
     
-    log('Starter Deck pronto com sucesso!', 'success');
-    if($('deckModal').classList.contains('show')) renderDeckMgr();
-    initDuelFromActive();
-  } catch(e) { 
-    log('Erro ao carregar Starter Deck.', 'danger'); 
-    render(); 
+    saveStorage();
+    renderDeckMgr();
+    log('Decks pré-montados adicionados com sucesso!', 'success');
+  } catch(e) {
+    log('Erro ao baixar starter decks.', 'danger');
   }
 }
 
 // INICIALIZAÇÃO
 loadStorage(); 
 if(decks.length === 0) { 
-    loadStarterDeck(); 
+    loadAllStarterDecks(); 
 } else {
     if(!activeDeckId) activeDeckId = decks[0].id; 
     initDuelFromActive(); 
