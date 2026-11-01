@@ -20,7 +20,6 @@ body{
   padding:env(safe-area-inset-top) 8px calc(14px + env(safe-area-inset-bottom)); overflow-x:hidden;
 }
 
-/* Header */
 header{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   padding:10px 8px;background:linear-gradient(90deg, #0d1b2a, #1b263b);
@@ -33,7 +32,6 @@ h1{font-family:'Orbitron',sans-serif;font-size:15px;margin:0;letter-spacing:1px;
 h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
 .sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 
-/* Botões Globais */
 button, input {font-family:'Rajdhani',sans-serif}
 button{
   border:1px solid var(--master-border);background:linear-gradient(180deg, #1d3557 0%, #0d1b2a 100%);
@@ -50,12 +48,11 @@ button.primary{
 button.danger{background:linear-gradient(180deg, #d90429 0%, #720026 100%);border-color:#ef233c}
 button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:none!important}
 
-/* Toolbar de Jogo */
-.toolbar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:8px}
-.toolbar button{padding:6px 2px;font-size:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
-.toolbar button span:first-child{font-size:14px}
+/* Toolbar com 6 ferramentas rápidas */
+.toolbar{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:8px}
+.toolbar button{padding:6px 1px;font-size:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+.toolbar button span:first-child{font-size:13px}
 
-/* Stats */
 .stats{
   display:grid;grid-template-columns:1.2fr 0.8fr 1.2fr;gap:6px;
   background:var(--master-panel);border:1px solid var(--master-cyan);
@@ -67,13 +64,11 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .lp{display:flex;align-items:center;gap:4px;width:100%;justify-content:center}
 .lp button{padding:2px 6px;font-size:9px;background:#060a10;border-color:var(--master-border)}
 
-/* Fases */
 .phasebar{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
 .phasebar::-webkit-scrollbar{display:none}
 .phasebar button{white-space:nowrap;padding:6px 10px;font-size:10px;border-radius:4px;background:#0b1320;color:var(--muted);border-color:#162438}
 .phasebar button.active{background:linear-gradient(180deg,#0077b6,#03045e);border-color:var(--master-cyan);color:#fff;box-shadow:0 0 10px var(--master-cyan-glow)}
 
-/* Tabuleiro */
 .board{
   background:radial-gradient(ellipse at center, rgba(15, 48, 87, 0.8) 0%, rgba(8, 27, 41, 0.9) 70%, #040d14 100%);
   border:2px solid var(--master-cyan);border-radius:12px;padding:8px;
@@ -94,7 +89,6 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .zone.rotated img{transform:rotate(90deg);object-fit:contain} 
 .dividerline{border-top:1px solid rgba(0, 242, 254, 0.3);margin:8px 2px;box-shadow:0 0 8px var(--master-cyan-glow)}
 
-/* Mão e Cartas */
 .hand-wrap{
   background:var(--master-panel);border:1px solid var(--master-border);
   border-radius:8px;padding:10px;margin-bottom:8px;box-shadow:0 4px 15px rgba(0,0,0,0.6);
@@ -113,11 +107,9 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .card.selected{outline:3px solid #fff;transform:translateY(-6px);box-shadow:0 0 15px var(--master-gold)}
 .card .ct{font-size:7px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#03070c;text-align:center;color:#fff}
 
-/* Controles Base */
 .controls{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
 .controls button{padding:10px 2px;font-size:10px}
 
-/* Decks / Pilhas */
 .lower{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
 .pile{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between}
 .pile-top{display:flex;justify-content:space-between;align-items:center}
@@ -125,13 +117,12 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .pile .count{font-size:18px;font-family:'Orbitron',sans-serif;color:var(--master-gold)}
 .pile button{margin-top:6px;width:100%;font-size:9px;padding:6px 2px}
 
-/* Log */
 .panel{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px}
 .panel h2{font-size:12px;margin:0 0 6px;color:var(--master-cyan);font-family:'Orbitron',sans-serif;letter-spacing:.5px}
 .log{font-size:10px;color:#a4b6c6;max-height:80px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
 .log div{border-left:2px solid var(--master-cyan);padding-left:6px}
 
-/* Modais Gerais */
+/* Modais */
 .modal{position:fixed;inset:0;background:rgba(3, 7, 13, 0.92);backdrop-filter:blur(6px);display:none;align-items:flex-end;z-index:100;}
 .modal.show{display:flex}
 .sheet{
@@ -144,18 +135,23 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .sheet h2{font-size:16px;margin:0;font-family:'Orbitron',sans-serif;color:#fff}
 .sheet p{font-size:11px;color:var(--muted);margin:0 0 12px;line-height:1.3}
 
-/* UI do Menu de Ações (Efeitos) */
+/* Ações de Campo */
 .action-card-info {display:flex;gap:12px;margin-bottom:12px;background:#050a12;padding:10px;border-radius:8px;border:1px solid var(--master-border)}
-.action-card-info img {width:60px;border-radius:4px}
+.action-card-info img {width:60px;border-radius:4px;cursor:pointer}
 .action-card-text {flex:1;font-size:10px;color:var(--text);overflow-y:auto;max-height:80px;text-align:justify;padding-right:4px}
 .action-card-title {font-family:'Orbitron',sans-serif;color:var(--master-gold);font-size:11px;margin-bottom:4px;display:block}
 .action-buttons {display:grid;grid-template-columns:1fr 1fr;gap:6px}
 
-/* UI do Procurar no Baralho */
-.deck-search-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-height:50vh;overflow-y:auto;padding:10px 0}
-.deck-search-grid .card {width:100%; min-width:auto;}
+/* Grelhas Visuais para Pilhas e Procura */
+.visual-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:55vh;overflow-y:auto;padding:5px 0}
+.visual-grid .card {width:100%; min-width:auto;}
 
-/* UI do Gerenciador de Decks e Busca */
+/* Zoom de Carta */
+.zoom-modal {z-index:200; align-items:center; justify-content:center}
+.zoom-content {background:none; border:none; box-shadow:none; text-align:center; max-width:320px; padding:0}
+.zoom-content img {width:100%; border-radius:10px; box-shadow:0 0 30px rgba(0,242,254,0.5)}
+
+/* Editor e Outros */
 .deck-mgr-card{background:#0f1d2c;border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .deck-info{font-size:11px}
 .deck-info strong{font-size:13px;color:var(--master-gold);display:block;font-family:'Orbitron',sans-serif}
@@ -176,8 +172,6 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
 .badge-2{background:#3a2f0a;color:#facc15;border:1px solid rgba(250,204,21,0.3)}
 .badge-1{background:#3a1d0a;color:#fb923c;border:1px solid rgba(251,146,60,0.3)}
 .badge-0{background:#3a0a0f;color:#f87171;border:1px solid rgba(248,113,113,0.3)}
-.result button{width:100%;padding:6px 2px;font-size:9px}
-
 .status-error{color:#f87171!important;font-weight:600}
 .status-ok{color:#4ade80!important;font-weight:600}
 </style>
@@ -199,7 +193,8 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button id="deckBtn" disabled><span>📦</span><span>Editar</span></button>
   <button id="drawBtn"><span>📥</span><span>Comprar</span></button>
   <button id="searchDeckToolBtn"><span>🔍</span><span>Procurar</span></button>
-  <button id="rngBtn"><span>🎲</span><span>Dado/Moeda</span></button>
+  <button id="tokenBtn"><span>🪙</span><span>Token</span></button>
+  <button id="rngBtn"><span>🎲</span><span>Dado</span></button>
   <button id="graveViewBtn"><span>🪦</span><span>Cemitério</span></button>
 </div>
 
@@ -238,9 +233,9 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="pile"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button id="extraView">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• O simulador de efeitos manuais está pronto.</div></div></div>
+<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Simulador otimizado com zoom e janelas visuais pronto.</div></div></div>
 
-<!-- MODAL: GERENCIADOR DE DECKS -->
+<!-- MODAL: GERENCIADOR -->
 <div class="modal" id="deckModal">
   <div class="sheet">
     <div class="sheethead"><h2>Deck Manager</h2><button id="closeDeckMgr">Fechar</button></div>
@@ -249,37 +244,26 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- MODAL: EDITOR DE DECK COMPLETO -->
+<!-- MODAL: EDITOR -->
 <div class="modal" id="builderModal">
   <div class="sheet">
     <div class="sheethead"><h2 id="builderTitle">Deck Editor</h2><button id="closeBuilder" class="primary">Concluído</button></div>
-    
     <div class="deck-section-title">1. Adicionar Cartas (Em Inglês)</div>
-    <div class="searchrow"><input id="query" placeholder="Ex: Dark Magician, Ash Blossom..." autocomplete="off"><button class="primary" id="searchBtn">Buscar</button></div>
+    <div class="searchrow"><input id="query" placeholder="Ex: Dark Magician..." autocomplete="off"><button class="primary" id="searchBtn">Buscar</button></div>
     <p id="searchStatus" aria-live="polite" style="font-size:10px; margin-bottom:5px;"></p>
-    
-    <div class="results" id="results">
-      <p style="font-size:10px; color:var(--muted); text-align:center; padding:10px; grid-column: 1 / -1;">Pesquise o nome da carta em INGLÊS.</p>
-    </div>
-    
-    <p style="font-size:11px; color:var(--muted); text-align:center; margin-bottom: 5px;">
-      Main: <span id="countMain">0</span>/60 | Extra: <span id="countExtra">0</span>/15
-    </p>
-    
-    <div class="deck-section-title">2. Main Deck</div>
-    <div id="listMain" style="max-height:120px;overflow-y:auto;padding-right:2px"></div>
-    
-    <div class="deck-section-title">3. Extra Deck</div>
-    <div id="listExtra" style="max-height:100px;overflow-y:auto;padding-right:2px"></div>
+    <div class="results" id="results"><p style="font-size:10px; color:var(--muted); text-align:center; padding:10px; grid-column: 1 / -1;">Pesquise em INGLÊS.</p></div>
+    <p style="font-size:11px; color:var(--muted); text-align:center; margin-bottom: 5px;">Main: <span id="countMain">0</span>/60 | Extra: <span id="countExtra">0</span>/15</p>
+    <div class="deck-section-title">2. Main Deck</div><div id="listMain" style="max-height:120px;overflow-y:auto;padding-right:2px"></div>
+    <div class="deck-section-title">3. Extra Deck</div><div id="listExtra" style="max-height:100px;overflow-y:auto;padding-right:2px"></div>
   </div>
 </div>
 
-<!-- MODAL: AÇÕES RÁPIDAS DE CAMPO -->
+<!-- MODAL: AÇÕES DO CAMPO -->
 <div class="modal" id="actionModal">
   <div class="sheet" style="max-height: 70vh;">
     <div class="sheethead"><h2>Menu da Carta</h2><button id="closeActionModal">Fechar</button></div>
     <div class="action-card-info">
-      <img id="actionCardImg" src="" alt="Card">
+      <img id="actionCardImg" src="" alt="Card" onclick="openZoom(activeFieldCard.card)">
       <div>
         <span class="action-card-title" id="actionCardName">Nome</span>
         <div class="action-card-text" id="actionCardDesc">Descrição</div>
@@ -295,12 +279,36 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- MODAL: PROCURAR NO BARALHO -->
+<!-- MODAL VISUAL: PROCURAR NO BARALHO -->
 <div class="modal" id="searchDeckModal">
   <div class="sheet">
     <div class="sheethead"><h2>Procurar no Baralho</h2><button id="closeSearchDeckModal">Fechar</button></div>
-    <p>Clique numa carta para a adicionar à mão. O baralho será baralhado automaticamente.</p>
-    <div class="deck-search-grid" id="deckSearchGrid"></div>
+    <p>Toque numa carta para a adicionar à mão. O baralho será baralhado.</p>
+    <div class="visual-grid" id="deckSearchGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL VISUAL: CEMITÉRIO / BANIDAS -->
+<div class="modal" id="graveModal">
+  <div class="sheet">
+    <div class="sheethead"><h2 id="graveTitle">Cemitério</h2><button id="closeGraveModal">Fechar</button></div>
+    <div class="visual-grid" id="graveGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL VISUAL: DECK EXTRA -->
+<div class="modal" id="extraModal">
+  <div class="sheet">
+    <div class="sheethead"><h2>Deck Extra Ativo</h2><button id="closeExtraModal">Fechar</button></div>
+    <div class="visual-grid" id="extraGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL: ZOOM / INSPEÇÃO DE CARTA -->
+<div class="modal zoom-modal" id="zoomModal">
+  <div class="zoom-content">
+    <img id="zoomImg" src="" alt="Zoom">
+    <button class="primary" style="margin-top:10px; width:100%" onclick="$('zoomModal').classList.remove('show')">Fechar Zoom</button>
   </div>
 </div>
 
@@ -314,7 +322,6 @@ let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),
 let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
 let activeFieldCard = null;
 
-// Garante a leitura e higienização correta de dados para evitar crashes
 function sanitizeDecks(dList) {
   if(!Array.isArray(dList)) return [];
   return dList.map(d => ({ 
@@ -330,28 +337,19 @@ function loadStorage(){
   try{
     let saved = localStorage.getItem('ygomaster_decks');
     if(!saved) { decks = []; return; }
-    let parsed = JSON.parse(saved);
-    decks = sanitizeDecks(parsed);
-    
+    decks = sanitizeDecks(JSON.parse(saved));
     activeDeckId = localStorage.getItem('ygomaster_active_id');
     if(activeDeckId && !decks.find(d => d.id === activeDeckId)) {
        activeDeckId = decks.length ? decks[0].id : null;
     }
-  }catch(e){ 
-    console.error("Erro. Limpeza forçada.", e);
-    decks = []; 
-    activeDeckId = null;
-    localStorage.removeItem('ygomaster_decks');
-    localStorage.removeItem('ygomaster_active_id');
-  }
+  }catch(e){ decks = []; activeDeckId = null; localStorage.clear(); }
 }
-
 function saveStorage(){try{localStorage.setItem('ygomaster_decks', JSON.stringify(decks)); if(activeDeckId) localStorage.setItem('ygomaster_active_id', activeDeckId);}catch(e){}}
 function getActiveDeck(){ return decks.find(d=>d.id===activeDeckId) || null; }
 function log(msg){const line=document.createElement('div');line.innerHTML='• '+msg;$('log').prepend(line);}
-function img(c){return c?.card_images?.[0]?.image_url_small||'';}
+function img(c){return c?.card_images?.[0]?.image_url_small||c?.card_images?.[0]?.image_url||'';}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function cardHTML(c,cls=''){return `<div class="card ${cls}" data-id="${c.id}"><img src="${img(c)}"><div class="ct">${esc(c.name)}</div></div>`}
+function cardHTML(c,cls=''){return `<div class="card ${cls}" data-id="${c.id}"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`}
 function getTCGLimit(c){const banTcg = c?.banlist_info?.ban_tcg; return banTcg==='Banned'?0:banTcg==='Limited'?1:banTcg==='Semi-Limited'?2:3;}
 
 function render(){
@@ -372,7 +370,7 @@ function render(){
     $(key).innerHTML = field[key].map((c,i)=>{
       const isDef = fieldState[key] && fieldState[key][i] === 1;
       const cls = `zone ${key.includes('Spells')?'spell':''} ${selected?.where===key&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
-      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${c?`<img src="${img(c)}">`:'<span class="hint">'+(key.includes('Spells')?'M/T':'MON')+'</span>'}</div>`;
+      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${c?`<img src="${img(c)}" alt="${esc(c.name)}">`:'<span class="hint">'+(key.includes('Spells')?'M/T':'MON')+'</span>'}</div>`;
     }).join('');
   }
   $('phases').querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===phase));
@@ -390,13 +388,24 @@ function initDuelFromActive(){
 }
 function draw(){if(!mainActive.length)return log('Baralho vazio.'); hand.push(mainActive.shift()); log('Comprou 1 carta.'); render();}
 
-/* =======================================
-   INTERAÇÕES DE JOGO (MÃO E CAMPO)
-======================================= */
+/* ZOOM DE CARTAS */
+window.openZoom = function(cardObj) {
+  if(!cardObj) return;
+  let imageUrl = cardObj?.card_images?.[0]?.image_url || img(cardObj);
+  $('zoomImg').src = imageUrl;
+  $('zoomModal').classList.add('show');
+}
+
+/* INTERAÇÕES DE JOGO */
 $('hand').addEventListener('click', e=>{
   const el=e.target.closest('.card'); if(!el) return;
   const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i<0) return;
   selected={where:'hand',index:i,card:hand[i]}; render();
+});
+$('hand').addEventListener('dblclick', e=>{
+  const el=e.target.closest('.card'); if(!el) return;
+  const i=hand.findIndex(c=>String(c.id)===el.dataset.id);
+  if(i>=0) openZoom(hand[i]);
 });
 
 document.querySelector('.board').addEventListener('click', e=>{
@@ -424,9 +433,17 @@ $('btnToBanish').onclick = () => { banished.push(activeFieldCard.card); field[ac
 /* FERRAMENTAS ESPECIAIS */
 $('rngBtn').onclick = () => { log(`🎲 Dado: <strong>${Math.floor(Math.random() * 6) + 1}</strong> | 🪙 Moeda: <strong>${Math.random() > 0.5 ? 'CARAS' : 'COROAS'}</strong>`); };
 
+// Criar Token genérico
+$('tokenBtn').onclick = () => {
+  const tokenCard = { id: 99999999, name: "Token", desc: "Special Summoned as a Token.", card_images: [{ image_url: "https://images.ygoprodeck.com/images/cards/0.jpg", image_url_small: "https://images.ygoprodeck.com/images/cards_small/0.jpg" }] };
+  hand.push(tokenCard);
+  log('🪙 Um Token foi adicionado à sua mão.');
+  render();
+};
+
 $('searchDeckToolBtn').onclick = () => {
   if(!mainActive.length) return alert("Baralho vazio.");
-  $('deckSearchGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="pickFromDeck(${i})"><img src="${img(c)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
+  $('deckSearchGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="pickFromDeck(${i})"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
   $('searchDeckModal').classList.add('show');
 };
 $('closeSearchDeckModal').onclick = () => $('searchDeckModal').classList.remove('show');
@@ -435,11 +452,26 @@ window.pickFromDeck = function(index) {
   log(`Procurou e adicionou ${card.name} à mão. Baralho baralhado.`); $('searchDeckModal').classList.remove('show'); render();
 };
 
+/* JANELAS VISUAIS DE CEMITÉRIO E EXTRAS */
+$('graveViewBtn').onclick = () => {
+  const allGrave = [...grave, ...banished];
+  if(!allGrave.length) return alert("Cemitério e Banidas vazios.");
+  $('graveGrid').innerHTML = allGrave.map(c => `<div class="card" onclick="openZoom(card)"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
+  $('graveModal').classList.add('show');
+};
+$('closeGraveModal').onclick = () => $('graveModal').classList.remove('show');
+
+$('extraView').onclick = () => {
+  if(!extraActive.length) return alert("Deck Extra vazio.");
+  $('extraGrid').innerHTML = extraActive.map(c => `<div class="card" onclick="openZoom(card)"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join('');
+  $('extraModal').classList.add('show');
+};
+$('closeExtraModal').onclick = () => $('extraModal').classList.remove('show');
+
 /* BOTÕES BÁSICOS */
 $('summonBtn').onclick=()=>{ if(!selected || selected.where!=='hand') alert('Selecione na mão e clique numa zona vazia.'); };
 $('handToGraveBtn').onclick=()=>{ if(selected && selected.where==='hand'){ grave.push(selected.card); hand.splice(selected.index,1); log('Descartado.'); selected=null; render();} };
 $('drawBtn').onclick=draw;
-$('shuffleBtn').onclick=()=>{if(!mainActive.length)return; shuffle(mainActive); log('Deck embaralhado.'); render();};
 
 $('newGame').onclick=()=>{
   if(!getActiveDeck()){ alert('Selecione um deck primeiro.'); $('deckModal').classList.add('show'); return; }
@@ -454,9 +486,7 @@ $('phases').onclick=e=>{
 document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
 document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
 
-/* =======================================
-   GERENCIADOR E EDITOR DE DECKS
-======================================= */
+/* GERENCIADOR E EDITOR */
 $('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
 $('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
 
@@ -483,7 +513,6 @@ $('createDeckBtn').onclick=()=>{
   render();
 };
 
-/* EDITOR */
 $('deckBtn').onclick=()=>{ if(activeDeckId) openBuilder(activeDeckId); };
 $('closeBuilder').onclick=()=>{ $('builderModal').classList.remove('show'); render(); initDuelFromActive(); };
 function openBuilder(id){
@@ -514,7 +543,7 @@ $('searchBtn').onclick = async () => {
   $('results').innerHTML = json.data.map(c=>{
     const limit = getTCGLimit(c); let badgeClass = 'badge-'+limit;
     let badgeText = limit===0?'PROIBIDA':limit===1?'LIM.(1)':limit===2?'SEMI(2)':'LIVRE(3)';
-    return `<div class="result"><img loading="lazy" src="${img(c)}"><b>${esc(c.name)}</b><div class="ban-badge ${badgeClass}">${badgeText}</div><button class="primary" data-add="${c.id}">Adicionar</button></div>`;
+    return `<div class="result"><img loading="lazy" src="${img(c)}" alt="${esc(c.name)}"><b>${esc(c.name)}</b><div class="ban-badge ${badgeClass}">${badgeText}</div><button class="primary" data-add="${c.id}">Adicionar</button></div>`;
   }).join('');
   setSearchStatus(json.data.length+' encontrada(s).','ok');
  } catch(error){ setSearchStatus(error.message, 'error'); } finally { $('searchBtn').disabled=false; }
@@ -540,10 +569,6 @@ $('results').onclick=async e=>{
     button.textContent='✓ ADD!'; setTimeout(()=>{ button.disabled=false; button.textContent='Adicionar'; }, 800);
   }catch(error){ button.disabled=false; button.textContent='Adicionar'; setSearchStatus(error.message,'error'); }
 };
-
-function viewPile(title,arr){ alert(title+':\n\n'+(arr.length?arr.map(c=>c.name).join('\n'):'Vazio')); }
-$('graveViewBtn').onclick=()=>viewPile('Cemitério / Banidas', [...grave, {name:'--- BANIDAS ---'}, ...banished]);
-$('extraView').onclick=()=>viewPile('Deck Extra Ativo', extraActive);
 
 loadStorage(); if(!activeDeckId && decks.length) activeDeckId=decks[0].id; if(activeDeckId) initDuelFromActive(); else render();
 </script>
