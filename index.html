@@ -4,11 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#060a10">
-<!-- Adicionado para corrigir o topo no iPhone -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>YGO Master Simulator - Pro Field</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<title>YGO Master Simulator - Pro Field & Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --master-blue:#0d1b2a; --master-dark:#060a10; --master-panel:rgba(13, 27, 42, 0.95);
@@ -18,13 +17,680 @@
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-/* Fundo escuro forçado para remover a faixa branca no topo do iOS */
-html {
-  background-color: var(--master-dark);
-}
+html { background-color: var(--master-dark); }
 
 body{
   margin:0; background:radial-gradient(circle at 50% 20%, #1b263b 0%, #060a10 80%);
   color:var(--text); font-family:'Rajdhani',sans-serif; min-height:100vh;
   padding:env(safe-area-inset-top) 8px calc(14px + env(safe-area-inset-bottom)); overflow-x:hidden;
 }
+
+/* HEADER & TOOLBAR */
+header{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:10px;background:linear-gradient(90deg, #0d1b2a, #1b263b);
+  border-bottom:2px solid var(--master-cyan);border-radius:10px;margin-bottom:8px;
+  box-shadow:0 0 15px var(--master-cyan-glow);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:38px;height:38px;object-fit:contain;filter:drop-shadow(0 0 8px var(--master-cyan))}
+h1{font-family:'Orbitron',sans-serif;font-size:15px;margin:0;letter-spacing:1px;font-weight:900;color:#fff}
+h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
+.sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+button, input, select {font-family:'Rajdhani',sans-serif}
+button{
+  border:1px solid var(--master-border);background:linear-gradient(180deg, #1d3557 0%, #0d1b2a 100%);
+  color:var(--text);border-radius:6px;padding:8px 10px;font-weight:700;font-size:11px;
+  cursor:pointer;transition:all .15s ease;box-shadow:0 2px 5px rgba(0,0,0,0.4);
+  text-transform:uppercase;letter-spacing:.5px;display:inline-flex;align-items:center;justify-content:center;gap:4px;
+}
+button:active{transform:scale(0.96)}
+button.primary{background:linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);border-color:var(--master-cyan);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.5);box-shadow:0 0 12px var(--master-cyan-glow)}
+button.danger{background:linear-gradient(180deg, #d90429 0%, #720026 100%);border-color:#ef233c}
+button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:none!important}
+
+.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px}
+.toolbar button{padding:6px 2px;font-size:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+.toolbar img{width:16px;height:16px;object-fit:contain}
+
+.stats{
+  display:grid;grid-template-columns:1.2fr 0.8fr 1.2fr;gap:6px;
+  background:var(--master-panel);border:1px solid var(--master-cyan);
+  border-radius:8px;padding:8px;margin-bottom:8px;box-shadow:inset 0 0 15px rgba(0,242,254,0.15);
+}
+.stat{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stat small{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.stat strong{font-size:15px;font-family:'Orbitron',sans-serif;color:var(--master-gold);text-shadow:0 0 8px rgba(255,215,0,0.4)}
+.lp{display:flex;align-items:center;gap:3px;width:100%;justify-content:center}
+.lp button{padding:2px 5px;font-size:9px;background:#060a10;border-color:var(--master-border)}
+
+.phasebar{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+.phasebar::-webkit-scrollbar{display:none}
+.phasebar button{white-space:nowrap;padding:5px 8px;font-size:9px;border-radius:4px;background:#0b1320;color:var(--muted);border-color:#162438}
+.phasebar button.active{background:linear-gradient(180deg,#0077b6,#03045e);border-color:var(--master-cyan);color:#fff;box-shadow:0 0 10px var(--master-cyan-glow)}
+
+/* TABULEIRO PLAYMAT */
+.board{
+  background: linear-gradient(rgba(4, 13, 22, 0.85), rgba(4, 13, 22, 0.85)), url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000') center/cover no-repeat;
+  border:2px solid var(--master-cyan);border-radius:12px;padding:10px 6px;
+  box-shadow:0 0 25px rgba(0,242,254,0.2), inset 0 0 45px rgba(0,0,0,0.9);
+  margin-bottom:8px;position:relative;
+}
+.side-label{font-size:8px;color:var(--master-cyan);letter-spacing:2px;text-align:center;margin:2px 0 6px;font-weight:700;font-family:'Orbitron',sans-serif;text-shadow:0 0 6px var(--master-cyan-glow)}
+.field-row { display: grid; grid-template-columns: 1fr 5fr 1fr; gap: 4px; margin: 4px 0; }
+.emz-row { display: grid; grid-template-columns: 1fr 5fr 1fr; gap: 4px; margin: 2px 0; }
+.center-zones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.zone{
+  aspect-ratio:0.69;border:1px solid rgba(0, 242, 254, 0.35);border-radius:6px;
+  background:rgba(6, 21, 38, 0.6);display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;transition:all .15s;box-shadow:inset 0 0 15px rgba(0,0,0,0.6);
+}
+.zone.spell{background:rgba(12, 35, 48, 0.6);border-color:rgba(72, 202, 228, 0.35)}
+.zone.utility{background:rgba(20, 10, 30, 0.6);border-color:rgba(200, 50, 250, 0.35)} 
+.zone.emz{background:rgba(0, 40, 30, 0.6);border-color:rgba(0, 255, 170, 0.45)}
+.zone .hint{font-size:7px;color:rgba(255,255,255,0.4);text-align:center;font-weight:700;letter-spacing:1px}
+.zone img{width:100%;height:100%;object-fit:cover;cursor:pointer;position:relative;z-index:1}
+.zone.selected{outline:2px solid var(--master-gold);outline-offset:1px;box-shadow:0 0 15px rgba(255,215,0,0.6)}
+.zone.rotated img{transform:rotate(90deg);object-fit:contain} 
+.zone-count {
+  position:absolute; bottom:-2px; right:-2px; background:rgba(0,0,0,0.85); color:var(--master-gold);
+  font-size:9px; font-weight:900; font-family:'Orbitron',sans-serif; padding:2px 4px; 
+  border-radius:4px; border:1px solid var(--master-gold); z-index:2; text-shadow:0 0 5px #000;
+}
+.card-back {
+  width:100%; height:100%; background:repeating-linear-gradient(45deg, #4a192c, #4a192c 8px, #2a0815 8px, #2a0815 16px);
+  border:2px solid #8e44ad; border-radius:4px; box-shadow:inset 0 0 10px rgba(0,0,0,0.9);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1; position:relative;
+}
+
+.hand-wrap{
+  background:var(--master-panel);border:1px solid var(--master-border);
+  border-radius:8px;padding:10px;margin-bottom:8px;box-shadow:0 4px 15px rgba(0,0,0,0.6);
+}
+.section-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;margin-bottom:8px;color:var(--master-cyan);font-family:'Orbitron',sans-serif}
+.hand{display:flex;gap:8px;overflow-x:auto;min-height:108px;padding:4px 2px;-webkit-overflow-scrolling:touch}
+.hand::-webkit-scrollbar{height:4px}
+.hand::-webkit-scrollbar-thumb{background:var(--master-cyan);border-radius:2px}
+.card{
+  width:72px;min-width:72px;border:2px solid var(--master-gold);
+  border-radius:6px;overflow:hidden;background:#060a10;position:relative;
+  cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.6);transition:transform .15s;
+}
+.card img{display:block;width:100%;aspect-ratio:0.69;object-fit:cover}
+.card.selected{outline:3px solid #fff;transform:translateY(-6px);box-shadow:0 0 15px var(--master-gold)}
+.card .ct{font-size:7px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#03070c;text-align:center;color:#fff}
+
+.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-bottom:8px}
+.controls button{padding:10px 2px;font-size:10px}
+
+.panel{background:var(--master-panel);border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px}
+.panel h2{font-size:12px;margin:0 0 6px;color:var(--master-cyan);font-family:'Orbitron',sans-serif;letter-spacing:.5px}
+.log{font-size:10px;color:#a4b6c6;max-height:85px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:3px}
+.log div{border-left:2px solid var(--master-cyan);padding-left:6px}
+
+/* MODAIS BASE */
+.modal{position:fixed;inset:0;background:rgba(3, 7, 13, 0.92);backdrop-filter:blur(6px);display:none;align-items:flex-end;z-index:100;}
+.modal.show{display:flex}
+.sheet{
+  background:#0b1522;border:1px solid var(--master-border);border-top:2px solid var(--master-cyan);
+  border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding:16px;
+  box-shadow:0 -10px 40px rgba(0,242,254,0.25);
+}
+.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sheet h2{font-size:16px;margin:0;font-family:'Orbitron',sans-serif;color:#fff}
+
+/* Ações de Campo */
+.action-card-info {display:flex;gap:12px;margin-bottom:12px;background:#050a12;padding:10px;border-radius:8px;border:1px solid var(--master-border)}
+.action-card-info img {width:60px;border-radius:4px;cursor:pointer}
+.action-card-text {flex:1;font-size:10px;color:var(--text);overflow-y:auto;max-height:80px;text-align:justify;padding-right:4px}
+.action-card-title {font-family:'Orbitron',sans-serif;color:var(--master-gold);font-size:11px;margin-bottom:4px;display:block}
+.action-buttons {display:grid;grid-template-columns:1fr 1fr;gap:6px}
+
+/* Grelhas Modais */
+.visual-grid {display:grid;grid-template-columns:repeat(5,1fr);gap:4px;max-height:55vh;overflow-y:auto;padding:5px 0}
+.visual-grid .card {width:100%; min-width:auto;}
+.modal-card-item {display:flex; align-items:center; justify-content:space-between; background:#050a12; border:1px solid var(--master-border); border-radius:6px; padding:6px; margin-bottom:5px;}
+.modal-card-item img {width:40px; height:55px; object-fit:cover; border-radius:3px; cursor:pointer;}
+.modal-card-item span {font-size:10px; color:#fff; flex:1; padding:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.modal-card-actions {display:flex; gap:4px;}
+
+.zoom-modal {z-index:200; align-items:center; justify-content:center}
+.zoom-content {background:none; border:none; box-shadow:none; text-align:center; max-width:320px; padding:0}
+.zoom-content img {width:100%; border-radius:10px; box-shadow:0 0 30px rgba(0,242,254,0.5)}
+
+/* GERENCIADOR DE DECKS BASE */
+.deck-mgr-card{background:#0f1d2c;border:1px solid var(--master-border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.deck-info{font-size:11px}
+.deck-info strong{font-size:13px;color:var(--master-gold);display:block;font-family:'Orbitron',sans-serif}
+.deck-actions{display:flex;gap:4px}
+
+/* =========================================
+   NOVO YGOPRO DECK BUILDER (FULLSCREEN)
+========================================= */
+.builder-fs {
+  position: fixed; inset: 0; background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000') center/cover no-repeat;
+  background-color: #020610; z-index: 150; display: none; flex-direction: column;
+}
+.builder-fs::before { content:''; position:absolute; inset:0; background:rgba(2, 6, 16, 0.85); backdrop-filter:blur(3px); z-index:0; }
+.builder-fs > * { position: relative; z-index: 1; }
+
+.b-head { display:flex; justify-content:space-between; align-items:center; padding:10px 15px; background:linear-gradient(90deg, #0d1b2a, #001233); border-bottom:2px solid var(--master-cyan); }
+.b-head h2 { margin:0; font-family:'Orbitron',sans-serif; font-size:16px; color:#fff; text-shadow:0 0 8px var(--master-cyan); }
+
+.b-layout { display: flex; flex-direction: column; height: calc(100vh - 55px); }
+
+/* Painel Superior: Preview e Controles */
+.b-top { display:flex; gap:10px; padding:10px; background:rgba(6, 10, 16, 0.9); border-bottom:1px solid var(--master-border); }
+.b-preview-img { width: 85px; min-width: 85px; aspect-ratio: 0.69; border-radius: 4px; border:2px solid var(--master-gold); object-fit: cover; box-shadow:0 0 10px rgba(255,215,0,0.3); }
+.b-preview-info { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.b-preview-name { font-family:'Orbitron',sans-serif; color:var(--master-gold); font-size:12px; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.b-preview-stats { font-size:10px; color:var(--master-cyan); margin-bottom:4px; font-weight:700; }
+.b-preview-desc { font-size:9px; color:#cdd5e0; flex:1; overflow-y:auto; line-height:1.3; text-align:justify; padding-right:4px; }
+.b-preview-actions { display:flex; gap:6px; margin-top:6px; }
+
+/* Filtros de Pesquisa */
+.b-search-bar { display:flex; gap:6px; padding:10px; background:rgba(13, 27, 42, 0.8); border-bottom:1px solid var(--master-border); }
+.b-search-bar input { flex:1; background:#050a12; border:1px solid var(--master-border); color:#fff; padding:8px 10px; font-size:12px; border-radius:4px; }
+.b-search-bar select { background:#050a12; border:1px solid var(--master-border); color:var(--master-cyan); padding:8px; font-size:11px; border-radius:4px; font-weight:700; }
+
+/* Áreas de Grelha (YGOPro Style) */
+.b-scroll-area { flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px; }
+.b-section-title { font-family:'Orbitron',sans-serif; font-size:11px; color:#fff; background:linear-gradient(90deg, #1d3557, transparent); padding:4px 8px; border-left:3px solid var(--master-cyan); }
+.ygo-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:3px; }
+.ygo-grid img { width:100%; aspect-ratio:0.69; object-fit:cover; border-radius:3px; border:1px solid rgba(255,255,255,0.2); cursor:pointer; }
+.ygo-grid img:hover { border-color:var(--master-cyan); transform:scale(1.05); }
+.ygo-grid img.sel { border:2px solid var(--master-gold); box-shadow:0 0 10px var(--master-gold); }
+
+/* Ajuste de colunas para ecrãs maiores no mobile/tablet */
+@media (min-width: 400px) { .ygo-grid { grid-template-columns:repeat(8, 1fr); } }
+@media (min-width: 600px) { .ygo-grid { grid-template-columns:repeat(10, 1fr); } .b-layout { flex-direction:row; } .b-top { flex-direction:column; width:220px; border-bottom:none; border-right:1px solid var(--master-border); } .b-search-bar { flex-direction:column; } .b-preview-img { width:100%; max-width:180px; align-self:center; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="https://images.ygoprodeck.com/images/cards_small/46986414.jpg" alt="Icon">
+    <div><h1><span>MASTER</span> PRO</h1><div class="sub">TCG DUEL SIMULATOR</div></div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button id="openDeckMgr" class="primary">Decks</button>
+    <button id="newGame" class="danger">Resetar</button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <button id="deckBtn" disabled><img src="https://img.icons8.com/ios-filled/50/00f2fe/card-in-use.png" alt="Edit"><span>Editar</span></button>
+  <button id="drawBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/downloads.png" alt="Draw"><span>Comprar</span></button>
+  <button id="searchDeckToolBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/search--v1.png" alt="Search"><span>Procurar</span></button>
+  <button id="tokenBtn"><img src="https://img.icons8.com/ios-filled/50/00f2fe/token.png" alt="Token"><span>Token</span></button>
+</div>
+
+<div class="stats">
+ <div class="stat"><small>Seus LP</small><div class="lp"><button data-lp="-1000">−</button><strong id="myLP">8000</strong><button data-lp="1000">+</button></div></div>
+ <div class="stat"><small>Turno</small><strong id="turn">1</strong></div>
+ <div class="stat"><small>Oponente LP</small><div class="lp"><button data-opp="-1000">−</button><strong id="oppLP">8000</strong><button data-opp="1000">+</button></div></div>
+</div>
+
+<div class="phasebar" id="phases">
+  <button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button>
+</div>
+
+<!-- PLAYMAT OFICIAL COMPLETO -->
+<div class="board">
+  <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
+  
+  <div class="field-row">
+    <div class="zone utility" id="oppDeckZone"><span class="hint">DECK</span></div>
+    <div class="center-zones" id="oppSpells"></div>
+    <div class="zone utility" id="oppExtraZone"><span class="hint">EXTRA</span></div>
+  </div>
+  <div class="field-row">
+    <div class="zone utility" id="oppGraveZone"><span class="hint">GRAVE</span></div>
+    <div class="center-zones" id="oppMonsters"></div>
+    <div class="zone spell" data-zone="oppFieldSpell" data-index="0" id="oppFieldSpellZone"><span class="hint">FIELD</span></div>
+  </div>
+  
+  <div class="emz-row">
+    <div></div>
+    <div class="center-zones" id="extraMonsters"></div>
+    <div></div>
+  </div>
+  
+  <div class="field-row">
+    <div class="zone spell" data-zone="myFieldSpell" data-index="0" id="myFieldSpellZone"><span class="hint">FIELD</span></div>
+    <div class="center-zones" id="myMonsters"></div>
+    <div class="zone utility" id="myGraveZone" onclick="openGraveView()"></div>
+  </div>
+  <div class="field-row">
+    <div class="zone utility" id="myExtraZone" onclick="openExtraView()"></div>
+    <div class="center-zones" id="mySpells"></div>
+    <div class="zone utility" id="myDeckZone" onclick="openDeckView()"></div>
+  </div>
+  
+  <div class="side-label" style="margin-top:6px; margin-bottom:0;">✦ SEU CAMPO ✦</div>
+</div>
+
+<div class="hand-wrap">
+  <div class="section-head"><span id="activeDeckTitle">NENHUM DECK</span><span id="handCount" style="color:var(--text);font-size:10px">0 cartas</span></div>
+  <div class="hand" id="hand"><span class="sub" style="margin:auto;display:block;padding:20px 0;">Crie um baralho no topo para começar.</span></div>
+</div>
+
+<div class="controls">
+  <button id="intentFaceUpBtn" class="primary" style="box-shadow:0 0 10px var(--master-cyan-glow)">⚔️ JOGAR: FACE-UP</button>
+  <button id="intentSetBtn" style="background:#1a1010; border-color:#3a1010; color:var(--muted)">🛡️ JOGAR: BAIXAR (SET)</button>
+  <button id="handToDeckBtn" style="background:linear-gradient(180deg, #4361ee, #3a0ca3); border-color:#4895ef;">Devolver ao Deck</button>
+  <button id="handToGraveBtn" class="danger">Descartar da Mão</button>
+</div>
+
+<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Sistema YGOPro ativado. Abra o editor de decks para ver o novo layout.</div></div></div>
+
+<!-- MODAL: GERENCIADOR DE DECKS -->
+<div class="modal" id="deckModal">
+  <div class="sheet">
+    <div class="sheethead"><h2>Deck Manager</h2><button id="closeDeckMgr">Fechar</button></div>
+    <div style="display:flex;gap:6px;margin-bottom:10px">
+        <input id="newDeckName" placeholder="Nome do baralho..." autocomplete="off" style="flex:1;background:#050a12;border:1px solid var(--master-border);color:white;padding:10px;border-radius:6px;">
+        <button class="primary" id="createDeckBtn">Criar</button>
+    </div>
+    <div id="deckListContainer"></div>
+  </div>
+</div>
+
+<!-- =========================================
+     NOVO CONSTRUTOR DE DECKS (FULLSCREEN)
+========================================= -->
+<div class="builder-fs" id="builderModal">
+  <div class="b-head">
+    <h2 id="builderTitle">Deck Constructor</h2>
+    <button id="closeBuilder" class="primary">Gravar & Sair</button>
+  </div>
+  
+  <div class="b-layout">
+    
+    <!-- Esquerda/Topo: Preview da Carta Selecionada -->
+    <div class="b-top">
+      <img id="bPreviewImg" src="https://images.ygoprodeck.com/images/cards/back_high.jpg" class="b-preview-img" alt="Preview">
+      <div class="b-preview-info">
+        <div id="bPreviewName" class="b-preview-name">Selecione uma carta</div>
+        <div id="bPreviewStats" class="b-preview-stats">N/A</div>
+        <div id="bPreviewDesc" class="b-preview-desc">Pesquise ou toque numa carta na grelha para ver os detalhes.</div>
+        <div class="b-preview-actions">
+          <button id="bAddBtn" class="primary" style="flex:1;display:none;">+ Deck</button>
+          <button id="bRemBtn" class="danger" style="flex:1;display:none;">- Deck</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+        <!-- Barra de Pesquisa Rápida -->
+        <div class="b-search-bar">
+          <input id="query" placeholder="Buscar carta em Inglês..." autocomplete="off">
+          <select id="f-type">
+             <option value="">(Todos os Tipos)</option>
+             <option value="Monster">Monstros</option>
+             <option value="Spell Card">Magias</option>
+             <option value="Trap Card">Armadilhas</option>
+          </select>
+          <button class="primary" id="searchBtn">Buscar</button>
+        </div>
+        
+        <!-- Área Central com Grelhas -->
+        <div class="b-scroll-area">
+          <div class="b-section-title">RESULTADOS DA BUSCA <span id="resCount" style="color:var(--muted);font-size:9px"></span></div>
+          <div class="ygo-grid" id="gridResults"></div>
+          
+          <div class="b-section-title">MAIN DECK (<span id="countMain" style="color:var(--master-gold)">0</span>/60)</div>
+          <div class="ygo-grid" id="gridMain"></div>
+          
+          <div class="b-section-title">EXTRA DECK (<span id="countExtra" style="color:var(--master-gold)">0</span>/15)</div>
+          <div class="ygo-grid" id="gridExtra"></div>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AÇÕES DO CAMPO E MODAIS VISUAIS... -->
+<div class="modal" id="actionModal">
+  <div class="sheet" style="max-height: 70vh;">
+    <div class="sheethead"><h2>Menu da Carta no Campo</h2><button id="closeActionModal">Fechar</button></div>
+    <div class="action-card-info"><img id="actionCardImg" src="" alt="Card" onclick="openZoom(activeFieldCard.card)"><div><span class="action-card-title" id="actionCardName">Nome</span><div class="action-card-text" id="actionCardDesc">Descrição</div></div></div>
+    <div class="action-buttons">
+      <button class="primary" id="btnAtivarEfeito" style="grid-column: 1 / -1; background:linear-gradient(180deg, #d4af37, #997a00); color:#000;">⚡ Declarar Efeito</button>
+      <button id="btnMudarPosicao">🔄 Alterar Posição / Revelar</button><button id="btnToHand">Mover para a Mão</button><button id="btnToGrave" class="danger">Destruir (Cemitério)</button><button id="btnToBanish" style="background:#1a1010; border-color:#3a1010">Banir</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="searchDeckModal"><div class="sheet"><div class="sheethead"><h2>Procurar no Baralho</h2><button onclick="$('searchDeckModal').classList.remove('show')">Fechar</button></div><div class="visual-grid" id="deckSearchGrid"></div></div></div>
+<div class="modal" id="viewDeckModal"><div class="sheet"><div class="sheethead"><h2>Deck Principal</h2><button onclick="$('viewDeckModal').classList.remove('show')">Fechar</button></div><div class="visual-grid" id="viewDeckGrid"></div></div></div>
+<div class="modal" id="graveModal"><div class="sheet"><div class="sheethead"><h2 id="graveTitle">Cemitério & Banidas</h2><button onclick="$('graveModal').classList.remove('show')">Fechar</button></div><div id="graveListContainer" style="max-height:55vh; overflow-y:auto;"></div></div></div>
+<div class="modal" id="extraModal"><div class="sheet"><div class="sheethead"><h2>Deck Extra</h2><button onclick="$('extraModal').classList.remove('show')">Fechar</button></div><div id="extraListContainer" style="max-height:55vh; overflow-y:auto;"></div></div></div>
+<div class="modal zoom-modal" id="zoomModal"><div class="zoom-content"><img id="zoomImg" src="" alt="Zoom"><button class="primary" style="margin-top:10px; width:100%" onclick="$('zoomModal').classList.remove('show')">Fechar Zoom</button></div></div>
+
+<script>
+'use strict';
+const API='https://db.ygoprodeck.com/api/v7/cardinfo.php';
+const $=id=>document.getElementById(id);
+const CARD_BACK = 'https://images.ygoprodeck.com/images/cards/back_high.jpg';
+
+let decks = [], activeDeckId = null, editingDeckId = null;
+
+let hand=[], 
+    field={myMonsters:Array(5).fill(null), mySpells:Array(5).fill(null), myFieldSpell:[null], oppMonsters:Array(5).fill(null), oppSpells:Array(5).fill(null), oppFieldSpell:[null], extraMonsters:Array(5).fill(null)}, 
+    fieldState={myMonsters:Array(5).fill(0), myFieldSpell:[0], oppMonsters:Array(5).fill(0), oppFieldSpell:[0], extraMonsters:Array(5).fill(0)}, 
+    fieldSetState={myMonsters:Array(5).fill(false), mySpells:Array(5).fill(false), myFieldSpell:[false], oppMonsters:Array(5).fill(false), oppSpells:Array(5).fill(false), oppFieldSpell:[false], extraMonsters:Array(5).fill(false)};
+    
+let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
+let activeFieldCard = null;
+let playIntent = 'faceup'; 
+
+/* VARIÁVEIS DO NOVO BUILDER */
+let builderSearchResults = [];
+let builderSelectedCard = null; 
+let builderSelectedZone = null; // 'search', 'main', 'extra'
+let builderSelectedIndex = -1;
+
+function sanitizeDecks(dList) {
+  if(!Array.isArray(dList)) return [];
+  return dList.map(d => ({ id: d.id || 'deck_'+Math.random(), name: d.name || 'Deck', main: Array.isArray(d.main) ? d.main : [], extra: Array.isArray(d.extra) ? d.extra : [], side: Array.isArray(d.side) ? d.side : [] }));
+}
+
+function loadStorage(){
+  try{
+    let saved = localStorage.getItem('ygomaster_decks');
+    if(!saved) { decks = []; return; }
+    decks = sanitizeDecks(JSON.parse(saved));
+    activeDeckId = localStorage.getItem('ygomaster_active_id');
+    if(activeDeckId && !decks.find(d => d.id === activeDeckId)) { activeDeckId = decks.length ? decks[0].id : null; }
+  }catch(e){ decks = []; activeDeckId = null; localStorage.clear(); }
+}
+function saveStorage(){try{localStorage.setItem('ygomaster_decks', JSON.stringify(decks)); if(activeDeckId) localStorage.setItem('ygomaster_active_id', activeDeckId);}catch(e){}}
+function getActiveDeck(){ return decks.find(d=>d.id===activeDeckId) || null; }
+
+function log(msg, type='info'){
+  const line=document.createElement('div');
+  line.style.borderLeftColor = type==='success'?'#4ade80':type==='danger'?'#f87171':type==='warn'?'#ffd700':'var(--master-cyan)';
+  line.innerHTML='• '+msg; $('log').prepend(line);
+}
+function img(c){return c?.card_images?.[0]?.image_url_small||c?.card_images?.[0]?.image_url||'';}
+function imgHigh(c){return c?.card_images?.[0]?.image_url||c?.card_images?.[0]?.image_url_small||'';}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function getTCGLimit(c){const banTcg = c?.banlist_info?.ban_tcg; return banTcg==='Banned'?0:banTcg==='Limited'?1:banTcg==='Semi-Limited'?2:3;}
+
+$('intentFaceUpBtn').onclick = () => { playIntent = 'faceup'; $('intentFaceUpBtn').classList.add('primary'); $('intentFaceUpBtn').style.boxShadow = '0 0 10px var(--master-cyan-glow)'; $('intentSetBtn').classList.remove('primary'); $('intentSetBtn').style.background = '#1a1010'; $('intentSetBtn').style.boxShadow = 'none'; $('intentSetBtn').style.color = 'var(--muted)'; log('Cartas serão jogadas <strong>Face-Up</strong>.', 'info'); };
+$('intentSetBtn').onclick = () => { playIntent = 'set'; $('intentSetBtn').classList.add('primary'); $('intentSetBtn').style.background = 'linear-gradient(180deg, #d90429 0%, #720026 100%)'; $('intentSetBtn').style.boxShadow = '0 0 10px rgba(217, 4, 41, 0.4)'; $('intentSetBtn').style.color = '#fff'; $('intentFaceUpBtn').classList.remove('primary'); $('intentFaceUpBtn').style.background = '#1a1a24'; $('intentFaceUpBtn').style.boxShadow = 'none'; log('Modo Set! Cartas serão <strong>BAIXADAS</strong>.', 'warn'); };
+
+function render(){
+  const active = getActiveDeck();
+  if(active){ $('activeDeckTitle').textContent = active.name.toUpperCase(); $('deckBtn').disabled = false; } 
+  else { $('activeDeckTitle').textContent = 'NENHUM DECK SELECIONADO'; $('deckBtn').disabled = true; }
+  
+  $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
+  $('hand').innerHTML = hand.length?hand.map((c,i)=>`<div class="card ${selected?.where==='hand'&&selected.index===i?'selected':''}" data-id="${c.id}"><img src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
+  
+  const renderOrder = ['oppMonsters', 'oppSpells', 'extraMonsters', 'myMonsters', 'mySpells', 'myFieldSpell', 'oppFieldSpell'];
+  for(const key of renderOrder){
+    $(key).innerHTML = field[key].map((c,i)=>{
+      if(key === 'extraMonsters' && (i === 0 || i === 2 || i === 4)) return `<div></div>`;
+      const isDef = fieldState[key] && fieldState[key][i] === 1; const isSet = fieldSetState[key] && fieldSetState[key][i];
+      const cls = `zone ${key.includes('Spells')||key.includes('Field')?'spell':key==='extraMonsters'?'emz':''} ${selected?.where===key&&selected.index===i?'selected':''} ${isDef?'rotated':''}`;
+      let hintText = key.includes('Field') ? 'FIELD' : (key.includes('Spells') ? 'M/T' : key==='extraMonsters' ? 'EMZ' : 'MON');
+      let content = `<span class="hint">${hintText}</span>`;
+      if(c){ content = isSet ? `<div class="card-back"></div>` : `<img src="${img(c)}" alt="${esc(c.name)}">`; }
+      return `<div class="${cls}" data-zone="${key}" data-index="${i}">${content}</div>`;
+    }).join('');
+  }
+  
+  $('myDeckZone').innerHTML = mainActive.length ? `<img src="${CARD_BACK}" style="border-radius:4px"><div class="zone-count">${mainActive.length}</div>` : `<span class="hint">DECK</span>`;
+  $('myExtraZone').innerHTML = extraActive.length ? `<img src="${CARD_BACK}" style="border-radius:4px; filter:hue-rotate(240deg)"><div class="zone-count">${extraActive.length}</div>` : `<span class="hint">EXTRA</span>`;
+  $('myGraveZone').innerHTML = grave.length ? `<img src="${img(grave[grave.length-1])}" style="border-radius:4px"><div class="zone-count">${grave.length}</div>` : `<span class="hint">GRAVE</span>`;
+  $('phases').querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===phase));
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;}
+function initDuelFromActive(){
+  const active = getActiveDeck(); if(!active) return;
+  mainActive = [...active.main]; extraActive = [...active.extra]; shuffle(mainActive);
+  hand = []; grave = []; banished = []; selected = null; turn = 1; phase = 0; lp = opp = 8000;
+  field = {myMonsters:Array(5).fill(null), mySpells:Array(5).fill(null), myFieldSpell:[null], oppMonsters:Array(5).fill(null), oppSpells:Array(5).fill(null), oppFieldSpell:[null], extraMonsters:Array(5).fill(null)};
+  fieldState = {myMonsters:Array(5).fill(0), myFieldSpell:[0], oppMonsters:Array(5).fill(0), oppFieldSpell:[0], extraMonsters:Array(5).fill(0)};
+  fieldSetState = {myMonsters:Array(5).fill(false), mySpells:Array(5).fill(false), myFieldSpell:[false], oppMonsters:Array(5).fill(false), oppSpells:Array(5).fill(false), oppFieldSpell:[false], extraMonsters:Array(5).fill(false)};
+  for(let i=0; i<5 && mainActive.length>0; i++) hand.push(mainActive.shift());
+  log('Duelo iniciado!', 'success'); render();
+}
+function draw(){if(!mainActive.length)return log('Baralho vazio!', 'danger'); hand.push(mainActive.shift()); log('Comprou 1 carta.', 'success'); render();}
+window.openZoom = function(cardObj) { if(!cardObj) return; $('zoomImg').src = imgHigh(cardObj); $('zoomModal').classList.add('show'); }
+
+/* EVENTOS CAMPO / MÃO */
+$('hand').addEventListener('click', e=>{ const el=e.target.closest('.card'); if(!el) return; const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i>=0){ selected={where:'hand',index:i,card:hand[i]}; render(); }});
+$('hand').addEventListener('dblclick', e=>{ const el=e.target.closest('.card'); if(!el) return; const i=hand.findIndex(c=>String(c.id)===el.dataset.id); if(i>=0) openZoom(hand[i]); });
+document.querySelector('.board').addEventListener('click', e=>{
+  const z=e.target.closest('.zone'); if(!z) return;
+  const key=z.dataset.zone, i=Number(z.dataset.index); if(!key) return; 
+  const c = field[key][i];
+  
+  if(c){ 
+    const isAttacker = selected && selected.where.toLowerCase().includes('monster');
+    const isTarget = key.toLowerCase().includes('monster');
+    if(isAttacker && isTarget && selected.card !== c) {
+      const myCard = selected.card; const oppCard = c; const myAtk = Number(myCard.atk || 0);
+      const oppIsDef = fieldState[key][i] === 1 || fieldSetState[key][i]; const oppStat = oppIsDef ? Number(oppCard.def || 0) : Number(oppCard.atk || 0);
+      log(`⚔️ Batalha: <strong>${myCard.name}</strong> (${myAtk}) vs <strong>${oppCard.name}</strong> (${oppStat})!`, 'warn');
+      if(myAtk > oppStat) { field[key][i] = null; fieldSetState[key][i] = false; fieldState[key][i] = 0; grave.push(oppCard); if(!oppIsDef) { const diff = myAtk - oppStat; opp = Math.max(0, opp - diff); log(`🔥 Oponente perdeu ${diff} LP.`, 'success'); } else { log(`🛡️ Destruído em Defesa (sem dano).`, 'success'); } } 
+      else if(myAtk < oppStat) { const diff = oppStat - myAtk; lp = Math.max(0, lp - diff); if(!oppIsDef) { field[selected.where][selected.index] = null; fieldSetState[selected.where][selected.index] = false; grave.push(myCard); log(`💥 Seu monstro destruído! Perdeu ${diff} LP.`, 'danger'); } else { log(`💥 Falha contra defesa! Perdeu ${diff} LP.`, 'danger'); } } 
+      else { if(!oppIsDef) { field[selected.where][selected.index] = null; field[key][i] = null; fieldSetState[selected.where][selected.index] = false; fieldSetState[key][i] = false; grave.push(myCard); grave.push(oppCard); log(`🤝 Ambos destruídos!`, 'warn'); } else { log(`🤝 Empate na Defesa!`, 'info'); } }
+      selected = null; render(); return;
+    }
+    activeFieldCard = {card: c, key: key, index: i}; const isSet = fieldSetState[key][i];
+    $('actionCardImg').src = img(c); $('actionCardName').innerHTML = c.name + (isSet ? ' <span style="color:#f87171">(SET)</span>' : ''); $('actionCardDesc').textContent = c.desc;
+    if(isSet) { $('btnMudarPosicao').textContent = "🔄 Revelar (Flip)"; $('btnAtivarEfeito').style.display = 'none'; } else { $('btnMudarPosicao').textContent = "🔄 Alterar Posição"; $('btnAtivarEfeito').style.display = 'block'; }
+    $('actionModal').classList.add('show');
+  }
+  else if(selected?.where==='hand'){
+    const card = selected.card; const typeStr = (card.type || '').toLowerCase();
+    if (key === 'myFieldSpell' && !typeStr.includes('field')) return alert('Só Field Spells.');
+    if (key === 'mySpells' && !(typeStr.includes('spell') || typeStr.includes('trap'))) return alert('Zonas de Magia/Armadilha apenas.');
+    if ((key === 'myMonsters' || key === 'extraMonsters') && (typeStr.includes('spell') || typeStr.includes('trap'))) return alert('Zonas de Monstros apenas.');
+    hand.splice(selected.index, 1); field[key][i] = card; 
+    if(playIntent === 'set'){ fieldSetState[key][i] = true; if(key.includes('Monsters')) fieldState[key][i] = 1; log(`<strong>${card.name}</strong> BAIXADA.`, 'info'); } 
+    else { fieldSetState[key][i] = false; if(key.includes('Monsters')) fieldState[key][i] = 0; log(`<strong>${card.name}</strong> invocada/ativada.`, 'success'); }
+    selected = null; render();
+  } else if(selected && selected.where.toLowerCase().includes('monster') && key.toLowerCase().includes('monster')) {
+    field[key][i] = selected.card; fieldSetState[key][i] = fieldSetState[selected.where][selected.index]; fieldState[key][i] = fieldState[selected.where][selected.index];
+    field[selected.where][selected.index] = null; fieldSetState[selected.where][selected.index] = false; fieldState[selected.where][selected.index] = 0;
+    selected = null; log('Reposicionado.', 'info'); render();
+  }
+});
+$('closeActionModal').onclick = () => $('actionModal').classList.remove('show');
+$('btnAtivarEfeito').onclick = () => { log(`⚡ Efeito ativado: <strong>${activeFieldCard.card.name}</strong>.`, 'warn'); $('actionModal').classList.remove('show'); };
+$('btnMudarPosicao').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; if(fieldSetState[k][i]) { fieldSetState[k][i] = false; if(k.toLowerCase().includes('monster')) fieldState[k][i] = 0; log(`Revelado!`, 'warn'); } else { if(k.toLowerCase().includes('monster')) { fieldState[k][i] ^= 1; log(`Posição alterada.`); } } render(); $('actionModal').classList.remove('show'); };
+$('btnToHand').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; hand.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
+$('btnToGrave').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; grave.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
+$('btnToBanish').onclick = () => { const k = activeFieldCard.key, i = activeFieldCard.index; banished.push(activeFieldCard.card); field[k][i] = null; fieldState[k][i] = 0; fieldSetState[k][i] = false; render(); $('actionModal').classList.remove('show'); };
+
+/* MENUS BÁSICOS JOGO */
+window.openDeckView = function() { if(!mainActive.length) return; $('viewDeckGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="drawSpecificFromDeck(${i})"><img src="${img(c)}"></div>`).join(''); $('viewDeckModal').classList.add('show'); };
+window.drawSpecificFromDeck = function(index) { hand.push(mainActive.splice(index, 1)[0]); shuffle(mainActive); $('viewDeckModal').classList.remove('show'); render(); };
+window.openGraveView = function() { const allGrave = [...grave, ...banished]; if(!allGrave.length) return; $('graveListContainer').innerHTML = allGrave.map((c, idx) => `<div class="modal-card-item"><img src="${img(c)}" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})"><span>${esc(c.name)}</span><div class="modal-card-actions"><button class="primary" onclick="fromGraveToHand(${idx})">Pra Mão</button><button class="primary" onclick="fromGraveToField(${idx})">Pro Campo</button></div></div>`).join(''); $('graveModal').classList.add('show'); };
+window.fromGraveToHand = function(idx) { let card = [...grave, ...banished][idx]; if(idx < grave.length) grave.splice(idx, 1); else banished.splice(idx - grave.length, 1); hand.push(card); $('graveModal').classList.remove('show'); render(); };
+window.fromGraveToField = function(idx) { const card = [...grave, ...banished][idx]; const typeStr = (card.type || '').toLowerCase(); const key = (typeStr.includes('spell') || typeStr.includes('trap')) ? 'mySpells' : 'myMonsters'; const slotIdx = field[key].findIndex(x => !x); if(slotIdx < 0) return; if(idx < grave.length) grave.splice(idx, 1); else banished.splice(idx - grave.length, 1); field[key][slotIdx] = card; $('graveModal').classList.remove('show'); render(); };
+window.openExtraView = function() { if(!extraActive.length) return; $('extraListContainer').innerHTML = extraActive.map((c, idx) => `<div class="modal-card-item"><img src="${img(c)}" onclick="openZoom(${JSON.stringify(c).replace(/"/g, '&quot;')})"><span>${esc(c.name)}</span><div class="modal-card-actions"><button class="primary" onclick="summonFromExtra(${idx})">Invocar</button></div></div>`).join(''); $('extraModal').classList.add('show'); };
+window.summonFromExtra = function(idx) { const card = extraActive[idx]; const slotIdx = field['extraMonsters'].findIndex((x,i) => !x && (i===1||i===3)); if(slotIdx < 0) return alert('Sem zona EMZ livre.'); extraActive.splice(idx, 1); field['extraMonsters'][slotIdx] = card; $('extraModal').classList.remove('show'); render(); };
+
+$('searchDeckToolBtn').onclick = () => { if(!mainActive.length) return; $('deckSearchGrid').innerHTML = mainActive.map((c, i) => `<div class="card" onclick="pickFromDeck(${i})"><img src="${img(c)}"></div>`).join(''); $('searchDeckModal').classList.add('show'); };
+window.pickFromDeck = function(index) { hand.push(mainActive.splice(index, 1)[0]); shuffle(mainActive); $('searchDeckModal').classList.remove('show'); render(); };
+$('handToDeckBtn').onclick=()=>{ if(selected && selected.where==='hand'){ mainActive.push(selected.card); hand.splice(selected.index,1); shuffle(mainActive); selected=null; render(); } };
+$('handToGraveBtn').onclick=()=>{ if(selected && selected.where==='hand'){ grave.push(selected.card); hand.splice(selected.index,1); selected=null; render(); } };
+$('tokenBtn').onclick = () => { hand.push({ id: 99999999, name: "Token", type: "Normal Monster", desc: "Special Summoned as a Token.", atk: 0, def: 0, card_images: [{ image_url: "https://images.ygoprodeck.com/images/cards/0.jpg", image_url_small: "https://images.ygoprodeck.com/images/cards_small/0.jpg" }] }); render(); };
+$('drawBtn').onclick=draw;
+$('newGame').onclick=()=>{ if(confirm('Reiniciar o duelo?')) initDuelFromActive(); };
+$('phases').onclick=e=>{ const i=[...$('phases').children].indexOf(e.target); if(i<0)return; if(i===0 && phase===5){ turn++; if(mainActive.length) draw(); } phase=i; render(); };
+document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
+document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
+
+/* =========================================
+   NOVO SISTEMA YGOPro DECK BUILDER 
+========================================= */
+$('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
+$('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
+
+function renderDeckMgr(){
+  const container = $('deckListContainer');
+  if(!decks.length){ container.innerHTML='<p class="sub" style="text-align:center;">Nenhum deck criado.</p>'; return; }
+  container.innerHTML = decks.map(d=>{
+    const isActive = d.id === activeDeckId;
+    return `<div class="deck-mgr-card" style="${isActive?'border-color:var(--master-cyan);background:#13273d':''}">
+      <div class="deck-info"><strong>${esc(d.name)} ${isActive?'<span style="color:var(--master-cyan);font-size:10px;">(Ativo)</span>':''}</strong>
+      <span class="sub">Main: ${(d.main||[]).length} | Extra: ${(d.extra||[]).length}</span></div>
+      <div class="deck-actions"><button class="${isActive?'':'primary'}" onclick="selectDeck('${d.id}')">${isActive?'Jogar':'Usar'}</button>
+      <button onclick="openBuilderFull('${d.id}')">Editar</button><button class="danger" onclick="deleteDeck('${d.id}')">X</button></div></div>`;
+  }).join('');
+}
+window.selectDeck = function(id){ activeDeckId = id; saveStorage(); renderDeckMgr(); $('deckModal').classList.remove('show'); initDuelFromActive(); }
+window.deleteDeck = function(id){ if(!confirm('Excluir este deck?')) return; decks = decks.filter(d=>d.id!==id); if(activeDeckId===id) activeDeckId = decks.length ? decks[0].id : null; saveStorage(); renderDeckMgr(); render(); }
+$('createDeckBtn').onclick=()=>{
+  const name = $('newDeckName').value.trim(); if(!name) return;
+  decks.push({ id: 'deck_'+Date.now(), name, main: [], extra: [], side: [] });
+  if(!activeDeckId) activeDeckId = decks[decks.length-1].id; 
+  saveStorage(); $('newDeckName').value=''; renderDeckMgr(); if(decks.length === 1) initDuelFromActive(); render();
+};
+
+$('deckBtn').onclick=()=>{ if(activeDeckId) openBuilderFull(activeDeckId); };
+
+window.openBuilderFull = function(id){
+  editingDeckId = id; const d = decks.find(item=>item.id===id); if(!d) return;
+  $('builderTitle').textContent = 'Editor YGOPro: ' + d.name;
+  
+  builderSearchResults = [];
+  setBuilderPreview(null);
+  renderYGOBuilder(); 
+  
+  $('deckModal').classList.remove('show'); 
+  $('builderModal').style.display = 'flex';
+}
+
+$('closeBuilder').onclick=()=>{ 
+    saveStorage();
+    $('builderModal').style.display = 'none'; 
+    if(editingDeckId === activeDeckId) initDuelFromActive(); 
+    render(); 
+};
+
+// PREVIEW CARTA
+function setBuilderPreview(card, zone=null, idx=-1) {
+    builderSelectedCard = card;
+    builderSelectedZone = zone;
+    builderSelectedIndex = idx;
+    
+    if(!card) {
+        $('bPreviewImg').src = CARD_BACK;
+        $('bPreviewName').textContent = "Selecione uma carta";
+        $('bPreviewStats').textContent = "N/A";
+        $('bPreviewDesc').textContent = "Pesquise ou toque numa carta na grelha para ver os detalhes.";
+        $('bAddBtn').style.display = 'none';
+        $('bRemBtn').style.display = 'none';
+        return;
+    }
+    
+    $('bPreviewImg').src = imgHigh(card);
+    $('bPreviewName').textContent = card.name;
+    let stats = `[${card.type || 'N/A'}] ${card.attribute ? card.attribute : ''}`;
+    if(card.atk !== undefined) stats += ` | ATK ${card.atk}`;
+    if(card.def !== undefined && !card.type.includes('Link')) stats += ` / DEF ${card.def}`;
+    if(card.level) stats += ` | Nv ${card.level}`;
+    
+    $('bPreviewStats').textContent = stats;
+    $('bPreviewDesc').textContent = card.desc || '';
+    
+    // Controlos Botões
+    if(zone === 'search') {
+        $('bAddBtn').style.display = 'block';
+        $('bRemBtn').style.display = 'none';
+    } else if (zone === 'main' || zone === 'extra') {
+        $('bAddBtn').style.display = 'none';
+        $('bRemBtn').style.display = 'block';
+    }
+}
+
+// Botoes Preview
+$('bAddBtn').onclick = () => {
+    if(!builderSelectedCard) return;
+    const d = decks.find(item=>item.id===editingDeckId);
+    const c = builderSelectedCard;
+    const limit = getTCGLimit(c);
+    
+    if(limit === 0){ alert('Carta PROIBIDA (Banlist TCG).'); return; }
+    if([...(d.main||[]), ...(d.extra||[])].filter(x=>x.id===c.id).length >= limit){ alert(`Limite atingido! Máx: ${limit}.`); return; }
+
+    if(/Fusion|Synchro|XYZ|Xyz|Link/i.test(c.type||'')){
+      if(d.extra.length >= 15){ alert('Deck Extra cheio (Max 15).'); return; } 
+      d.extra.push(c);
+    } else {
+      if(d.main.length >= 60){ alert('Main Deck cheio (Max 60).'); return; } 
+      d.main.push(c);
+    }
+    saveStorage(); renderYGOBuilder();
+};
+
+$('bRemBtn').onclick = () => {
+    if(!builderSelectedCard || builderSelectedIndex < 0) return;
+    const d = decks.find(item=>item.id===editingDeckId);
+    if(builderSelectedZone === 'main') d.main.splice(builderSelectedIndex, 1);
+    if(builderSelectedZone === 'extra') d.extra.splice(builderSelectedIndex, 1);
+    
+    saveStorage(); 
+    setBuilderPreview(null);
+    renderYGOBuilder();
+};
+
+// Grelhas YGOPro
+function renderYGOBuilder(){
+  const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
+  
+  $('countMain').textContent = (d.main||[]).length;
+  $('countExtra').textContent = (d.extra||[]).length;
+  
+  $('gridResults').innerHTML = builderSearchResults.map((c, i) => 
+     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "search", ${i})' class="${builderSelectedZone==='search'&&builderSelectedIndex===i?'sel':''}">`
+  ).join('');
+  
+  $('gridMain').innerHTML = (d.main||[]).map((c, i) => 
+     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "main", ${i})' class="${builderSelectedZone==='main'&&builderSelectedIndex===i?'sel':''}">`
+  ).join('');
+  
+  $('gridExtra').innerHTML = (d.extra||[]).map((c, i) => 
+     `<img src="${img(c)}" onclick='setBuilderPreview(${JSON.stringify(c).replace(/'/g,"&apos;")}, "extra", ${i})' class="${builderSelectedZone==='extra'&&builderSelectedIndex===i?'sel':''}">`
+  ).join('');
+}
+
+// Pesquisa
+$('searchBtn').onclick = async () => {
+ const q=$('query').value.trim(); const typeF=$('f-type').value;
+ if(!q){ alert('Digite algo em inglês.'); return;}
+ $('searchBtn').disabled=true; $('searchBtn').textContent='...';
+ try{
+  const response = await fetch(`${API}?fname=${encodeURIComponent(q)}`);
+  if(!response.ok) throw new Error('Sem resultados.');
+  const json = await response.json();
+  
+  // Filtro JS Manual
+  let filtered = json.data;
+  if(typeF) filtered = filtered.filter(c => (c.type||'').includes(typeF));
+  
+  builderSearchResults = filtered.slice(0, 40); // Limita 40 na grelha para performance
+  $('resCount').textContent = `(${builderSearchResults.length} exibidos)`;
+  
+  setBuilderPreview(null);
+  renderYGOBuilder();
+ } catch(error){ alert(error.message); builderSearchResults=[]; renderYGOBuilder(); } 
+ finally { $('searchBtn').disabled=false; $('searchBtn').textContent='Buscar'; }
+}
+$('query').addEventListener('keydown', e=>{if(e.key==='Enter') $('searchBtn').click()});
+
+loadStorage(); if(!activeDeckId && decks.length) activeDeckId=decks[0].id; if(activeDeckId) initDuelFromActive(); else render();
+</script>
+</body>
+</html>
