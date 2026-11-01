@@ -3,64 +3,373 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#101820">
-<title>YGO Combo Duel — Simulador TCG</title>
+<meta name="theme-color" content="#0d1117">
+<title>YGO Combo Duel — Simulador TCG Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#101820;--panel:#192630;--panel2:#223541;--line:#496171;--gold:#d7b46a;--text:#f2f5f7;--muted:#a9bac5;--red:#a65c62;--green:#4a8a5e}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#263d4b,#101820 65%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding:env(safe-area-inset-top) 10px calc(14px + env(safe-area-inset-bottom))}
-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 2px 10px}h1{font-size:18px;margin:0;letter-spacing:.4px}h1 span{color:var(--gold)}.sub{font-size:10px;color:var(--muted)}
-button,input,select{font:inherit}button{border:1px solid var(--line);background:linear-gradient(#304755,#20323d);color:var(--text);border-radius:9px;padding:9px 11px;font-weight:650;font-size:12px;cursor:pointer}button.primary{background:linear-gradient(#b48a3d,#80602a);border-color:#e0bd72;color:#17130b}button.danger{background:#642f36;border-color:#a65c62}button:disabled{opacity:.4;cursor:not-allowed}
-.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}.toolbar button{flex:1;min-width:76px}
-.stats{display:flex;justify-content:space-between;gap:8px;background:#111c24;border:1px solid var(--line);border-radius:12px;padding:9px 11px;margin:7px 0}.stat{display:flex;flex-direction:column;align-items:center;min-width:0}.stat small{font-size:9px;color:var(--muted);text-transform:uppercase}.stat strong{font-size:18px;color:var(--gold)}.lp{display:flex;align-items:center;gap:5px}.lp button{padding:4px 8px}
-.phasebar{display:flex;gap:5px;overflow:auto;padding:5px 0 9px}.phasebar button{white-space:nowrap;padding:7px 10px;font-size:10px}.phasebar button.active{border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 1px #b48a3d}
-.board{background:linear-gradient(135deg,#315448,#203e3a 50%,#294d42);border:2px solid #6d7c69;border-radius:15px;padding:7px;box-shadow:inset 0 0 30px #0c1d1a}.side-label{font-size:9px;color:#d5e3d8;letter-spacing:1px;text-align:center;margin:2px 0 5px}.zones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:4px 0}.zone{aspect-ratio:.72;border:1px dashed #a9c2b2a6;border-radius:5px;background:#102b2580;display:flex;align-items:center;justify-content:center;position:relative;min-width:0;overflow:hidden}.zone.spell{aspect-ratio:.7;background:#1b383a99}.zone .hint{font-size:8px;color:#c2d5c9;text-align:center;opacity:.7}.zone img{width:100%;height:100%;object-fit:cover}.zone.selected{outline:2px solid var(--gold);outline-offset:1px}.dividerline{border-top:1px solid #c4d4c355;margin:8px 0}
-.hand-wrap{background:#111c24;border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:9px}.section-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:750;margin-bottom:6px}.hand{display:flex;gap:6px;overflow-x:auto;min-height:105px;padding:2px 1px 7px}.card{width:68px;min-width:68px;border:2px solid #a88a4d;border-radius:5px;overflow:hidden;background:#0c1218;position:relative;cursor:pointer}.card img{display:block;width:100%;aspect-ratio:.69;object-fit:cover}.card.selected{outline:3px solid #f2d17e;transform:translateY(-3px)}.card .ct{font-size:8px;padding:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.controls button{padding:9px 3px;font-size:10px}.lower{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:9px}.pile{background:#111c24;border:1px solid var(--line);border-radius:10px;padding:8px;min-height:76px}.pile strong{font-size:11px}.pile .count{font-size:20px;color:var(--gold);float:right}.pile button{margin-top:5px;width:100%;font-size:10px}
-.panel{background:#172630;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px}.panel h2{font-size:13px;margin:0 0 8px}.searchrow{display:flex;gap:6px}.searchrow input{min-width:0;flex:1;background:#0d171e;border:1px solid var(--line);border-radius:8px;color:white;padding:10px;font-size:13px}.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:9px;max-height:300px;overflow:auto}.result{background:#0e1920;border:1px solid #425966;border-radius:8px;padding:5px;min-width:0;display:flex;flex-direction:column;justify-content:space-between}.result img{width:100%;aspect-ratio:.69;object-fit:cover;border-radius:4px}.result b{font-size:9px;display:block;line-height:1.2;margin:4px 0;min-height:22px}.result .ban-badge{font-size:8px;padding:2px 4px;border-radius:4px;text-align:center;margin-bottom:4px;font-weight:bold}.badge-3{background:#2a4a36;color:#a9e6b7}.badge-2{background:#4a452a;color:#e6e1a9}.badge-1{background:#4a302a;color:#e6b2a9}.badge-0{background:#5a2222;color:#ffaaaa}.result button{width:100%;padding:6px 2px;font-size:9px}
-.log{font-size:10px;color:#bdcbd2;max-height:90px;overflow:auto;line-height:1.5}.foot{font-size:9px;color:#91a3ad;text-align:center;margin:12px 3px}
-.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:5}.modal.show{display:flex}.sheet{background:#172630;border:1px solid var(--line);border-radius:18px 18px 0 0;width:100%;max-height:85vh;overflow:auto;padding:14px}.sheethead{display:flex;justify-content:space-between;align-items:center}.sheet h2{font-size:15px;margin:0}.sheet p{font-size:11px;color:var(--muted)}.status-error{color:#ffaaaa!important}.status-ok{color:#a9e6b7!important}
-.deck-mgr-card{background:#111c24;border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.deck-info{font-size:11px}.deck-info strong{font-size:13px;color:var(--gold);display:block}
+:root{
+  --bg:#0b0f15;
+  --panel:rgba(18, 27, 36, 0.92);
+  --panel-border:#2e4456;
+  --gold:#f3ca65;
+  --gold-glow:rgba(243, 202, 101, 0.35);
+  --text:#f0f4f8;
+  --muted:#8b9eb0;
+  --red:#e05252;
+  --green:#4ade80;
+  --blue:#38bdf8;
+  --radius:12px;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% 0%, #1e293b 0%, #0b0f15 70%);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  padding:env(safe-area-inset-top) 8px calc(14px + env(safe-area-inset-bottom));
+  overflow-x:hidden;
+}
+
+/* Header Estilizado */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px 4px;
+  background:linear-gradient(180deg, rgba(25,35,48,0.8), transparent);
+  border-bottom:1px solid rgba(243,202,101,0.15);
+  margin-bottom:8px;
+}
+.brand{display:flex;align-items:center;gap:8px}
+.brand img{width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 6px var(--gold-glow))}
+h1{font-family:'Cinzel',serif;font-size:16px;margin:0;letter-spacing:1px;font-weight:900}
+h1 span{color:var(--gold);text-shadow:0 0 10px var(--gold-glow)}
+.sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* Botões e Elementos */
+button, input, select {font-family:'Rajdhani',sans-serif}
+button{
+  border:1px solid var(--panel-border);
+  background:linear-gradient(180deg, #223546 0%, #16222c 100%);
+  color:var(--text);
+  border-radius:10px;
+  padding:10px 12px;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .15s ease;
+  box-shadow:0 2px 4px rgba(0,0,0,0.3);
+}
+button:active{transform:scale(0.96)}
+button.primary{
+  background:linear-gradient(180deg, #d7b46a 0%, #9a7629 100%);
+  border-color:#ffdf88;
+  color:#0f141a;
+  text-shadow:0 1px 0 rgba(255,255,255,0.3);
+  box-shadow:0 0 12px rgba(215,180,106,0.3);
+}
+button.danger{background:linear-gradient(180deg, #7f2e36 0%, #4a191e 100%);border-color:#b5656c}
+button:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+/* Toolbar de Ações */
+.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.toolbar button{padding:9px 2px;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.toolbar button svg,.toolbar button span.ico{font-size:14px}
+
+/* Stats (LP & Turno) */
+.stats{
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr 1.2fr;
+  gap:6px;
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius);
+  padding:8px;
+  margin-bottom:8px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.stat{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stat small{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.stat strong{font-size:16px;font-family:'Cinzel',serif;color:var(--gold)}
+.lp{display:flex;align-items:center;gap:4px;width:100%;justify-content:center}
+.lp button{padding:2px 6px;font-size:10px;background:#15222d;border-color:#324a5e}
+
+/* Fases do Duelo */
+.phasebar{display:flex;gap:4px;overflow-x:auto;padding-bottom:6px;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+.phasebar::-webkit-scrollbar{display:none}
+.phasebar button{white-space:nowrap;padding:6px 10px;font-size:10px;border-radius:8px;background:#131c25;color:var(--muted)}
+.phasebar button.active{background:linear-gradient(180deg,#2b3f52,#192735);border-color:var(--gold);color:var(--gold);box-shadow:0 0 8px var(--gold-glow)}
+
+/* Campo de Batalha Estilizado */
+.board{
+  background:radial-gradient(ellipse at center, #1b382e 0%, #0d221b 70%, #071511 100%);
+  border:2px solid #3d6652;
+  border-radius:16px;
+  padding:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.6), inset 0 0 40px rgba(12,45,34,0.8);
+  margin-bottom:8px;
+  position:relative;
+}
+.side-label{
+  font-size:8px;
+  color:#9bc4b0;
+  letter-spacing:1.5px;
+  text-align:center;
+  margin:2px 0 4px;
+  font-weight:700;
+  text-shadow:0 1px 2px rgba(0,0,0,0.8);
+}
+.zones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:5px 0}
+.zone{
+  aspect-ratio:0.72;
+  border:1px dashed rgba(140, 185, 160, 0.4);
+  border-radius:6px;
+  background:rgba(12, 35, 28, 0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  transition:all .1s;
+}
+.zone.spell{aspect-ratio:0.7;background:rgba(20, 50, 52, 0.6);border-color:rgba(100, 160, 165, 0.4)}
+.zone .hint{font-size:8px;color:#7ca693;text-align:center;font-weight:600}
+.zone img{width:100%;height:100%;object-fit:cover}
+.zone.selected{outline:2px solid var(--gold);outline-offset:1px;box-shadow:0 0 10px var(--gold-glow)}
+.dividerline{border-top:1px dashed rgba(150, 190, 170, 0.3);margin:8px 2px}
+
+/* Mão do Jogador */
+.hand-wrap{
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius);
+  padding:10px;
+  margin-bottom:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+.section-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;margin-bottom:8px;color:var(--gold)}
+.hand{display:flex;gap:8px;overflow-x:auto;min-height:108px;padding:4px 2px;-webkit-overflow-scrolling:touch}
+.hand::-webkit-scrollbar{height:4px}
+.hand::-webkit-scrollbar-thumb{background:var(--panel-border);border-radius:2px}
+
+.card{
+  width:72px;
+  min-width:72px;
+  border:2px solid #b89648;
+  border-radius:6px;
+  overflow:hidden;
+  background:#0c1218;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 4px 8px rgba(0,0,0,0.5);
+  transition:transform .15s, box-shadow .15s;
+}
+.card img{display:block;width:100%;aspect-ratio:0.69;object-fit:cover}
+.card.selected{outline:3px solid #ffdf88;transform:translateY(-5px);box-shadow:0 6px 14px rgba(243,202,101,0.4)}
+.card .ct{font-size:7px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#080d12;text-align:center}
+
+/* Controles de Ação do Card Selecionado */
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.controls button{padding:10px 2px;font-size:10px}
+
+/* Pilhas (Deck, Extra, Side, Cemitério) */
+.lower{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
+.pile{
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius);
+  padding:8px 10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.pile-top{display:flex;justify-content:space-between;align-items:center}
+.pile strong{font-size:10px;color:var(--muted);letter-spacing:.5px}
+.pile .count{font-size:18px;font-family:'Cinzel',serif;color:var(--gold)}
+.pile button{margin-top:6px;width:100%;font-size:9px;padding:6px 2px}
+
+/* Registro do Duelo (Log) */
+.panel{
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:var(--radius);
+  padding:10px;
+  margin-bottom:8px;
+}
+.panel h2{font-size:12px;margin:0 0 6px;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:.5px}
+.log{font-size:10px;color:#a4b6c6;max-height:80px;overflow-y:auto;line-height:1.4;display:flex;flex-direction:column;gap:2px}
+.log div{border-left:2px solid var(--panel-border);padding-left:6px}
+
+.foot{font-size:8px;color:var(--muted);text-align:center;margin:12px 0 6px;letter-spacing:.5px}
+
+/* Modais de Tela Cheia / Bottom Sheet */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(4px);
+  display:none;
+  align-items:flex-end;
+  z-index:100;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.modal.show{display:flex;opacity:1}
+.sheet{
+  background:#131d27;
+  border:1px solid var(--panel-border);
+  border-top:2px solid var(--gold);
+  border-radius:20px 20px 0 0;
+  width:100%;
+  max-height:88vh;
+  overflow-y:auto;
+  padding:16px;
+  box-shadow:0 -10px 30px rgba(0,0,0,0.7);
+  animation:slideUp .25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sheet h2{font-size:16px;margin:0;font-family:'Cinzel',serif;color:var(--gold)}
+.sheet p{font-size:11px;color:var(--muted);margin:0 0 12px;line-height:1.3}
+
+/* Gerenciador de Decks & Resultados da Busca */
+.deck-mgr-card{
+  background:#172431;
+  border:1px solid var(--panel-border);
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.deck-info{font-size:11px}
+.deck-info strong{font-size:13px;color:var(--gold);display:block;font-family:'Cinzel',serif}
 .deck-actions{display:flex;gap:4px}
-.deck-section-title{font-size:12px;color:var(--gold);margin:10px 0 4px;border-bottom:1px solid var(--line);padding-bottom:2px}
-.deck-list-item{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:4px 0;border-bottom:1px dashed #223541}
-@media(min-width:700px){body{max-width:850px;margin:auto}.board{padding:12px}.zone{max-height:145px}.card{width:84px;min-width:84px}.results{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.deck-actions button{padding:6px 10px;font-size:10px}
+
+.deck-section-title{font-size:11px;color:var(--gold);margin:12px 0 6px;border-bottom:1px solid var(--panel-border);padding-bottom:3px;font-weight:700;text-transform:uppercase}
+.deck-list-item{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 8px;background:rgba(0,0,0,0.2);border-radius:6px;margin-bottom:4px}
+
+.searchrow{display:flex;gap:6px;margin-bottom:10px}
+.searchrow input{
+  flex:1;
+  background:#0c1218;
+  border:1px solid var(--panel-border);
+  border-radius:8px;
+  color:white;
+  padding:10px 12px;
+  font-size:13px;
+}
+.searchrow input:focus{outline:1px solid var(--gold)}
+.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:360px;overflow-y:auto;padding-right:2px}
+.result{
+  background:#16232f;
+  border:1px solid var(--panel-border);
+  border-radius:8px;
+  padding:6px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.result img{width:100%;aspect-ratio:0.69;object-fit:cover;border-radius:4px;margin-bottom:4px}
+.result b{font-size:9px;display:block;line-height:1.2;margin-bottom:4px;min-height:22px;overflow:hidden}
+.ban-badge{font-size:8px;padding:2px 4px;border-radius:4px;text-align:center;margin-bottom:6px;font-weight:700;letter-spacing:.5px}
+.badge-3{background:#1b382e;color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.badge-2{background:#3b331a;color:#facc15;border:1px solid rgba(250,204,21,0.3)}
+.badge-1{background:#3b221a;color:#fb923c;border:1px solid rgba(251,146,60,0.3)}
+.badge-0{background:#3f1a1d;color:#f87171;border:1px solid rgba(248,113,113,0.3)}
+.result button{width:100%;padding:6px 2px;font-size:9px}
+
+.status-error{color:var(--red)!important;font-weight:600}
+.status-ok{color:var(--green)!important;font-weight:600}
+
+@media(min-width:700px){
+  body{max-width:850px;margin:auto;padding-top:16px}
+  .board{padding:14px}
+  .zone{max-height:140px}
+  .card{width:84px;min-width:84px}
+  .results{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
+
 <header>
-  <div><h1><span>YGO</span> COMBO DUEL</h1><div class="sub">SIMULADOR TCG • GERENCIADOR DE DECKS</div></div>
-  <div style="display:flex;gap:6px"><button id="openDeckMgr">Decks</button><button id="newGame">Reiniciar</button></div>
+  <div class="brand">
+    <img src="https://images.ygoprodeck.com/images/cards_small/46986414.jpg" alt="Logo Icon">
+    <div>
+      <h1><span>YGO</span> COMBO DUEL</h1>
+      <div class="sub">Simulador Oficial TCG • V2.0</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button id="openDeckMgr" class="primary" style="padding:8px 12px;">Decks</button>
+    <button id="newGame" style="padding:8px 10px;">Resetar</button>
+  </div>
 </header>
 
 <div class="toolbar">
-  <button class="primary" id="openSearch" disabled>＋ Buscar cartas</button>
-  <button id="deckBtn" disabled>Editar Deck Atual</button>
-  <button id="shuffleBtn">Embaralhar</button>
-  <button id="drawBtn">Comprar</button>
+  <button class="primary" id="openSearch" disabled>
+    <span class="ico">＋</span><span>Buscar Cartas</span>
+  </button>
+  <button id="deckBtn" disabled>
+    <span class="ico">📦</span><span>Meu Deck</span>
+  </button>
+  <button id="shuffleBtn">
+    <span class="ico">🔀</span><span>Embaralhar</span>
+  </button>
+  <button id="drawBtn">
+    <span class="ico">📥</span><span>Comprar</span>
+  </button>
 </div>
 
 <div class="stats">
- <div class="stat"><small>Seus LP</small><div class="lp"><button data-lp="-1000">−</button><strong id="myLP">8000</strong><button data-lp="1000">+</button></div></div>
- <div class="stat"><small>Turno</small><strong id="turn">1</strong></div>
- <div class="stat"><small>LP oponente</small><div class="lp"><button data-opp="-1000">−</button><strong id="oppLP">8000</strong><button data-opp="1000">+</button></div></div>
+ <div class="stat">
+   <small>Seus LP</small>
+   <div class="lp"><button data-lp="-1000">−</button><strong id="myLP">8000</strong><button data-lp="1000">+</button></div>
+ </div>
+ <div class="stat">
+   <small>Turno</small>
+   <strong id="turn">1</strong>
+ </div>
+ <div class="stat">
+   <small>Oponente LP</small>
+   <div class="lp"><button data-opp="-1000">−</button><strong id="oppLP">8000</strong><button data-opp="1000">+</button></div>
+ </div>
 </div>
 
-<div class="phasebar" id="phases"><button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button></div>
+<div class="phasebar" id="phases">
+  <button class="active">Draw</button>
+  <button>Standby</button>
+  <button>Main 1</button>
+  <button>Battle</button>
+  <button>Main 2</button>
+  <button>End</button>
+</div>
 
 <div class="board">
-  <div class="side-label">CAMPO DO OPONENTE</div>
+  <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
   <div class="zones" id="oppMonsters"></div>
   <div class="zones" id="oppSpells"></div>
   <div class="dividerline"></div>
   <div class="zones" id="mySpells"></div>
   <div class="zones" id="myMonsters"></div>
-  <div class="side-label">SEU CAMPO</div>
+  <div class="side-label">✦ SEU CAMPO ✦</div>
 </div>
 
 <div class="hand-wrap">
-  <div class="section-head"><span id="activeDeckTitle">NENHUM DECK SELECIONADO</span><span id="handCount">0 cartas</span></div>
-  <div class="hand" id="hand"><span class="sub">Selecione ou crie um deck no gerenciador para começar.</span></div>
+  <div class="section-head">
+    <span id="activeDeckTitle">NENHUM DECK SELECIONADO</span>
+    <span id="handCount" style="color:var(--text);font-size:10px">0 cartas</span>
+  </div>
+  <div class="hand" id="hand">
+    <span class="sub" style="margin:auto;display:block;padding:20px 0;">Selecione ou crie um deck no gerenciador para começar.</span>
+  </div>
 </div>
 
 <div class="controls">
@@ -71,22 +380,42 @@ button,input,select{font:inherit}button{border:1px solid var(--line);background:
 </div>
 
 <div class="lower">
-  <div class="pile"><strong>DECK PRINCIPAL</strong><span class="count" id="deckPile">0</span><button id="draw2">Comprar 1</button></div>
-  <div class="pile"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span><button id="extraView">Ver cartas</button></div>
-  <div class="pile"><strong>SIDE DECK</strong><span class="count" id="sidePile">0</span><button id="sideView">Ver cartas</button></div>
-  <div class="pile"><strong>CEMITÉRIO / BANIDAS</strong><span class="count" id="gravePile">0/0</span><button id="graveView">Ver cemitério</button></div>
+  <div class="pile">
+    <div class="pile-top"><strong>DECK PRINCIPAL</strong><span class="count" id="deckPile">0</span></div>
+    <button id="draw2">Comprar 1 Carta</button>
+  </div>
+  <div class="pile">
+    <div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div>
+    <button id="extraView">Ver Extras</button>
+  </div>
+  <div class="pile">
+    <div class="pile-top"><strong>SIDE DECK</strong><span class="count" id="sidePile">0</span></div>
+    <button id="sideView">Ver Side Deck</button>
+  </div>
+  <div class="pile">
+    <div class="pile-top"><strong>CEMITÉRIO / BANIDAS</strong><span class="count" id="gravePile">0/0</span></div>
+    <button id="graveView">Ver Cemitério</button>
+  </div>
 </div>
 
-<div class="panel"><h2>Registro do duelo</h2><div class="log" id="log">Bem-vindo! Abra o gerenciador de decks para criar ou selecionar seu deck TCG.</div></div>
+<div class="panel">
+  <h2>Registro do Duelo</h2>
+  <div class="log" id="log"><div>• Bem-vindo ao YGO Combo Duel! Abra o gerenciador de decks para começar.</div></div>
+</div>
+
+<div class="foot">Dados oficiais de cartas fornecidos por YGOPRODeck API. Projeto de fã sem fins lucrativos.</div>
 
 <!-- MODAL GERENCIADOR DE DECKS -->
 <div class="modal" id="deckModal">
   <div class="sheet">
-    <div class="sheethead"><h2>Gerenciador de Decks</h2><button id="closeDeckMgr">Fechar</button></div>
-    <p>Crie, edite e escolha qual deck usar no duelo. Tudo fica salvo no seu iPhone.</p>
-    <div style="display:flex;gap:6px;margin:8px 0">
-      <input id="newDeckName" placeholder="Nome do novo deck..." autocomplete="off" style="flex:1;background:#0d171e;border:1px solid var(--line);border-radius:8px;color:white;padding:8px;font-size:12px">
-      <button class="primary" id="createDeckBtn">Criar Deck</button>
+    <div class="sheethead">
+      <h2>Gerenciador de Decks</h2>
+      <button id="closeDeckMgr">Fechar</button>
+    </div>
+    <p>Crie, edite e escolha seu deck TCG principal salvo localmente no aparelho.</p>
+    <div class="searchrow">
+      <input id="newDeckName" placeholder="Nome do novo deck (ex: Snake-Eye)..." autocomplete="off">
+      <button class="primary" id="createDeckBtn">Criar</button>
     </div>
     <div id="deckListContainer" style="margin-top:10px"></div>
   </div>
@@ -95,27 +424,37 @@ button,input,select{font:inherit}button{border:1px solid var(--line);background:
 <!-- MODAL CONSTRUÇÃO / EDIÇÃO DO DECK ATUAL -->
 <div class="modal" id="builderModal">
   <div class="sheet">
-    <div class="sheethead"><h2 id="builderTitle">Editando Deck</h2><button id="closeBuilder">Concluído</button></div>
-    <p>Principal: <span id="countMain">0</span>/60 (Min 40) | Extra: <span id="countExtra">0</span>/15 | Side: <span id="countSide">0</span>/15</p>
+    <div class="sheethead">
+      <h2 id="builderTitle">Editando Deck</h2>
+      <button id="closeBuilder" class="primary">Concluído</button>
+    </div>
+    <p>Main: <span id="countMain">0</span>/60 (Min 40) | Extra: <span id="countExtra">0</span>/15 | Side: <span id="countSide">0</span>/15</p>
+    
     <div class="deck-section-title">Deck Principal</div>
-    <div id="listMain" style="max-height:140px;overflow:auto"></div>
+    <div id="listMain" style="max-height:150px;overflow-y:auto;padding-right:2px"></div>
+    
     <div class="deck-section-title">Deck Extra</div>
-    <div id="listExtra" style="max-height:100px;overflow:auto"></div>
+    <div id="listExtra" style="max-height:110px;overflow-y:auto;padding-right:2px"></div>
+    
     <div class="deck-section-title">Side Deck</div>
-    <div id="listSide" style="max-height:100px;overflow:auto"></div>
+    <div id="listSide" style="max-height:110px;overflow-y:auto;padding-right:2px"></div>
   </div>
 </div>
-
-<div class="foot">Dados e banlist oficial TCG: YGOPRODeck API. Salvo localmente via localStorage.</div>
 
 <!-- MODAL BUSCA DE CARTAS -->
 <div class="modal" id="modal">
   <div class="sheet">
-    <div class="sheethead"><h2>Pesquisar Cartas (TCG)</h2><button id="closeSearch">Voltar ao Deck</button></div>
-    <p>Pesquise cartas pelo nome em inglês. Respeita os limites da Banlist do TCG (Proibido=0, Limitado=1, Semi=2, Livre=3).</p>
-    <div class="searchrow"><input id="query" placeholder="Ex.: Ash Blossom, Infinite Impermanence" autocomplete="off"><button class="primary" id="searchBtn">Buscar</button></div>
+    <div class="sheethead">
+      <h2>Busca de Cartas TCG</h2>
+      <button id="closeSearch">Voltar</button>
+    </div>
+    <p>Pesquise pelo nome em inglês. Respeita automaticamente os limites da Banlist oficial do TCG.</p>
+    <div class="searchrow">
+      <input id="query" placeholder="Ex: Ash Blossom, Pot of Prosperity" autocomplete="off">
+      <button class="primary" id="searchBtn">Buscar</button>
+    </div>
     <div class="results" id="results"></div>
-    <p id="searchStatus" aria-live="polite"></p>
+    <p id="searchStatus" aria-live="polite" style="margin-top:8px;font-size:11px"></p>
   </div>
 </div>
 
@@ -127,7 +466,6 @@ const $=id=>document.getElementById(id);
 let decks = [];
 let activeDeckId = null;
 
-// Estado do Duelo
 let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),oppMonsters:Array(5).fill(null),oppSpells:Array(5).fill(null)}, grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
 const phases=['Draw','Standby','Main 1','Battle','Main 2','End'];
 
@@ -154,10 +492,9 @@ function img(c){return c?.card_images?.[0]?.image_url_small||c?.card_images?.[0]
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function cardHTML(c,cls=''){return `<div class="card ${cls}" data-id="${c.id}"><img loading="lazy" src="${img(c)}" alt="${esc(c.name)}"><div class="ct">${esc(c.name)}</div></div>`}
 
-// Retorna o limite da banlist TCG para a carta
 function getTCGLimit(c){
   const banTcg = c?.banlist_info?.ban_tcg;
-  if(!banTcg) return 3; // Ilimitada se não constar na banlist
+  if(!banTcg) return 3;
   if(banTcg === 'Banned') return 0;
   if(banTcg === 'Limited') return 1;
   if(banTcg === 'Semi-Limited') return 2;
@@ -188,7 +525,7 @@ function render(){
   $('handCount').textContent = hand.length+' cartas';
   $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
 
-  $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub">Mão vazia. Compre cartas do deck.</span>';
+  $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub" style="margin:auto;display:block;padding:20px 0;">Mão vazia. Compre cartas do deck principal.</span>';
   
   const zones=[['oppMonsters','oppMonsters'],['oppSpells','oppSpells'],['mySpells','mySpells'],['myMonsters','myMonsters']];
   for(const [id,key] of zones){
@@ -201,7 +538,7 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random
 
 function initDuelFromActive(){
   const active = getActiveDeck();
-  if(!active){ alert('Selecione um deck primeiro no gerenciador!'); return; }
+  if(!active){ return; }
   mainActive = [...active.main];
   extraActive = [...active.extra];
   shuffle(mainActive);
@@ -228,7 +565,7 @@ function moveSelected(dest){
     const isSpell = /Spell|Trap|Magia|Armadilha/i.test(c.type||'');
     const key = isSpell ? 'mySpells' : 'myMonsters';
     const idx = field[key].findIndex(x=>!x);
-    if(idx<0){ alert('Não há zona livre.'); return; }
+    if(idx<0){ alert('Não há zona livre no campo.'); return; }
     target = {key, idx};
   }
   if(selected.where==='hand') hand.splice(selected.index,1);
@@ -241,7 +578,6 @@ function moveSelected(dest){
   selected = null; render();
 }
 
-// Interações de Campo e Mão
 $('hand').addEventListener('click', e=>{const el=e.target.closest('.card');if(!el)return;const i=hand.findIndex(c=>String(c.id)===el.dataset.id);if(i<0)return;selected={where:'hand',index:i,card:hand[i]};render()});
 document.querySelector('.board').addEventListener('click', e=>{
   const z=e.target.closest('.zone'); if(!z) return;
@@ -260,7 +596,8 @@ $('drawBtn').onclick=draw; $('draw2').onclick=draw;
 $('shuffleBtn').onclick=()=>{if(!mainActive.length){alert('Deck vazio');return;} shuffle(mainActive); log('Deck principal embaralhado.'); render();};
 
 $('newGame').onclick=()=>{
-  if(!getActiveDeck()){ alert('Selecione um deck no menu Decks primeiro.'); $('deckModal').classList.add('show'); return; }
+  const active = getActiveDeck();
+  if(!active){ alert('Selecione um deck no menu Decks primeiro.'); $('deckModal').classList.add('show'); return; }
   if(!confirm('Reiniciar o duelo com o deck atual?')) return;
   initDuelFromActive();
 };
@@ -275,27 +612,27 @@ $('phases').onclick=e=>{
 document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
 document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
 
-// Gerenciador de Decks UI
+// Gerenciador de Decks
 $('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
 $('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
 
 function renderDeckMgr(){
   const container = $('deckListContainer');
-  if(!decks.length){ container.innerHTML='<p class="sub">Nenhum deck criado ainda. Crie um acima.</p>'; return; }
+  if(!decks.length){ container.innerHTML='<p class="sub" style="text-align:center;padding:10px 0;">Nenhum deck criado ainda. Crie um acima.</p>'; return; }
   container.innerHTML = decks.map(d=>{
     const totalMain = d.main.length;
     const totalExtra = d.extra.length;
     const totalSide = d.side.length;
     const isActive = d.id === activeDeckId;
-    return `<div class="deck-mgr-card" style="${isActive?'border-color:var(--gold)':''}">
+    return `<div class="deck-mgr-card" style="${isActive?'border-color:var(--gold);background:#1d2a38':''}">
       <div class="deck-info">
-        <strong>${esc(d.name)} ${isActive?'(Ativo)':''}</strong>
+        <strong>${esc(d.name)} ${isActive?'<span style="color:var(--gold);font-size:10px;">(Ativo)</span>':''}</strong>
         <span class="sub">Main: ${totalMain} | Extra: ${totalExtra} | Side: ${totalSide}</span>
       </div>
       <div class="deck-actions">
-        <button class="${isActive?'':'primary'}" onclick="selectDeck('${d.id}')">${isActive?'Jogar':'Selecionar'}</button>
+        <button class="${isActive?'':'primary'}" onclick="selectDeck('${d.id}')">${isActive?'Jogar':'Usar'}</button>
         <button onclick="openBuilder('${d.id}')">Editar</button>
-        <button class="danger" onclick="deleteDeck('${d.id}')">Excluir</button>
+        <button class="danger" onclick="deleteDeck('${d.id}')">X</button>
       </div>
     </div>`;
   }).join('');
@@ -310,7 +647,7 @@ window.selectDeck = function(id){
 }
 
 window.deleteDeck = function(id){
-  if(!confirm('Tem certeza que deseja excluir este deck?')) return;
+  if(!confirm('Deseja excluir este deck permanentemente?')) return;
   decks = decks.filter(d=>d.id!==id);
   if(activeDeckId===id) activeDeckId = decks.length ? decks[0].id : null;
   saveStorage();
@@ -331,7 +668,7 @@ $('createDeckBtn').onclick=()=>{
   render();
 };
 
-// Construtor / Editor de Deck
+// Editor de Deck
 let editingDeckId = null;
 $('deckBtn').onclick=()=>{ if(activeDeckId) openBuilder(activeDeckId); };
 $('closeBuilder').onclick=()=>{ $('builderModal').classList.remove('show'); render(); initDuelFromActive(); };
@@ -356,9 +693,9 @@ function renderBuilderLists(){
   const renderItems = (arr, type)=> arr.length ? arr.map((c,idx)=>`
     <div class="deck-list-item">
       <span>${esc(c.name)}</span>
-      <button class="danger" style="padding:2px 6px;font-size:9px" onclick="removeCardFromDeck('${type}', ${idx})">Remover</button>
+      <button class="danger" style="padding:2px 8px;font-size:9px" onclick="removeCardFromDeck('${type}', ${idx})">Remover</button>
     </div>
-  `).join('') : '<span class="sub">Vazio</span>';
+  `).join('') : '<span class="sub" style="padding:4px 8px;display:block">Vazio</span>';
 
   $('listMain').innerHTML = renderItems(d.main, 'main');
   $('listExtra').innerHTML = renderItems(d.extra, 'extra');
@@ -375,7 +712,7 @@ window.removeCardFromDeck = function(type, idx){
   renderBuilderLists();
 }
 
-// Pesquisa de Cartas e Validação TCG
+// Pesquisa e Banlist TCG
 $('openSearch').onclick=()=>{ if(!activeDeckId){alert('Selecione um deck para adicionar cartas.');return;} $('modal').classList.add('show'); };
 $('closeSearch').onclick=()=>$('modal').classList.remove('show');
 
@@ -383,17 +720,17 @@ function setSearchStatus(message,type=''){const el=$('searchStatus');el.textCont
 async function fetchJSON(url){const response=await fetch(url,{headers:{'Accept':'application/json'}});let json;try{json=await response.json()}catch(e){throw new Error('A API respondeu em formato inesperado.')}if(!response.ok)throw new Error(json.error||('Erro HTTP '+response.status));return json}
 
 async function search(){
- const q=$('query').value.trim();if(!q){setSearchStatus('Digite o nome de uma carta.','error');return}
+ const q=$('query').value.trim();if(!q){setSearchStatus('Digite o nome de uma carta em inglês.','error');return}
  $('searchBtn').disabled=true;$('results').innerHTML='';setSearchStatus('Buscando cartas...');
  try{
   const url=API+'?fname='+encodeURIComponent(q);
   const json=await fetchJSON(url);
-  if(!Array.isArray(json.data)||json.data.length===0)throw new Error('Nenhuma carta encontrada. Tente em inglês.');
+  if(!Array.isArray(json.data)||json.data.length===0)throw new Error('Nenhuma carta encontrada. Tente o nome em inglês.');
   
   $('results').innerHTML=json.data.map(c=>{
     const limit = getTCGLimit(c);
     let badgeClass = 'badge-'+limit;
-    let badgeText = limit===0?'Proibida (0)':limit===1?'Limitada (1)':limit===2?'Semi-Limitada (2)':'Ilimitada (3)';
+    let badgeText = limit===0?'PROIBIDA (0)':limit===1?'LIMITADA (1)':limit===2?'SEMI-L. (2)':'ILIMITADA (3)';
     return `<div class="result">
       <img loading="lazy" src="${img(c)}" alt="${esc(c.name)}">
       <b>${esc(c.name)}</b>
@@ -402,7 +739,7 @@ async function search(){
     </div>`;
   }).join('');
   setSearchStatus(json.data.length+' resultado(s) encontrado(s).','ok');
- }catch(error){setSearchStatus('Erro na busca: '+(error.message||String(error)),'error')}
+ }catch(error){setSearchStatus('Erro: '+(error.message||String(error)),'error')}
  finally{$('searchBtn').disabled=false}
 }
 
@@ -418,7 +755,7 @@ $('results').onclick=async e=>{
     if(!c) throw new Error('Carta não encontrada.');
 
     const d = decks.find(item=>item.id===editingDeckId || item.id===activeDeckId);
-    if(!d) throw new Error('Nenhum deck ativo para edição.');
+    if(!d) throw new Error('Nenhum deck ativo.');
 
     const isExtra = /Fusion|Synchro|XYZ|Xyz|Link/i.test(c.type||'');
     const limit = getTCGLimit(c);
@@ -429,7 +766,6 @@ $('results').onclick=async e=>{
       return;
     }
 
-    // Contar cópias existentes no deck total (Main + Extra + Side)
     const allCards = [...d.main, ...d.extra, ...d.side];
     const currentCount = allCards.filter(x=>x.id===c.id).length;
 
@@ -439,17 +775,15 @@ $('results').onclick=async e=>{
       return;
     }
 
-    // Definir destino automático
     if(isExtra){
       if(d.extra.length >= 15){ alert('Deck Extra cheio (máximo 15 cartas).'); button.disabled=false; button.textContent='Adicionar'; return; }
       d.extra.push(c);
       log(c.name+' adicionada ao Deck Extra.');
     } else {
-      // Pergunta se vai para o Main ou Side se o main estiver checando limite ou direto para o Main
       if(d.main.length >= 60){
         if(d.side.length >= 15){ alert('Deck Principal e Side cheios.'); button.disabled=false; button.textContent='Adicionar'; return; }
         d.side.push(c);
-        log(c.name+' adicionada ao Side Deck (Main cheia).');
+        log(c.name+' adicionada ao Side Deck.');
       } else {
         d.main.push(c);
         log(c.name+' adicionada ao Deck Principal.');
@@ -459,20 +793,18 @@ $('results').onclick=async e=>{
     saveStorage();
     if($('builderModal').classList.contains('show')) renderBuilderLists();
     button.textContent='Adicionada!';
-    setTimeout(()=>{ button.disabled=false; button.textContent='Adicionar'; }, 1000);
+    setTimeout(()=>{ button.disabled=false; button.textContent='Adicionar'; }, 800);
   }catch(error){
     button.disabled=false; button.textContent='Adicionar';
     setSearchStatus('Erro: '+error.message,'error');
   }
 };
 
-// Visualização de Pilhas
-function viewPile(title,arr){ alert(title+':\n'+(arr.length?arr.map(c=>c.name).join('\n'):'Vazio')); }
-$('graveView').onclick=()=>viewPile('Cemitério / Banidas', [...grave, {name:'--- BANIDAS ---'}, ...banished]);
+function viewPile(title,arr){ alert(title+':\n\n'+(arr.length?arr.map(c=>c.name).join('\n'):'Vazio')); }
+$('graveView').onclick=()=>viewPile('Cemitério / Banidas', [...grave, {name:'=== BANIDAS ==='}, ...banished]);
 $('extraView').onclick=()=>viewPile('Deck Extra Ativo', extraActive);
 $('sideView').onclick=()=>{ const d = getActiveDeck(); viewPile('Side Deck', d?d.side:[]); };
 
-// Inicialização
 loadStorage();
 if(!activeDeckId && decks.length){ activeDeckId = decks[0].id; }
 if(activeDeckId){ initDuelFromActive(); }
