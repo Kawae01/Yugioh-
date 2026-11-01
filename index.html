@@ -284,7 +284,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button id="handToGraveBtn" class="danger">Descartar da Mão</button>
 </div>
 
-<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Sistema YGOPro ativado. Abra o editor de decks para ver o novo layout.</div></div></div>
+<div class="panel"><h2>Log de Duelo Pro</h2><div class="log" id="log"><div style="border-left-color:var(--master-gold)">• Sistema YGOPro ativado. Fases de turno corrigidas.</div></div></div>
 
 <!-- MODAL: GERENCIADOR DE DECKS -->
 <div class="modal" id="deckModal">
@@ -352,7 +352,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   </div>
 </div>
 
-<!-- AÇÕES DO CAMPO E MODAIS VISUAIS... -->
+<!-- AÇÕES DO CAMPO E MODAIS VISUAIS -->
 <div class="modal" id="actionModal">
   <div class="sheet" style="max-height: 70vh;">
     <div class="sheethead"><h2>Menu da Carta no Campo</h2><button id="closeActionModal">Fechar</button></div>
@@ -390,7 +390,7 @@ let playIntent = 'faceup';
 /* VARIÁVEIS DO NOVO BUILDER */
 let builderSearchResults = [];
 let builderSelectedCard = null; 
-let builderSelectedZone = null; // 'search', 'main', 'extra'
+let builderSelectedZone = null; 
 let builderSelectedIndex = -1;
 
 function sanitizeDecks(dList) {
@@ -527,7 +527,25 @@ $('handToGraveBtn').onclick=()=>{ if(selected && selected.where==='hand'){ grave
 $('tokenBtn').onclick = () => { hand.push({ id: 99999999, name: "Token", type: "Normal Monster", desc: "Special Summoned as a Token.", atk: 0, def: 0, card_images: [{ image_url: "https://images.ygoprodeck.com/images/cards/0.jpg", image_url_small: "https://images.ygoprodeck.com/images/cards_small/0.jpg" }] }); render(); };
 $('drawBtn').onclick=draw;
 $('newGame').onclick=()=>{ if(confirm('Reiniciar o duelo?')) initDuelFromActive(); };
-$('phases').onclick=e=>{ const i=[...$('phases').children].indexOf(e.target); if(i<0)return; if(i===0 && phase===5){ turn++; if(mainActive.length) draw(); } phase=i; render(); };
+
+// NOVO SISTEMA INTELIGENTE DE FASES
+$('phases').onclick = e => { 
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const i = [...$('phases').children].indexOf(btn); 
+  if(i < 0 || i === phase) return;
+  
+  if(i < phase) { 
+    turn++; 
+    if(i === 0 && mainActive.length) draw(); 
+  } 
+  
+  phase = i; 
+  const nomesFases = ['Draw Phase', 'Standby Phase', 'Main Phase 1', 'Battle Phase', 'Main Phase 2', 'End Phase'];
+  log(`Fase alterada para: <strong>${nomesFases[i]}</strong> (Turno ${turn})`, 'info');
+  render(); 
+};
+
 document.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{lp=Math.max(0,lp+Number(b.dataset.lp));render()});
 document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0,opp+Number(b.dataset.opp));render()});
 
@@ -579,7 +597,6 @@ $('closeBuilder').onclick=()=>{
     render(); 
 };
 
-// PREVIEW CARTA
 function setBuilderPreview(card, zone=null, idx=-1) {
     builderSelectedCard = card;
     builderSelectedZone = zone;
@@ -605,7 +622,6 @@ function setBuilderPreview(card, zone=null, idx=-1) {
     $('bPreviewStats').textContent = stats;
     $('bPreviewDesc').textContent = card.desc || '';
     
-    // Controlos Botões
     if(zone === 'search') {
         $('bAddBtn').style.display = 'block';
         $('bRemBtn').style.display = 'none';
@@ -615,7 +631,6 @@ function setBuilderPreview(card, zone=null, idx=-1) {
     }
 }
 
-// Botoes Preview
 $('bAddBtn').onclick = () => {
     if(!builderSelectedCard) return;
     const d = decks.find(item=>item.id===editingDeckId);
@@ -646,7 +661,6 @@ $('bRemBtn').onclick = () => {
     renderYGOBuilder();
 };
 
-// Grelhas YGOPro
 function renderYGOBuilder(){
   const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
   
@@ -666,7 +680,6 @@ function renderYGOBuilder(){
   ).join('');
 }
 
-// Pesquisa
 $('searchBtn').onclick = async () => {
  const q=$('query').value.trim(); const typeF=$('f-type').value;
  if(!q){ alert('Digite algo em inglês.'); return;}
@@ -676,11 +689,10 @@ $('searchBtn').onclick = async () => {
   if(!response.ok) throw new Error('Sem resultados.');
   const json = await response.json();
   
-  // Filtro JS Manual
   let filtered = json.data;
   if(typeF) filtered = filtered.filter(c => (c.type||'').includes(typeF));
   
-  builderSearchResults = filtered.slice(0, 40); // Limita 40 na grelha para performance
+  builderSearchResults = filtered.slice(0, 40); 
   $('resCount').textContent = `(${builderSearchResults.length} exibidos)`;
   
   setBuilderPreview(null);
