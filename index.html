@@ -33,7 +33,7 @@ h1{font-family:'Orbitron',sans-serif;font-size:15px;margin:0;letter-spacing:1px;
 h1 span{color:var(--master-cyan);text-shadow:0 0 10px var(--master-cyan)}
 .sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 
-/* Botões */
+/* Botões Globais */
 button, input {font-family:'Rajdhani',sans-serif}
 button{
   border:1px solid var(--master-border);background:linear-gradient(180deg, #1d3557 0%, #0d1b2a 100%);
@@ -314,7 +314,17 @@ let hand=[], field={myMonsters:Array(5).fill(null),mySpells:Array(5).fill(null),
 let grave=[], banished=[], extraActive=[], mainActive=[], selected=null, phase=0, turn=1, lp=8000, opp=8000;
 let activeFieldCard = null;
 
-function loadStorage(){try{decks=JSON.parse(localStorage.getItem('ygomaster_decks')||'[]'); activeDeckId=localStorage.getItem('ygomaster_active_id');}catch(e){}}
+// Corrige baralhos antigos gravados de forma incompleta
+function sanitizeDecks(dList) {
+  return dList.map(d => ({ ...d, main: d.main || [], extra: d.extra || [], side: d.side || [] }));
+}
+
+function loadStorage(){
+  try{
+    decks = sanitizeDecks(JSON.parse(localStorage.getItem('ygomaster_decks')||'[]')); 
+    activeDeckId=localStorage.getItem('ygomaster_active_id');
+  }catch(e){ decks=[]; }
+}
 function saveStorage(){try{localStorage.setItem('ygomaster_decks', JSON.stringify(decks)); if(activeDeckId) localStorage.setItem('ygomaster_active_id', activeDeckId);}catch(e){}}
 function getActiveDeck(){ return decks.find(d=>d.id===activeDeckId) || null; }
 function log(msg){const line=document.createElement('div');line.innerHTML='• '+msg;$('log').prepend(line);}
@@ -428,6 +438,7 @@ document.querySelectorAll('[data-opp]').forEach(b=>b.onclick=()=>{opp=Math.max(0
 ======================================= */
 $('openDeckMgr').onclick=()=>{ renderDeckMgr(); $('deckModal').classList.add('show'); };
 $('closeDeckMgr').onclick=()=>$('deckModal').classList.remove('show');
+
 function renderDeckMgr(){
   const container = $('deckListContainer');
   if(!decks.length){ container.innerHTML='<p class="sub" style="text-align:center;">Nenhum deck criado.</p>'; return; }
@@ -435,7 +446,7 @@ function renderDeckMgr(){
     const isActive = d.id === activeDeckId;
     return `<div class="deck-mgr-card" style="${isActive?'border-color:var(--master-cyan);background:#13273d':''}">
       <div class="deck-info"><strong>${esc(d.name)} ${isActive?'<span style="color:var(--master-cyan);font-size:10px;">(Ativo)</span>':''}</strong>
-      <span class="sub">Main: ${d.main.length} | Extra: ${d.extra.length}</span></div>
+      <span class="sub">Main: ${(d.main||[]).length} | Extra: ${(d.extra||[]).length}</span></div>
       <div class="deck-actions"><button class="${isActive?'':'primary'}" onclick="selectDeck('${d.id}')">${isActive?'Jogar':'Usar'}</button>
       <button onclick="openBuilder('${d.id}')">Editar</button><button class="danger" onclick="deleteDeck('${d.id}')">X</button></div></div>`;
   }).join('');
@@ -445,10 +456,13 @@ window.deleteDeck = function(id){ if(!confirm('Excluir este deck?')) return; dec
 $('createDeckBtn').onclick=()=>{
   const nameInput = $('newDeckName'); const name = nameInput.value.trim(); if(!name) return;
   decks.push({ id: 'deck_'+Date.now(), name, main: [], extra: [], side: [] });
-  if(!activeDeckId) activeDeckId = decks[decks.length-1].id; saveStorage(); nameInput.value=''; renderDeckMgr(); render();
+  if(!activeDeckId) activeDeckId = decks[decks.length-1].id; 
+  saveStorage(); nameInput.value=''; renderDeckMgr(); 
+  if(decks.length === 1) initDuelFromActive(); 
+  render();
 };
 
-/* EDITOR (PESQUISA + LIMITES) */
+/* EDITOR */
 $('deckBtn').onclick=()=>{ if(activeDeckId) openBuilder(activeDeckId); };
 $('closeBuilder').onclick=()=>{ $('builderModal').classList.remove('show'); render(); initDuelFromActive(); };
 function openBuilder(id){
@@ -458,8 +472,8 @@ function openBuilder(id){
 }
 function renderBuilderLists(){
   const d = decks.find(item=>item.id===editingDeckId); if(!d) return;
-  $('countMain').textContent = d.main.length; $('countExtra').textContent = d.extra.length;
-  const renderItems = (arr, type)=> arr.length ? arr.map((c,idx)=>`<div class="deck-list-item"><span>${esc(c.name)}</span><button class="danger" style="padding:2px 8px;font-size:9px" onclick="removeCardFromDeck('${type}', ${idx})">X</button></div>`).join('') : '<span class="sub" style="padding:4px 8px;display:block">Vazio</span>';
+  $('countMain').textContent = (d.main||[]).length; $('countExtra').textContent = (d.extra||[]).length;
+  const renderItems = (arr, type)=> (arr||[]).length ? arr.map((c,idx)=>`<div class="deck-list-item"><span>${esc(c.name)}</span><button class="danger" style="padding:2px 8px;font-size:9px" onclick="removeCardFromDeck('${type}', ${idx})">X</button></div>`).join('') : '<span class="sub" style="padding:4px 8px;display:block">Vazio</span>';
   $('listMain').innerHTML = renderItems(d.main, 'main'); $('listExtra').innerHTML = renderItems(d.extra, 'extra');
 }
 window.removeCardFromDeck = function(type, idx){
@@ -494,7 +508,7 @@ $('results').onclick=async e=>{
     const c=(await response.json()).data?.[0]; if(!c) throw new Error('Erro.');
     const d = decks.find(item=>item.id===editingDeckId); const limit = getTCGLimit(c);
     if(limit === 0){ alert('Carta PROIBIDA (Banlist TCG).'); button.disabled=false; button.textContent='Adicionar'; return; }
-    if([...d.main, ...d.extra, ...d.side].filter(x=>x.id===c.id).length >= limit){ alert(`Limite atingido! Máx: ${limit}.`); button.disabled=false; button.textContent='Adicionar'; return; }
+    if([...(d.main||[]), ...(d.extra||[]), ...(d.side||[])].filter(x=>x.id===c.id).length >= limit){ alert(`Limite atingido! Máx: ${limit}.`); button.disabled=false; button.textContent='Adicionar'; return; }
 
     if(/Fusion|Synchro|XYZ|Xyz|Link/i.test(c.type||'')){
       if(d.extra.length >= 15){ alert('Deck Extra cheio.'); button.disabled=false; button.textContent='Add'; return; } d.extra.push(c);
