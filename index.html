@@ -214,14 +214,14 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <button class="active">Draw</button><button>Standby</button><button>Main 1</button><button>Battle</button><button>Main 2</button><button>End</button>
 </div>
 
-<!-- TABULEIRO CORRIGIDO: Zonas de Magias em cima, Zonas de Monstros em baixo -->
+<!-- TABULEIRO AJUSTADO: Zonas de Monstros em cima, Zonas de Magias em baixo[span_2](start_span)[span_2](end_span) -->
 <div class="board">
   <div class="side-label">✦ CAMPO DO OPONENTE ✦</div>
-  <div class="zones" id="oppSpells"></div>
   <div class="zones" id="oppMonsters"></div>
+  <div class="zones" id="oppSpells"></div>
   <div class="dividerline"></div>
-  <div class="zones" id="mySpells"></div>
   <div class="zones" id="myMonsters"></div>
+  <div class="zones" id="mySpells"></div>
   <div class="side-label">✦ SEU CAMPO ✦</div>
 </div>
 
@@ -241,7 +241,7 @@ button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(80%);box-shadow:n
   <div class="pile" id="extraView"><div class="pile-top"><strong>DECK EXTRA</strong><span class="count" id="extraPile">0</span></div><button style="pointer-events:none">Ver Extras</button></div>
 </div>
 
-<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Layout corrigido: Magias em cima e Monstros em baixo no seu campo.</div></div></div>
+<div class="panel"><h2>Log de Duelo</h2><div class="log" id="log"><div>• Layout invertido: Monstros em cima e Magias em baixo no seu campo[span_3](start_span)[span_3](end_span).</div></div></div>
 
 <!-- MODAL: GERENCIADOR -->
 <div class="modal" id="deckModal">
@@ -385,8 +385,8 @@ function render(){
   $('handCount').textContent = hand.length+' cartas'; $('myLP').textContent = lp; $('oppLP').textContent = opp; $('turn').textContent = turn;
   $('hand').innerHTML = hand.length?hand.map((c,i)=>cardHTML(c,selected?.where==='hand'&&selected.index===i?'selected':'')).join(''):'<span class="sub" style="margin:auto;">Mão vazia.</span>';
   
-  // Ordem visual atualizada para corresponder ao layout correto do oponente e do jogador
-  const renderOrder = ['oppMonsters', 'oppSpells', 'mySpells', 'myMonsters'];
+  // Ordem visual ajustada: Monstros em cima, Magias em baixo[span_4](start_span)[span_4](end_span)
+  const renderOrder = ['oppMonsters', 'oppSpells', 'myMonsters', 'mySpells'];
   for(const key of renderOrder){
     $(key).innerHTML = field[key].map((c,i)=>{
       const isDef = fieldState[key] && fieldState[key][i] === 1;
@@ -450,11 +450,11 @@ document.querySelector('.board').addEventListener('click', e=>{
     const clickedIsSpellZone = key.includes('Spells');
     
     if (isSpellOrTrap && !clickedIsSpellZone) {
-      alert('Magias e Armadilhas devem ser colocadas nas zonas de Magia/Armadilha (em cima).');
+      alert('Magias e Armadilhas devem ser colocadas nas zonas de Magia/Armadilha (em baixo).');
       return;
     }
     if (!isSpellOrTrap && clickedIsSpellZone) {
-      alert('Monstros devem ser colocados nas zonas de Monstros (em baixo).');
+      alert('Monstros devem ser colocados nas zonas de Monstros (em cima)[span_5](start_span)[span_5](end_span).');
       return;
     }
 
